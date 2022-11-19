@@ -1,6 +1,6 @@
 // __tests__/foo.test.js
 
-import { sum } from '../pages/foo';
+import { sum } from '../components/foo';
 
 test('basic', () => {
     expect(sum()).toBe(0);
