@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { client, exploreProfiles } from '../api'
 import Link from 'next/link'
 
-export default function Home() {
+export function Home() {
   /* create initial state to hold array of profiles */
   const [profiles, setProfiles] = useState([])
   useEffect(() => {

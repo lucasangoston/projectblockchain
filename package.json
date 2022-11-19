@@ -6,10 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest"
   },
   "dependencies": {
     "@apollo/client": "^3.7.1",
+    "@testing-library/react": "^13.4.0",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.9",
@@ -23,7 +25,11 @@
     "typescript": "4.9.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.2",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-typescript": "^7.18.6",
     "autoprefixer": "^10.4.13",
+    "babel-jest": "^29.3.1",
     "grunt": "^1.5.3",
     "postcss": "^8.4.19",
     "tailwindcss": "^3.2.4"
