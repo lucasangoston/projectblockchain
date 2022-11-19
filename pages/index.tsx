@@ -14,7 +14,7 @@ export default function Home() {
       /* fetch profiles from Lens API */
       let response = await client.query({ query: exploreProfiles })
       /* loop over profiles, create properly formatted ipfs image links */
-      let profileData = await Promise.all(response.data.exploreProfiles.items.map(async profileInfo => {
+      let profileData = await Promise.all(response.data.exploreProfiles.items.map(async (profileInfo: any) => {
         let profile = { ...profileInfo }
         let picture = profile.picture
         if (picture && picture.original && picture.original.url) {
@@ -29,6 +29,7 @@ export default function Home() {
       }))
 
       /* update the local state with the profiles array */
+      // @ts-ignore
       setProfiles(profileData)
     } catch (err) {
       console.log({ err })
@@ -39,15 +40,15 @@ export default function Home() {
         <div className='flex flex-col justify-center items-center'>
           <h1 className='text-5xl mb-6 font-bold'>Hello Lens 🌿</h1>
           {
-            profiles.map(profile => (
-                <div key={profile.id} className='w-2/3 shadow-md p-6 rounded-lg mb-8 flex flex-col items-center'>
-                  <img className='w-48' src={profile.avatarUrl || 'https://picsum.photos/200'} />
-                  <p className='text-xl text-center mt-6'>{profile.name}</p>
-                  <p className='text-base text-gray-400  text-center mt-2'>{profile.bio}</p>
-                  <Link href={`/profile/${profile.handle}`}>
-                    <p className='cursor-pointer text-violet-600 text-lg font-medium text-center mt-2 mb-2'>{profile.handle}</p>
+            profiles.map(({avatarUrl, bio, handle, id, name, stats: {totalFollowers}}) => (
+                <div key={id} className='w-2/3 shadow-md p-6 rounded-lg mb-8 flex flex-col items-center'>
+                  <img className='w-48' src={avatarUrl || 'https://picsum.photos/200'} />
+                  <p className='text-xl text-center mt-6'>{name}</p>
+                  <p className='text-base text-gray-400  text-center mt-2'>{bio}</p>
+                  <Link href={`/profile/${handle}`}>
+                    <p className='cursor-pointer text-violet-600 text-lg font-medium text-center mt-2 mb-2'>{handle}</p>
                   </Link>
-                  <p className='text-pink-600 text-sm font-medium text-center'>{profile.stats.totalFollowers} followers</p>
+                  <p className='text-pink-600 text-sm font-medium text-center'>{totalFollowers} followers</p>
                 </div>
             ))
           }
