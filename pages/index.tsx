@@ -38,7 +38,10 @@ export default function Home() {
   return (
       <div className='pt-20'>
         <div className='flex flex-col justify-center items-center'>
-          <h1 className='text-5xl mb-6 font-bold'>Hello Lens 🌿</h1>
+          <h1 className='text-5xl mb-6 font-bold'> ESGI Social Media 🌿 </h1>
+          <Link href={`/profile/recommended`}>
+            <p className='cursor-pointer text-violet-600 text-lg font-medium text-center mt-2 mb-2'> COUCOU</p>
+          </Link>
           {
             profiles.map(({avatarUrl, bio, handle, id, name, stats: {totalFollowers}}) => (
                 <div key={id} className='w-2/3 shadow-md p-6 rounded-lg mb-8 flex flex-col items-center'>
