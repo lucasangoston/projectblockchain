@@ -23,7 +23,6 @@ export default function ProfileId() {
                 variables: { id }
             })
             console.log(returnedProfileById)
-
             // const profileData = { ...returnedProfile.data.profile }
             // setProfile(profileData)
 
