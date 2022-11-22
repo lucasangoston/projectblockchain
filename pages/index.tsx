@@ -13,6 +13,7 @@ export default function Home() {
     try {
       /* fetch profiles from Lens API */
       let response = await client.query({ query: exploreProfiles })
+      console.log(response.data)
       /* loop over profiles, create properly formatted ipfs image links */
       let profileData = await Promise.all(response.data.exploreProfiles.items.map(async (profileInfo: any) => {
         let profile = { ...profileInfo }
@@ -40,7 +41,7 @@ export default function Home() {
         <div className='flex flex-col justify-center items-center'>
           <h1 className='text-5xl mb-6 font-bold'> ESGI Social Media 🌿 </h1>
           <Link href={`/profile/recommended`}>
-            <p className='cursor-pointer text-violet-600 text-lg font-medium text-center mt-2 mb-2'> COUCOU</p>
+            <p className='cursor-pointer text-violet-600 text-lg font-medium text-center mt-2 mb-2'> Recommended Profiles </p>
           </Link>
           {
             profiles.map(({avatarUrl, bio, handle, id, name, stats: {totalFollowers}}) => (

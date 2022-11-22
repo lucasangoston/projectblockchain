@@ -14,16 +14,7 @@ export default function RecommendedProfiles() {
               /* fetch profiles from Lens API */
               let response = await client.query({ query: recommendedProfiles })
               console.log(response.data)
-              /* loop over profiles, create properly formatted ipfs image links */
-              let profileData = await Promise.all(response.data.exploreProfiles.items.map(async (profileInfo: any) => {
-                let profile = { ...profileInfo }
-                
-                return profile
-              }))
-        
-              /* update the local state with the profiles array */
-              // @ts-ignore
-              setProfiles(profileData)
+              setProfiles(response.data.recommendedProfiles)
             } catch (err) {
               console.log({ err })
             }
@@ -35,9 +26,14 @@ export default function RecommendedProfiles() {
             </div>
             {
             profiles.map(({bio, id, name}) => (
-                <div key={id} className='w-2/3 shadow-md p-6 rounded-lg mb-8 flex flex-col'>
-                  <p className='text-xl text-center mt-6'>{name}</p>
-                  <p className='text-base text-gray-400  text-center mt-2'>{bio}</p>
+                <div key={id} className='flex flex-col justify-center items-center'>
+                  <div  className='shadow p-10 rounded mb-8 w-2/3'> 
+                    <p className='text-xl text-center mt-6'>{name}</p>
+                    <Link href={`./details/${id}`}>
+                      <p className='cursor-pointer text-violet-600 text-lg font-medium text-center mt-2 mb-2'>{id}</p>
+                    </Link>                  
+                    <p className='text-base text-gray-400  text-center mt-2'>{bio}</p>
+                  </div>
                 </div>
             ))
           }
