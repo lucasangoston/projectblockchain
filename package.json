@@ -10,6 +10,9 @@
     "test": "jest"
   },
   "dependencies": {
+    "@3rdweb/hooks": "^1.9.2",
+    "@3rdweb/react": "^1.9.3",
+    "@3rdweb/sdk": "^1.42.1",
     "@apollo/client": "^3.7.1",
     "@testing-library/react": "^13.4.0",
     "@types/node": "18.11.9",

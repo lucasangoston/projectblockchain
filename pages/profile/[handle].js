@@ -24,6 +24,7 @@ export default function Profile() {
                 query: getProfile,
                 variables: { handle }
             })
+            console.log(returnedProfile)
             const profileData = { ...returnedProfile.data.profile }
             /* format their picture if it is not in the right format */
             const picture = profileData.picture
