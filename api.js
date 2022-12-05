@@ -76,10 +76,10 @@ export const getPublications = gql`
   }
 `
 
-export const searchProfile = gql`
-  query Search {
+export const searchProfiles = gql`
+  query Search{
     search(request: {
-      query: "josh",
+      query: "maria",
       type: PROFILE,
       limit: 10
     }) {
@@ -190,10 +190,10 @@ export const searchProfile = gql`
   }
 `
 
-export const searchPublication = gql`
+export const searchPublications = gql`
   query Search {
     search(request: {
-      query: "hello",
+      query: "cake",
       type: PUBLICATION,
       limit: 10
     }) {
