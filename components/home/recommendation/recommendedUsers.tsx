@@ -32,69 +32,71 @@ export function RecommendedUsers() {
   };
 
   return (
-    <Card className="text-center" style={{ border: '1px solid grey' }}>
-      <CardHeader title={'Recommendations'} />
+    <div className="fixed-content">
+      <Card className="text-center" style={{ borderRadius: '10px' }}>
+        <CardHeader title={'Recommendations'} />
 
-      {/* remplacer une fois qu'ont aura de vraies données */}
-      <CardContent>
-        <Grid container spacing={2} direction="column">
-          <Grid item>
-            <Grid container direction="row" justifyContent={'space-between'}>
-              <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                L
-              </Avatar>
-              <h2> Lucas Angoston</h2>
-              <Button variant="contained" size="small">
-                Add
-              </Button>
+        {/* remplacer une fois qu'ont aura de vraies données */}
+        <CardContent>
+          <Grid container spacing={2} direction="column">
+            <Grid item>
+              <Grid container direction="row" justifyContent={'space-between'}>
+                <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                  L
+                </Avatar>
+                <h2> Lucas Angoston</h2>
+                <Button variant="contained" size="small">
+                  Add
+                </Button>
+              </Grid>
+            </Grid>
+            <Grid item>
+              <Grid container direction="row" justifyContent={'space-between'}>
+                <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                  T
+                </Avatar>
+                <h2> Thomas Southasa</h2>
+                <Button variant="contained" size="small">
+                  Add
+                </Button>
+              </Grid>
+            </Grid>
+            <Grid item>
+              <Grid container direction="row" justifyContent={'space-between'}>
+                <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                  V
+                </Avatar>
+                <h2> Valentin Joly</h2>
+                <Button variant="contained" size="small">
+                  Add
+                </Button>
+              </Grid>
+            </Grid>
+            <Grid item>
+              <Grid container direction="row" justifyContent={'space-between'}>
+                <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                  H
+                </Avatar>
+                <h2> Hortense Dupont</h2>
+                <Button variant="contained" size="small">
+                  Add
+                </Button>
+              </Grid>
+            </Grid>
+            <Grid item>
+              <Grid container direction="row" justifyContent={'space-between'}>
+                <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                  W
+                </Avatar>
+                <h2> Wissam Lepen</h2>
+                <Button variant="contained" size="small">
+                  Add
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
-          <Grid item>
-            <Grid container direction="row" justifyContent={'space-between'}>
-              <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                T
-              </Avatar>
-              <h2> Thomas Southasa</h2>
-              <Button variant="contained" size="small">
-                Add
-              </Button>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container direction="row" justifyContent={'space-between'}>
-              <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                V
-              </Avatar>
-              <h2> Valentin Joly</h2>
-              <Button variant="contained" size="small">
-                Add
-              </Button>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container direction="row" justifyContent={'space-between'}>
-              <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                H
-              </Avatar>
-              <h2> Hortense Dupont</h2>
-              <Button variant="contained" size="small">
-                Add
-              </Button>
-            </Grid>
-          </Grid>
-          <Grid item>
-            <Grid container direction="row" justifyContent={'space-between'}>
-              <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                W
-              </Avatar>
-              <h2> Wissam Lepen</h2>
-              <Button variant="contained" size="small">
-                Add
-              </Button>
-            </Grid>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

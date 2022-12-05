@@ -3,9 +3,9 @@ import { Home } from '../components/home/home';
 
 export default function App() {
   return (
-    <div>
+    <div style={{ backgroundColor: '#f8f9fa' }}>
       <PrimarySearchAppBar></PrimarySearchAppBar>
-      <div style={{ marginTop: 40 }}>
+      <div style={{ margin: 40 }}>
         <Home></Home>
       </div>
     </div>

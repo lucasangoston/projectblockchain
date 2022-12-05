@@ -6,13 +6,10 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import { blue, red } from '@mui/material/colors';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
-import { Grid } from '@mui/material';
+import { blue } from '@mui/material/colors';
+import { Button, Grid, TextField } from '@mui/material';
+import ImageIcon from '@mui/icons-material/Image';
+import VideocamIcon from '@mui/icons-material/Videocam';
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -29,7 +26,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-export function Post() {
+export function WritePost() {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -44,19 +41,17 @@ export function Post() {
             L
           </Avatar>
         }
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
         title="Lucas Angoston"
-        subheader="27 Novembre 2022"
       />
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          Ceci est un post exemple, il sera remplacé par un contenu
-          ultérieurement
-        </Typography>
+        <TextField
+          style={{ textAlign: 'center', width: '100%', height: '100%' }}
+          placeholder="Quoi de neuf Lucas ?"
+          sx={{ input: { color: 'red' } }}
+          multiline
+          rows={4}
+          maxRows={4}
+        />
       </CardContent>
       <CardActions>
         <Grid
@@ -65,15 +60,12 @@ export function Post() {
           justifyContent="space-around"
           alignItems="center"
         >
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="add to favorites">
-            <ChatBubbleIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
+          <Button startIcon={<ImageIcon />} style={{ color: '#F50632' }}>
+            <h6 style={{ color: 'black' }}> Photo </h6>
+          </Button>
+          <Button startIcon={<VideocamIcon />} style={{ color: '#1CE627' }}>
+            <h6 style={{ color: 'black' }}> Vidéo </h6>
+          </Button>
         </Grid>
       </CardActions>
     </Card>
