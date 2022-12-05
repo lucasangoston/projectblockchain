@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
-import { client, recommendedProfiles } from "../../api";
-import { useRouter } from 'next/router'
-import Link from 'next/link'
+import { useState, useEffect } from 'react';
+import { client, recommendedProfiles } from '../../api';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function RecommendedProfiles() {
   const [profiles, setProfiles] = useState([])
