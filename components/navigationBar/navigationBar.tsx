@@ -17,6 +17,17 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Link from 'next/link'
 
+/*
+<Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        sx={{ display: { xs: 'none', sm: 'block' } }}
+                    >
+                        My NFT Friends
+                    </Typography>
+*/
+
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -99,8 +110,9 @@ export function PrimarySearchAppBar() {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}><Link href={"./profile"}>Profil</Link></MenuItem>
+            <MenuItem onClick={handleMenuClose}><Link href={"./profile"}>Profile</Link></MenuItem>
             <MenuItem onClick={handleMenuClose}>Deconnexion</MenuItem>
+            <MenuItem onClick={handleMenuClose}><Link href={"./authentication"}>Login</Link></MenuItem>
         </Menu>
     );
 
@@ -158,7 +170,7 @@ export function PrimarySearchAppBar() {
 
     return (
         <Box sx={{ flexGrow: 1 }}>
-            <AppBar position="static">
+            <AppBar position="fixed">
                 <Toolbar>
                     <IconButton
                         size="large"
@@ -169,14 +181,7 @@ export function PrimarySearchAppBar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}
-                    >
-                        My NFT Friends
-                    </Typography>
+                    <Link href={"./"}> My NFT Friends </Link>
                     <Search>
                         <SearchIconWrapper>
                             <SearchIcon />

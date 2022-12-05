@@ -7,7 +7,7 @@ import CardActions from '@mui/material/CardActions';
 import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import {blue, red} from '@mui/material/colors';
+import { blue, red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -35,7 +35,7 @@ export function Post() {
     };
 
     return (
-        <Card style={{border: '1px solid grey'}}>
+        <Card style={{ border: '1px solid grey' }}>
             <CardHeader
                 avatar={
                     <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
