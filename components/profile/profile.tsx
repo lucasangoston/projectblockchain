@@ -1,15 +1,19 @@
-import {Box, Container, Grid} from "@mui/material";
-import { cardProfile } from 
+import { Box, Container, Grid } from "@mui/material";
+import { PostList } from "../home/post/PostList";
+import ProfileInfos from "./profileInfos";
+import ProfileTabs from "./profileTabs";
 
-export function Profile(){
+export function Profile() {
     return (
-            <Box display="grid" gridTemplateColumns="repeat(12, 1fr)">
-                <Box gridColumn="span 8">
-                    <cardProfile/>
-                </Box>
-                <Box gridColumn="span 3">
-                    <RecommendedUsers></RecommendedUsers>
-                </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between'}} >
+            
+            <Box sx={{ml: '2rem'}}>
+                <ProfileInfos></ProfileInfos>
             </Box>
+            
+            <Box>
+                <ProfileTabs></ProfileTabs>
+            </Box>            
+        </Box>
     );
 }
