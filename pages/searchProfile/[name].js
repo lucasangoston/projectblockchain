@@ -1,25 +1,26 @@
 /* pages/index.js */
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-//import { client, searchProfiles } from '../api'
+import { client, searchProfiles } from '../../api'
 import Link from 'next/link'
 
 export default function SearchProfiles() {
   const [profiles, setProfiles] = useState([])
   const router = useRouter()
-    const { search } = router.query
+    const { name } = router.query
 
   useEffect(() => {
-    if (search) {
+    if (name) {
       fetchWantedProfiles()
-    }
+    } 
     
-  }, [search])
+  }, [name])
   async function fetchWantedProfiles() {
     try {
       /* fetch profiles from Lens API */
-      let response = await client.query({ query: searchProfiles, variables: {search} })
+      let response = await client.query({ query: searchProfiles, variables: {name} })
       /* loop over profiles, create properly formatted ipfs image links */
+      
       let profileData = await Promise.all(response.data.search.items.map(async (profileInfo) => {
         
         let profile = { ...profileInfo }

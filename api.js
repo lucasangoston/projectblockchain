@@ -77,8 +77,9 @@ export const getPublications = gql`
 `
 
 export const searchProfiles = gql`
-  query Search{
+  query Search($name: String!){
     search(request: {
+      name: $name,
       query: "maria",
       type: PROFILE,
       limit: 10
