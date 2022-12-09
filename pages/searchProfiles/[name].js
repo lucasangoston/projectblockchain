@@ -1,17 +1,27 @@
 /* pages/index.js */
 import { useEffect, useState } from 'react'
-import { client, searchProfiles } from '../api'
+import { useRouter } from 'next/router'
+import { client, searchProfiles } from '../../api'
 import Link from 'next/link'
 
 export default function SearchProfiles() {
   const [profiles, setProfiles] = useState([])
+  const router = useRouter()
+    const { name } = router.query
+
   useEffect(() => {
-    fetchWantedProfiles()
-  }, [])
+    if (name) {
+      fetchWantedProfiles()
+    } 
+    
+  }, [name])
   async function fetchWantedProfiles() {
     try {
-      let response = await client.query({ query: searchProfiles })
-      let profileData = await Promise.all(response.data.search.items.map(async (profileInfo: any) => {
+      let response = await client.query({ query: searchProfiles, variables: {
+        name,
+        limit: 50
+      } })
+      let profileData = await Promise.all(response.data.search.items.map(async (profileInfo) => {
         
         let profile = { ...profileInfo }
         let picture = profile.picture
@@ -26,9 +36,6 @@ export default function SearchProfiles() {
         }
         return profile
       }))
-
-      /* update the local state with the profiles array */
-      // @ts-ignore
       setProfiles(profileData)
     } catch (err) {
       console.log({ err })

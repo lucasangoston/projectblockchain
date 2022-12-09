@@ -77,12 +77,11 @@ export const getPublications = gql`
 `
 
 export const searchProfiles = gql`
-  query Search($name: String!){
+  query Search($name: Search!, $limit: LimitScalar){
     search(request: {
-      name: $name,
-      query: "maria",
+      query: $name,
       type: PROFILE,
-      limit: 10
+      limit: $limit
     }) {
       ... on ProfileSearchResult {
         __typename 
@@ -192,11 +191,11 @@ export const searchProfiles = gql`
 `
 
 export const searchPublications = gql`
-  query Search {
+  query Search($word: Search!, $limit: LimitScalar) {
     search(request: {
-      query: "cake",
+      query: $word,
       type: PUBLICATION,
-      limit: 10
+      limit: $limit,
     }) {
       ... on PublicationSearchResult {
         __typename 
