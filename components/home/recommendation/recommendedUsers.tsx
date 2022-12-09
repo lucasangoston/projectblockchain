@@ -1,13 +1,14 @@
 import { Button, Grid } from '@mui/material';
-
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
+import { client, recommendedProfiles } from '../../../api';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import { blue } from '@mui/material/colors';
+import { blue, red } from '@mui/material/colors';
+import { useState, useEffect } from 'react';
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -31,6 +32,22 @@ export function RecommendedUsers() {
     setExpanded(!expanded);
   };
 
+  const [profiles, setProfiles] = useState([])
+  useEffect(() => {
+    fetchRecommendedProfiles()
+  }, [])
+
+  async function fetchRecommendedProfiles() {
+    try {
+      /* fetch profiles from Lens API */
+      let response = await client.query({ query: recommendedProfiles })
+      console.log(response.data)
+      setProfiles(response.data.recommendedProfiles)
+    } catch (err) {
+      console.log({ err })
+    }
+  }
+
   return (
     <div className="fixed" style={{ width: '400px', minWidth: '30Opx' }}>
       <Card style={{ borderRadius: '10px' }}>
@@ -40,59 +57,25 @@ export function RecommendedUsers() {
         <CardContent>
           <Grid container spacing={2} direction="column">
             <Grid item>
-              <Grid container direction="row" justifyContent={'space-between'}>
-                <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                  L
-                </Avatar>
-                <h2> Lucas Angoston </h2>
-                <Button variant="contained" size="small">
-                  Add
-                </Button>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" justifyContent={'space-between'}>
-                <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                  T
-                </Avatar>
-                <h2> Thomas Southasa </h2>
-                <Button variant="contained" size="small">
-                  Add
-                </Button>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" justifyContent={'space-between'}>
-                <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                  V
-                </Avatar>
-                <h2> Valentin Joly</h2>
-                <Button variant="contained" size="small">
-                  Add
-                </Button>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" justifyContent={'space-between'}>
-                <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                  H
-                </Avatar>
-                <h2> Hortense Dupont</h2>
-                <Button variant="contained" size="small">
-                  Add
-                </Button>
-              </Grid>
-            </Grid>
-            <Grid item>
-              <Grid container direction="row" justifyContent={'space-between'}>
-                <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                  W
-                </Avatar>
-                <h2> Wissam Lepen</h2>
-                <Button variant="contained" size="small">
-                  Add
-                </Button>
-              </Grid>
+              {
+                profiles.map(({ bio, id, name }) => {
+                  var avatar = ""
+                  if (name)
+                    var avatar = (name as string).slice(0,1)
+
+                  return (
+
+                  <Grid container direction="row" justifyContent={'space-between'}>
+                    <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                    {avatar}
+                    </Avatar>
+                    <h2> {name} </h2>
+                    <Button variant="outlined" size="small">
+                      Add
+                    </Button>
+                  </Grid>
+                )})
+              }
             </Grid>
           </Grid>
         </CardContent>
