@@ -1,33 +1,24 @@
 import * as React from 'react';
 import { Post } from './post';
 import { Grid } from '@mui/material';
-import { WritePost } from './writePost';
+import Box from '@mui/material/Box';
 
 export function PostList() {
   return (
-    <Grid
-      container
-      spacing={3}
-      direction="row"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <Grid item md={10}>
-        <WritePost></WritePost>
-      </Grid>
+    <Box display="grid" gap={2}>
       {/* remplacer une fois qu'ont aura de vraies données */}
-      <Grid item md={10}>
+      <Grid item>
         <Post></Post>
       </Grid>
-      <Grid item md={10}>
+      <Grid item>
         <Post></Post>
       </Grid>
-      <Grid item md={10}>
+      <Grid item>
         <Post></Post>
       </Grid>
-      <Grid item md={10}>
+      <Grid item>
         <Post></Post>
       </Grid>
-    </Grid>
+    </Box>
   );
 }
