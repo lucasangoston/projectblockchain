@@ -7,7 +7,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
-import { blue, red } from '@mui/material/colors';
+import { blue } from '@mui/material/colors';
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -32,9 +32,9 @@ export function RecommendedUsers() {
   };
 
   return (
-    <div className="fixed-content">
-      <Card className="text-center" style={{ borderRadius: '10px' }}>
-        <CardHeader title={'Recommendations'} />
+    <div className="fixed" style={{ width: '400px', minWidth: '30Opx' }}>
+      <Card style={{ borderRadius: '10px' }}>
+        <CardHeader title={'Recommendations'} style={{ textAlign: 'center' }} />
 
         {/* remplacer une fois qu'ont aura de vraies données */}
         <CardContent>
@@ -44,7 +44,7 @@ export function RecommendedUsers() {
                 <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
                   L
                 </Avatar>
-                <h2> Lucas Angoston</h2>
+                <h2> Lucas Angoston </h2>
                 <Button variant="contained" size="small">
                   Add
                 </Button>
@@ -55,7 +55,7 @@ export function RecommendedUsers() {
                 <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
                   T
                 </Avatar>
-                <h2> Thomas Southasa</h2>
+                <h2> Thomas Southasa </h2>
                 <Button variant="contained" size="small">
                   Add
                 </Button>
