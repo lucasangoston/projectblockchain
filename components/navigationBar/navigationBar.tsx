@@ -16,15 +16,11 @@ import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Link from 'next/link';
-<<<<<<< HEAD
-import { useEffect, useState } from 'react'
-import { ethers } from 'ethers'
-import { client, exploreProfiles, challenge, authenticate } from '../../api/api'
-=======
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { client, exploreProfiles, challenge, authenticate } from '../../api';
->>>>>>> 9685478b4dd612594c14b6739ead31023843fab2
+import { client } from '../../api/api';
+import { exploreProfiles } from '../../api/profile';
+import { challenge, authenticate } from '../../api/authentication';
 
 /*
 <Typography
