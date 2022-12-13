@@ -8,7 +8,7 @@ export function Home() {
   return (
     <Box display="grid" gridTemplateColumns="repeat(12, 1fr)">
       <Box gridColumn="span 8">
-        <Feed></Feed>
+        <PostList></PostList>
       </Box>
       <Box gridColumn="span 4">
         <RecommendedUsers></RecommendedUsers>

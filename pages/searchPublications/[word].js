@@ -33,7 +33,8 @@ export default function SearchPublications() {
   }
   return (
     <div className="pt-20">
-      <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center">        
+      <h1 className="text-5xl mb-6 font-bold">Results : </h1>
         {publications.map((pub) => (
           <div key={pub.id} className="shadow p-10 rounded mb-8 w-2/3">
             <p>{pub.metadata.content}</p>
