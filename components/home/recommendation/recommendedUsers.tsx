@@ -32,19 +32,19 @@ export function RecommendedUsers() {
     setExpanded(!expanded);
   };
 
-  const [profiles, setProfiles] = useState([])
+  const [profiles, setProfiles] = useState([]);
   useEffect(() => {
-    fetchRecommendedProfiles()
-  }, [])
+    fetchRecommendedProfiles();
+  }, []);
 
   async function fetchRecommendedProfiles() {
     try {
       /* fetch profiles from Lens API */
-      let response = await client.query({ query: recommendedProfiles })
-      console.log(response.data)
-      setProfiles(response.data.recommendedProfiles)
+      const response = await client.query({ query: recommendedProfiles });
+      console.log(response.data);
+      setProfiles(response.data.recommendedProfiles);
     } catch (err) {
-      console.log({ err })
+      console.log({ err });
     }
   }
 
@@ -57,25 +57,26 @@ export function RecommendedUsers() {
         <CardContent>
           <Grid container spacing={2} direction="column">
             <Grid item>
-              {
-                profiles.map(({ bio, id, name }) => {
-                  var avatar = ""
-                  if (name)
-                    var avatar = (name as string).slice(0,1)
-
-                  return (
-
-                  <Grid container direction="row" justifyContent={'space-between'}>
+              {profiles.map(({ id, name }) => {
+                let avatar = '';
+                if (name) avatar = (name as string).slice(0, 1);
+                return (
+                  <Grid
+                    key={id}
+                    container
+                    direction="row"
+                    justifyContent={'space-between'}
+                  >
                     <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                    {avatar}
+                      {avatar}
                     </Avatar>
                     <h2> {name} </h2>
                     <Button variant="outlined" size="small">
                       Add
                     </Button>
                   </Grid>
-                )})
-              }
+                );
+              })}
             </Grid>
           </Grid>
         </CardContent>

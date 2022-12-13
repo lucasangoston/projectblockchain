@@ -1,32 +1,30 @@
-import { useEffect, useState } from 'react'
-import { ethers } from 'ethers'
-import { client, challenge, authenticate } from '../../api'
-import Link from 'next/link'
+import { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
+import { client, challenge, authenticate } from '../../api';
+import Link from 'next/link';
 
-export default function connect() {
-
+export default function Connect() {
   /* local state variables to hold user's address and access token */
-  const [address, setAddress] = useState('')
-  const [token, setToken] = useState()
+  const [address, setAddress] = useState('');
+  const [token, setToken] = useState();
   useEffect(() => {
     /* when the app loads, check to see if the user has already connected their wallet */
-    checkConnection()
-  }, [])
+    checkConnection();
+  }, []);
 
   async function checkConnection() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const accounts = await provider.listAccounts()
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const accounts = await provider.listAccounts();
     if (accounts.length) {
-      setAddress(accounts[0])
+      setAddress(accounts[0]);
     }
   }
 
   async function connect() {
     /* this allows the user to connect their wallet */
-    const account = await window.ethereum.send('eth_requestAccounts')
+    const account = await window.ethereum.send('eth_requestAccounts');
     if (account.result.length) {
-      setAddress(account.result[0])
+      setAddress(account.result[0]);
     }
   }
-
 }

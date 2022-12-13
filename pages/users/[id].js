@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { client, getPublications, getProfileById } from "../../api";
-import { ethers } from "ethers";
-import ABI from "../../abi.json";
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { client, getPublications, getProfileById } from '../../api';
+import { ethers } from 'ethers';
+import ABI from '../../abi.json';
 
-const address = "0x60Ae865ee4C725cd04353b5AAb364553f56ceF82";
+const address = '0x60Ae865ee4C725cd04353b5AAb364553f56ceF82';
 
 export default function ProfileId() {
   const [profileData, setProfileData] = useState();
@@ -30,10 +30,10 @@ export default function ProfileId() {
       /* format their picture if it is not in the right format */
       const picture = data.picture;
       if (picture || picture.original || picture.original.url) {
-        if (picture.original.url.startsWith("ipfs://")) {
-          let result = picture.original.url.substring(
+        if (picture.original.url.startsWith('ipfs://')) {
+          const result = picture.original.url.substring(
             7,
-            picture.original.url.length
+            picture.original.url.length,
           );
           data.avatarUrl = `http://lens.infura-ipfs.io/ipfs/${result}`;
         } else {
@@ -51,9 +51,9 @@ export default function ProfileId() {
       });
       setPubs(publications.data.publications.items);
 
-      console.log("pubs : ", publications);
+      console.log('pubs : ', publications);
     } catch (err) {
-      console.log("error fetching profile...", err);
+      console.log('error fetching profile...', err);
     }
   }
 
@@ -66,7 +66,7 @@ export default function ProfileId() {
     try {
       const tx = await contract.follow([id], [0x0]);
       await tx.wait();
-      console.log("followed user successfully");
+      console.log('followed user successfully');
     } catch (err) {
       console.log({ err });
     }
@@ -85,9 +85,9 @@ export default function ProfileId() {
           <div
             className="w-64 rounded-full"
             style={{
-              width: "200px",
-              height: "200px",
-              backgroundColor: "black",
+              width: '200px',
+              height: '200px',
+              backgroundColor: 'black',
             }}
           />
         )}

@@ -53,8 +53,8 @@ export default function LoginForm() {
   return (
     <div>
       <PrimarySearchAppBar></PrimarySearchAppBar>
-      <div className='flex flex-col justify-center items-center' >
-        <h1 className='text-5xl mb-6 font-bold'>Login 🌿</h1>
+      <div className="flex flex-col justify-center items-center">
+        <h1 className="text-5xl mb-6 font-bold">Login 🌿</h1>
         <Box
           component="form"
           noValidate
@@ -62,7 +62,7 @@ export default function LoginForm() {
             display: 'grid',
             gap: 2,
           }}
-          style={{marginTop: 100}}
+          style={{ marginTop: 100 }}
         >
           <FormControl variant="standard">
             <InputLabel shrink htmlFor="bootstrap-input">
@@ -81,13 +81,15 @@ export default function LoginForm() {
             onClick={() => {
               alert('clicked');
             }}
-            variant="outlined">Login</Button>
-
+            variant="outlined"
+          >
+            Login
+          </Button>
         </Box>
       </div>
     </div>
   );
-};
+}
 
 /*
 <div>

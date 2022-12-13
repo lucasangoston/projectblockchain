@@ -1,15 +1,14 @@
-import Head from "next/head";
-import * as React from "react";
-import { useEffect, useState } from "react";
-import { ethers } from "ethers";
-import { authenticate, challenge, client } from "../../api";
-import LoginForm from "../../components/authentication/login_form";
+import Head from 'next/head';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
+import { authenticate, challenge, client } from '../../api';
+import LoginForm from '../../components/authentication/login_form';
 
 export default function LoginPage() {
-
-  const [address, setAddress] = React.useState("");
+  const [address, setAddress] = React.useState('');
   const [token, setToken] = React.useState();
-  
+
   async function Login() {
     try {
       /* first request the challenge from the API server */
@@ -17,12 +16,12 @@ export default function LoginPage() {
         query: challenge,
         variables: { address },
       });
-  
+
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       /* ask the user to sign a message with the challenge info returned from the server */
       const signature = await signer.signMessage(
-        challengeInfo.data.challenge.text
+        challengeInfo.data.challenge.text,
       );
       /* authenticate the user */
       const authData = await client.mutate({
@@ -41,20 +40,19 @@ export default function LoginPage() {
       console.log({ accessToken });
       setToken(accessToken);
     } catch (err) {
-      console.log("Error signing in: ", err);
+      console.log('Error signing in: ', err);
     }
   }
 
-  
-    return (
-        <div style={{marginTop: 100}}>
-          <Head>
-            <title>Login Page</title>
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
-          <main>
-            <LoginForm/>
-          </main>
-        </div>
-      )
+  return (
+    <div style={{ marginTop: 100 }}>
+      <Head>
+        <title>Login Page</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main>
+        <LoginForm />
+      </main>
+    </div>
+  );
 }
