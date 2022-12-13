@@ -46,18 +46,22 @@ export default function ProfileTabs() {
   };
 
   return (
-    <Box sx={{ml: '2rem'}}>
+    <Box sx={{ ml: '2rem' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+        >
           <Tab label="Publications" {...a11yProps(0)} />
-          <Tab label="NFTs" {...a11yProps(1)} />          
+          <Tab label="NFTs" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-      <PostList></PostList>
+        <PostList></PostList>
       </TabPanel>
       <TabPanel value={value} index={1}>
-      <PostList></PostList>
+        <PostList></PostList>
       </TabPanel>
     </Box>
   );
