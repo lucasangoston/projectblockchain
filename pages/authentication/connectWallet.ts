@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
-import { client, challenge, authenticate } from '../../api'
+import { client } from '../../api/api'
+import { challenge, authenticate } from '../../api/authentication'
 import Link from 'next/link'
 
 export default function connect() {

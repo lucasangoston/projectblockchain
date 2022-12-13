@@ -18,7 +18,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import Link from 'next/link';
 import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
-import { client, exploreProfiles, challenge, authenticate } from '../../api'
+import { client, exploreProfiles, challenge, authenticate } from '../../api/api'
 
 /*
 <Typography

@@ -1,7 +1,8 @@
 /* pages/index.js */
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import { client, searchProfiles } from '../../api'
+import { client } from '../../api/api'
+import { searchProfiles } from '../../api/search'
 import Link from 'next/link'
 
 export default function SearchProfiles() {

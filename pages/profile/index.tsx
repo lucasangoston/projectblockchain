@@ -3,7 +3,9 @@ import * as React from "react";
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import RecommendedProfiles from "./recommended";
-import { client, getProfileById, getPublications } from "../../api";
+import { client } from "../../api/api";
+import { getProfileById } from "../../api/profile";
+import { getPublications} from "../../api/publication"
 import { ethers } from 'ethers'
 import ABI from '../../abi.json'
 import { PostList } from "../../components/home/post/PostList";
