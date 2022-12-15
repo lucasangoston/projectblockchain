@@ -5,20 +5,26 @@ import Box from '@mui/material/Box';
 
 export function PostList() {
   return (
-    <Box display="grid" gap={2}>
+    <Grid
+      container
+      spacing={3}
+      direction="row"
+      justifyContent="center"
+      alignItems="center"
+    >
       {/* remplacer une fois qu'ont aura de vraies données */}
-      <Grid item>
+      <Grid item md={10}>
         <Post></Post>
       </Grid>
-      <Grid item>
+      <Grid item md={10}>
         <Post></Post>
       </Grid>
-      <Grid item>
+      <Grid item md={10}>
         <Post></Post>
       </Grid>
-      <Grid item>
+      <Grid item md={10}>
         <Post></Post>
       </Grid>
-    </Box>
+    </Grid>
   );
 }

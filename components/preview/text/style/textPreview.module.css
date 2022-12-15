@@ -1,0 +1,13 @@
+.title {
+    font-family: "Gill Sans", cursive;
+    font-size: 60px;
+    color: white;
+    margin-top: 10%;
+    text-align: center;
+    z-index: 1;
+}
+
+.button{
+    backgroundColor: #ffffff;
+    color: #000000;
+}
