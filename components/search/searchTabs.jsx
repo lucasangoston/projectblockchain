@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { PostList } from '../home/post/PostList';
 import { SearchProfilesResults } from './searchProfilesResults';
+import { SearchPublicationsResults } from './searchPublicationsResults';
 
 // interface TabPanelProps {
 //   children?: React.ReactNode;
@@ -39,7 +40,7 @@ function a11yProps(index) {
   };
 }
 
-export default function SearchTabs({profileName, profilesResults}) {
+export default function SearchTabs({profileName, profilesResults, publicationWord, publicationsResults}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -62,7 +63,7 @@ export default function SearchTabs({profileName, profilesResults}) {
         <SearchProfilesResults name={profileName} results={profilesResults}></SearchProfilesResults>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        publications
+        <SearchPublicationsResults word={publicationWord} results={publicationsResults}></SearchPublicationsResults>
       </TabPanel>
     </Box>
   );

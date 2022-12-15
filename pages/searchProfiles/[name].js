@@ -49,12 +49,8 @@ export default function SearchProfiles() {
     }
   }
   return (
-
-
     <div className="pt-20">
-      <SearchTabs profileName={name} profilesResults={profiles}></SearchTabs>
-      
-      
+      <SearchTabs profileName={name} profilesResults={profiles} publicationWord="2022" publicationsResults={[]}></SearchTabs>
     </div>
   );
 }
