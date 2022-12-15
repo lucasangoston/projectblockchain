@@ -2,15 +2,15 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { client } from '../../api/api'
-import { searchProfiles } from '../../api/search'
+import { searchProfiles, searchPublications } from '../../api/search'
 import Link from 'next/link'
 import SearchTabs from '../../components/search/searchTabs'
 
-export default function SearchProfiles() {
+export default function Search() {
   const [profiles, setProfiles] = useState([]);
+  const [publications, setPublications] = useState([]);
   const router = useRouter();
   const { name } = router.query;
-
   useEffect(() => {
     if (name) {
       fetchWantedProfiles();
@@ -47,10 +47,28 @@ export default function SearchProfiles() {
     } catch (err) {
       console.log({ err });
     }
+
+    try {
+      const response = await client.query({
+        
+        query: searchPublications,
+        variables: { name, limit: 50 },
+      });
+      const publicationData = await Promise.all(
+        response.data.search.items.map(async (publicationInfo) => {
+          return { ...publicationInfo };
+        }),
+      );
+
+      setPublications(publicationData);
+    } catch (err) {
+      console.log({ err });
+    }
+    
   }
   return (
     <div className="pt-20">
-      <SearchTabs profileName={name} profilesResults={profiles} publicationWord="2022" publicationsResults={[]}></SearchTabs>
+      <SearchTabs profileName={name} profilesResults={profiles} publicationWord={name} publicationsResults={publications}></SearchTabs>
     </div>
   );
 }

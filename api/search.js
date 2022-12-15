@@ -116,9 +116,9 @@ export const searchProfiles = gql`
 
 
 export const searchPublications = gql`
-query Search($word: Search!, $limit: LimitScalar) {
+query Search($name: Search!, $limit: LimitScalar) {
   search(request: {
-    query: $word,
+    query: $name,
     type: PUBLICATION,
     limit: $limit,
   }) {

@@ -63,7 +63,7 @@ export default function SearchTabs({profileName, profilesResults, publicationWor
         <SearchProfilesResults name={profileName} results={profilesResults}></SearchProfilesResults>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <SearchPublicationsResults word={publicationWord} results={publicationsResults}></SearchPublicationsResults>
+        <SearchPublicationsResults name={publicationWord} results={publicationsResults}></SearchPublicationsResults>
       </TabPanel>
     </Box>
   );
