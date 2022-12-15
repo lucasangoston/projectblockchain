@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import { client } from '../../api/api'
 import { searchProfiles, searchPublications } from '../../api/search'
-import Link from 'next/link'
 import SearchTabs from '../../components/search/searchTabs'
+import { PrimarySearchAppBar } from "../../components/navigationBar/navigationBar";
 
 export default function Search() {
   const [profiles, setProfiles] = useState([]);
@@ -14,7 +14,7 @@ export default function Search() {
   useEffect(() => {
     if (name) {
       fetchWantedProfiles();
-    }
+    } 
   }, [name]);
   async function fetchWantedProfiles() {
     try {
@@ -67,8 +67,11 @@ export default function Search() {
     
   }
   return (
+    <div>
+      <PrimarySearchAppBar></PrimarySearchAppBar>
     <div className="pt-20">
       <SearchTabs profileName={name} profilesResults={profiles} publicationWord={name} publicationsResults={publications}></SearchTabs>
+    </div>
     </div>
   );
 }

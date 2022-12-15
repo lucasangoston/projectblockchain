@@ -1,9 +1,10 @@
 
 import * as React from 'react';
 import Link from 'next/link';
+import { EmptyResults } from './emptyResults'
 
 export function SearchProfilesResults({name, results}) {
-  return (
+  return results.length != 0 ? (
     <div className="flex flex-col justify-center items-center">
         <h1 className="text-5xl mb-6 font-bold">Results for {name} : </h1>
         {results.map(
@@ -30,5 +31,5 @@ export function SearchProfilesResults({name, results}) {
           ),
         )}
       </div>
-  );
+  ) : <EmptyResults name={name}></EmptyResults>;
 }
