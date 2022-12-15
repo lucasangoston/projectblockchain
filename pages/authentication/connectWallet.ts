@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
-import { client, challenge, authenticate } from '../../api';
-import Link from 'next/link';
+import { useEffect, useState } from 'react'
+import { ethers } from 'ethers'
+import { client } from '../../api/api'
+import { challenge, authenticate } from '../../api/authentication'
+import Link from 'next/link'
 
 export default function Connect() {
   /* local state variables to hold user's address and access token */

@@ -1,7 +1,8 @@
 /* pages/index.js */
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
-import { client, searchPublications } from '../../api';
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
+import { client } from '../../api/api'
+import { searchPublications } from '../../api/search'
 
 export default function SearchPublications() {
   const [publications, setPublications] = useState([]);
@@ -32,7 +33,8 @@ export default function SearchPublications() {
   }
   return (
     <div className="pt-20">
-      <div className="flex flex-col justify-center items-center">
+      <div className="flex flex-col justify-center items-center">        
+      <h1 className="text-5xl mb-6 font-bold">Results : </h1>
         {publications.map((pub) => (
           <div key={pub.id} className="shadow p-10 rounded mb-8 w-2/3">
             <p>{pub.metadata.content}</p>

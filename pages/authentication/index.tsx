@@ -1,9 +1,10 @@
-import Head from 'next/head';
-import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
-import { authenticate, challenge, client } from '../../api';
-import LoginForm from '../../components/authentication/login_form';
+import Head from "next/head";
+import * as React from "react";
+import { useEffect, useState } from "react";
+import { ethers } from "ethers";
+import {  client } from "../../api/api";
+import { authenticate, challenge } from "../../api/authentication";
+import LoginForm from "../../components/authentication/login_form";
 
 export default function LoginPage() {
   const [address, setAddress] = React.useState('');

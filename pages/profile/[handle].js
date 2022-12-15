@@ -1,7 +1,9 @@
 /* pages/profile/[handle].js */
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { client, getPublications, getProfile } from '../../api';
+import { client } from '../../api/api';
+import { getProfile } from '../../api/profile';
+import { getPublications } from '../../api/publication';
 
 export default function Profile() {
   /* create initial state to hold user profile and array of publications */

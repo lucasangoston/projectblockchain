@@ -1,16 +1,18 @@
-import Link from 'next/link';
-import * as React from 'react';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import RecommendedProfiles from './recommended';
-import { client, getProfileById, getPublications } from '../../api';
-import { ethers } from 'ethers';
-import ABI from '../../abi.json';
-import { PostList } from '../../components/home/post/PostList';
-import { PrimarySearchAppBar } from '../../components/navigationBar/navigationBar';
-import { Box, Container, Grid } from '@mui/material';
-import { Profile } from '../../components/profile/profile';
-const address = '0x60Ae865ee4C725cd04353b5AAb364553f56ceF82';
+import Link from "next/link";
+import * as React from "react";
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import RecommendedProfiles from "./recommended";
+import { client } from "../../api/api";
+import { getProfileById } from "../../api/profile";
+import { getPublications} from "../../api/publication"
+import { ethers } from 'ethers'
+import ABI from '../../abi.json'
+import { PostList } from "../../components/home/post/PostList";
+import { PrimarySearchAppBar } from "../../components/navigationBar/navigationBar";
+import { Box, Container, Grid } from "@mui/material";
+import { Profile } from "../../components/profile/profile";
+const address = "0x60Ae865ee4C725cd04353b5AAb364553f56ceF82"
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState();
