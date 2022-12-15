@@ -21,6 +21,7 @@ import { ethers } from 'ethers';
 import { client } from '../../api/api';
 import { exploreProfiles } from '../../api/profile';
 import { challenge, authenticate } from '../../api/authentication';
+import { useRouter } from 'next/router';
 
 /*
 <Typography
@@ -32,6 +33,7 @@ import { challenge, authenticate } from '../../api/authentication';
                         My NFT Friends
                     </Typography>
 */
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -73,14 +75,24 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+
+
 export function PrimarySearchAppBar() {
   /* local state variables to hold user's address and access token */
   const [address, setAddress] = useState('');
-  const [token, setToken] = useState();
+  const [token, setToken] = useState(); 
+  const router = useRouter();
+
+  const [searchValue, setSearchValue] = useState("");
   useEffect(() => {
     /* when the app loads, check to see if the user has already connected their wallet */
     checkConnection();
   }, []);
+
+  function openSearchPage() {
+    // 
+    router.push('/search/'+ searchValue);
+  }
 
   async function checkConnection() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -173,7 +185,7 @@ export function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>
-        <Link href={'./profile'}>Profile</Link>
+        <Link href={'/profile'}>Profile</Link>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
         <div>
@@ -264,6 +276,9 @@ export function PrimarySearchAppBar() {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
+              onChange={(value) => {console.log(value.target.value); setSearchValue(value.target.value)}}
+              
+              onKeyDown={(key) => key.key == 'Enter' ? openSearchPage() : null}
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
