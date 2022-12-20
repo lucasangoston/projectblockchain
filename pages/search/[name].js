@@ -70,7 +70,7 @@ export default function Search() {
     <div>
       <PrimarySearchAppBar></PrimarySearchAppBar>
     <div className="pt-20">
-      <SearchTabs profileName={name} profilesResults={profiles} publicationWord={name} publicationsResults={publications}></SearchTabs>
+      <SearchTabs profileName={name} profilesResults={profiles} publicationWord={name} publicationsResults={publications}/>
     </div>
     </div>
   );

@@ -15,6 +15,6 @@
     "jsx": "preserve",
     "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/search/emptyResults.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "components/search/emptyResults.jsx", "components/nfts/nftList.jsx"],
   "exclude": ["node_modules"]
 }

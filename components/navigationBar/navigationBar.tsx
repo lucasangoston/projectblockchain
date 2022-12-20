@@ -269,7 +269,7 @@ export function PrimarySearchAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Link href={'./'}> My NFT Friends </Link>
+          <Link href={'/'}> My NFT Friends </Link>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
