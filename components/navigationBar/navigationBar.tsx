@@ -19,6 +19,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { client, exploreProfiles, challenge, authenticate } from '../../api';
+import { Button } from '@mui/material';
 
 /*
 <Typography
@@ -265,6 +266,15 @@ export function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: '#f2c14e',
+              color: 'black',
+            }}
+          >
+            Connexion
+          </Button>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton

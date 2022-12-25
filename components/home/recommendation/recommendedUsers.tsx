@@ -9,6 +9,7 @@ import { client, recommendedProfiles } from '../../../api';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { blue, red } from '@mui/material/colors';
 import { useState, useEffect } from 'react';
+import styles from './styles/recommendedUsers.module.css';
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -49,11 +50,9 @@ export function RecommendedUsers() {
   }
 
   return (
-    <div className="fixed" style={{ width: '400px', minWidth: '30Opx' }}>
-      <Card style={{ borderRadius: '10px' }}>
+    <div className="fixed" style={{ width: '400px' }}>
+      <Card style={{ borderRadius: '10px', height: '500px' }}>
         <CardHeader title={'Recommendations'} style={{ textAlign: 'center' }} />
-
-        {/* remplacer une fois qu'ont aura de vraies données */}
         <CardContent>
           <Grid container spacing={2} direction="column">
             <Grid item>
@@ -61,20 +60,23 @@ export function RecommendedUsers() {
                 let avatar = '';
                 if (name) avatar = (name as string).slice(0, 1);
                 return (
-                  <Grid
-                    key={id}
-                    container
-                    direction="row"
-                    justifyContent={'space-between'}
-                  >
-                    <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                      {avatar}
-                    </Avatar>
-                    <h2> {name} </h2>
-                    <Button variant="outlined" size="small">
-                      Add
-                    </Button>
-                  </Grid>
+                  <div className={styles.recommendations}>
+                    <Grid
+                      key={id}
+                      container
+                      direction="row"
+                      justifyContent={'space-between'}
+                    >
+                      <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                        {avatar}
+                      </Avatar>
+                      <h2> {name} </h2>
+                      <Button variant="outlined" size="small">
+                        Add
+                      </Button>
+                    </Grid>
+                    <hr />
+                  </div>
                 );
               })}
             </Grid>
