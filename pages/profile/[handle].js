@@ -49,8 +49,13 @@ export default function Profile() {
           id: profileData.id,
           limit: 50,
         },
-      });
+      });  console.log("coucouuuu");
       setPublications(pubs.data.publications.items);
+
+      
+
+      
+
     } catch (err) {
       console.log('error fetching profile...', err);
     }

@@ -1,12 +1,12 @@
 /* pages/profile/[handle].js */
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { client } from '../../api/api';
-import { getUserNfts } from '../../api/nft';
+import { client } from '../../../api/api';
+import { getUserNfts } from '../../../api/nft';
 
-import { NftList } from '../../components/nfts/nftList';
-import { EmptyResult } from '../../components/nfts/emptyResult';
-import { PrimarySearchAppBar } from "../../components/navigationBar/navigationBar";
+import { NftList } from '../../../components/nfts/nftList';
+import { EmptyResult } from '../../../components/nfts/emptyResult';
+import { PrimarySearchAppBar } from "../../../components/navigationBar/navigationBar";
 
 //test with address : 0x54be3a794282c030b15e43ae2bb182e14c409c5e
 

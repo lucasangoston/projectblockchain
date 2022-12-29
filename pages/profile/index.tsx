@@ -12,10 +12,13 @@ import { PostList } from "../../components/home/post/PostList";
 import { PrimarySearchAppBar } from "../../components/navigationBar/navigationBar";
 import { Box, Container, Grid } from "@mui/material";
 import { Profile } from "../../components/profile/profile";
-const address = "0x60Ae865ee4C725cd04353b5AAb364553f56ceF82"
+import { getUserNfts } from '../../api/nft';
+const address1 = "0x54be3a794282c030b15e43ae2bb182e14c409c5e"//"0x60Ae865ee4C725cd04353b5AAb364553f56ceF82"
+const address = "0x54be3a794282c030b15e43ae2bb182e14c409c5e"
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState();
+  const [nfts, setNfts] = useState([]);
   const [pubs, setPubs] = useState([]);
 
   useEffect(() => {
@@ -44,7 +47,6 @@ export default function ProfilePage() {
         }
       }
       setProfile(data);
-
       const publications = await client.query({
         query: getPublications,
         variables: {
@@ -53,11 +55,24 @@ export default function ProfilePage() {
         },
       });
       setPubs(publications.data.publications.items);
-
-      console.log('pubs : ', publications);
     } catch (err) {
       console.log('error fetching profile...', err);
     }
+    try {
+      
+      
+      const response = await client.query({
+        query: getUserNfts,
+        variables: { address },
+      });
+      const nftsData = response.data.nfts.items;
+
+      setNfts(nftsData);
+      
+    } catch (err) {
+      console.log('error to get nfts', err);
+    }
+
   }
 
   if (!profile || !pubs) return null;
@@ -66,7 +81,7 @@ export default function ProfilePage() {
     <div>
       <PrimarySearchAppBar></PrimarySearchAppBar>
       <div style={{ marginTop: 100 }}>
-        <Profile></Profile>
+        <Profile nfts = {nfts}></Profile>
       </div>
     </div>
   );

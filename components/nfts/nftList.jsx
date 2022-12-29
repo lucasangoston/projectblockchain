@@ -1,9 +1,10 @@
 export function NftList({nfts})
 {
+
     return (
         <div className="pt-20">
       <div className=" grid grid-cols-3 justify-between w-full">
-        {nfts.map(
+        {nfts.nfts.map(
           ({ name, description, collectionName, originalContent, tokenId}) => (
             <div
               key={tokenId}
