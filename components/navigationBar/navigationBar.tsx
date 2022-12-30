@@ -266,26 +266,30 @@ export function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Button
-            variant="contained"
-            style={{
-              backgroundColor: '#f2c14e',
-              color: 'black',
-            }}
-          >
-            Connexion
-          </Button>
+          <Link href={`/login`}>
+            <Button
+              variant="contained"
+              style={{
+                backgroundColor: '#f2c14e',
+                color: 'black',
+              }}
+            >
+              Connexion
+            </Button>
+          </Link>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
+            <Link href={`/chat`}>
+              <IconButton
+                size="large"
+                aria-label="show 4 new mails"
+                color="inherit"
+              >
+                <Badge badgeContent={4} color="error">
+                  <MailIcon />
+                </Badge>
+              </IconButton>
+            </Link>
             <IconButton
               size="large"
               aria-label="show 17 new notifications"

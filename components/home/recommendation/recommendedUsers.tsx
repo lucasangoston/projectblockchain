@@ -50,8 +50,14 @@ export function RecommendedUsers() {
   }
 
   return (
-    <div className="fixed" style={{ width: '400px' }}>
-      <Card style={{ borderRadius: '10px', height: '500px' }}>
+    <div className="fixed" style={{ width: '25vw' }}>
+      <Card
+        style={{
+          borderRadius: '10px',
+          overflow: 'auto',
+          maxHeight: '51vh',
+        }}
+      >
         <CardHeader title={'Recommendations'} style={{ textAlign: 'center' }} />
         <CardContent>
           <Grid container spacing={2} direction="column">
@@ -75,7 +81,7 @@ export function RecommendedUsers() {
                         Add
                       </Button>
                     </Grid>
-                    <hr />
+                    <hr style={{ marginBottom: '10px', marginTop: '10px' }} />
                   </div>
                 );
               })}

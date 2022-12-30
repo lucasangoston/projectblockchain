@@ -1,0 +1,22 @@
+.container{
+    width: 75vw;
+    position: fixed;
+    margin:0;
+    padding: 0;
+}
+
+.messageConnectedUser{
+    margin-bottom: 20px;
+    width: max-content;
+    max-width: 50%;
+    margin-right: 0;
+    margin-left: auto;
+}
+
+.messageUser{
+    margin-bottom: 20px;
+    width: max-content;
+    max-width: 50%;
+    margin-right: auto;
+    margin-left: 0;
+}
