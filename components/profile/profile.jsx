@@ -4,15 +4,14 @@ import ProfileInfos from './profileInfos';
 import ProfileTabs from './profileTabs';
 
 export function Profile({nfts}) {
-  console.log(nfts);
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+    <div className="flex">
       <Box sx={{ ml: '2rem' }}>
         <ProfileInfos></ProfileInfos>
       </Box>
       <Box>
         <ProfileTabs nfts={nfts}></ProfileTabs>
       </Box>
-    </Box>
+    </div>
   );
 }

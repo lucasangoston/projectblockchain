@@ -2,8 +2,8 @@ export function NftList({nfts})
 {
 
     return (
-        <div className="pt-20">
-      <div className=" grid grid-cols-3 justify-between w-full">
+        <div >
+      <div className=" grid grid-cols-5 justify-between w-full">
         {nfts.nfts.map(
           ({ name, description, collectionName, originalContent, tokenId}) => (
             <div
