@@ -266,8 +266,10 @@ export function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Link href={`/login`}>
-            <Button
+          <div>
+          {/* if the user has not yet connected their wallet, show a connect button */}
+          {!address && <Button
+              onClick={connect}
               variant="contained"
               style={{
                 backgroundColor: '#f2c14e',
@@ -275,8 +277,34 @@ export function PrimarySearchAppBar() {
               }}
             >
               Connexion
-            </Button>
-          </Link>
+            </Button>}
+          {/* if the user has connected their wallet but has not yet authenticated, show them a login button */}
+          {address && !token && (
+             <Link href={`/login`}>
+             <Button
+               onClick={connect}
+               variant="contained"
+               style={{
+                 backgroundColor: '#f2c14e',
+                 color: 'black',
+               }}
+             >
+               Login
+             </Button>
+           </Link>
+          )}
+          {/* once the user has authenticated, show them a success message */}
+          {address && token && <Button
+              onClick={connect}
+              variant="contained"
+              style={{
+                backgroundColor: '#f2c14e',
+                color: 'black',
+              }}
+            >
+              Disconnect
+            </Button>}
+          </div>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Link href={`/chat`}>
