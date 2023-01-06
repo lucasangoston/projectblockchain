@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 
-const API_URL = 'https://api.lens.dev'
+const API_URL = 'https://api-mumbai.lens.dev'
 
 /* create the API client */
 export const client = new ApolloClient({
@@ -731,6 +731,33 @@ export const authenticate = gql`
     }
   }
 `
+
+export const createProfile = gql`
+  mutation CreateProfile( 
+    $handle: Handle!,
+    $profilePictureUri: null,
+    $followNFTURI: null,
+    $followModule: null
+    ) {
+    createProfile(request:{ 
+                  handle: "wiiiiwwwiiiiss",
+                  profilePictureUri: null,
+                  followNFTURI: null,
+                  followModule: {
+                      freeFollowModule: true
+                    }
+                  }) {
+      ... on RelayerResult {
+        txHash
+      }
+      ... on RelayError {
+        reason
+      }
+      __typename
+    }
+  }
+`
+
 // export const refresh = gql`
 //   mutation Refresh($refreshToken: ) {
 //     refresh(request: {
