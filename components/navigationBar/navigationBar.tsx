@@ -22,6 +22,7 @@ import { client } from '../../api/api';
 import { exploreProfiles } from '../../api/profile';
 import { challenge, authenticate } from '../../api/authentication';
 import { useRouter } from 'next/router';
+import { Button } from '@mui/material';
 
 /*
 <Typography
@@ -33,7 +34,6 @@ import { useRouter } from 'next/router';
                         My NFT Friends
                     </Typography>
 */
-
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -75,22 +75,22 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-
-
 export function PrimarySearchAppBar() {
   /* local state variables to hold user's address and access token */
   const [address, setAddress] = useState('');
-  const [token, setToken] = useState(); 
+  const [token, setToken] = useState();
   const router = useRouter();
 
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   useEffect(() => {
     /* when the app loads, check to see if the user has already connected their wallet */
     checkConnection();
   }, []);
 
   function openSearchPage() {
-    router.push(searchValue == "" ? '/search/emptyField' : '/search/'+ searchValue);
+    router.push(
+      searchValue == '' ? '/search/emptyField' : '/search/' + searchValue,
+    );
   }
 
   async function checkConnection() {
@@ -275,56 +275,62 @@ export function PrimarySearchAppBar() {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
-              onChange={(value) => { if(value.target.value != "") {
-                setSearchValue(value.target.value)
-              } else {
-                //console.log("searchValue");
-                setSearchValue("emptyField")
-              }
+              onChange={(value) => {
+                if (value.target.value != '') {
+                  setSearchValue(value.target.value);
+                } else {
+                  //console.log("searchValue");
+                  setSearchValue('emptyField');
+                }
               }}
-              
-              onKeyDown={(key) => key.key == 'Enter' ? openSearchPage() : null}
+              onKeyDown={(key) =>
+                key.key == 'Enter' ? openSearchPage() : null
+              }
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
           <div>
-          {/* if the user has not yet connected their wallet, show a connect button */}
-          {!address && <Button
-              onClick={connect}
-              variant="contained"
-              style={{
-                backgroundColor: '#f2c14e',
-                color: 'black',
-              }}
-            >
-              Connexion
-            </Button>}
-          {/* if the user has connected their wallet but has not yet authenticated, show them a login button */}
-          {address && !token && (
-             <Link href={`/login`}>
-             <Button
-               onClick={connect}
-               variant="contained"
-               style={{
-                 backgroundColor: '#f2c14e',
-                 color: 'black',
-               }}
-             >
-               Login
-             </Button>
-           </Link>
-          )}
-          {/* once the user has authenticated, show them a success message */}
-          {address && token && <Button
-              onClick={connect}
-              variant="contained"
-              style={{
-                backgroundColor: '#f2c14e',
-                color: 'black',
-              }}
-            >
-              Disconnect
-            </Button>}
+            {/* if the user has not yet connected their wallet, show a connect button */}
+            {!address && (
+              <Button
+                onClick={connect}
+                variant="contained"
+                style={{
+                  backgroundColor: '#f2c14e',
+                  color: 'black',
+                }}
+              >
+                Connexion
+              </Button>
+            )}
+            {/* if the user has connected their wallet but has not yet authenticated, show them a login button */}
+            {address && !token && (
+              <Link href={`/login`}>
+                <Button
+                  onClick={connect}
+                  variant="contained"
+                  style={{
+                    backgroundColor: '#f2c14e',
+                    color: 'black',
+                  }}
+                >
+                  Login
+                </Button>
+              </Link>
+            )}
+            {/* once the user has authenticated, show them a success message */}
+            {address && token && (
+              <Button
+                onClick={connect}
+                variant="contained"
+                style={{
+                  backgroundColor: '#f2c14e',
+                  color: 'black',
+                }}
+              >
+                Disconnect
+              </Button>
+            )}
           </div>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
