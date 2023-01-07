@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { client, getPublications, getProfileById } from '../../api';
+import { client } from '../../api/api';
+import { getProfileById } from '../../api/profile';
+import { getPublications } from '../../api/publication';
 import { ethers } from 'ethers';
 import ABI from '../../abi/interaction.json';
 

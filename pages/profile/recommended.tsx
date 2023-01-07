@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { client, recommendedProfiles } from '../../api';
+import { client } from '../../api/api';
+import { recommendedProfiles } from '../../api/profile';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 

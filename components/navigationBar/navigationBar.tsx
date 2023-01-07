@@ -18,8 +18,10 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { client, challenge, authenticate } from '../../api';
-import { Button } from '@mui/material';
+import { client } from '../../api/api';
+import { exploreProfiles } from '../../api/profile';
+import { challenge, authenticate } from '../../api/authentication';
+import { useRouter } from 'next/router';
 
 /*
 <Typography
@@ -31,6 +33,7 @@ import { Button } from '@mui/material';
                         My NFT Friends
                     </Typography>
 */
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -72,14 +75,23 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+
+
 export function PrimarySearchAppBar() {
   /* local state variables to hold user's address and access token */
   const [address, setAddress] = useState('');
-  const [token, setToken] = useState();
+  const [token, setToken] = useState(); 
+  const router = useRouter();
+
+  const [searchValue, setSearchValue] = useState("");
   useEffect(() => {
     /* when the app loads, check to see if the user has already connected their wallet */
     checkConnection();
   }, []);
+
+  function openSearchPage() {
+    router.push(searchValue == "" ? '/search/emptyField' : '/search/'+ searchValue);
+  }
 
   async function checkConnection() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -172,7 +184,7 @@ export function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>
-        <Link href={'./profile'}>Profile</Link>
+        <Link href={'/profile'}>Profile</Link>
       </MenuItem>
       <MenuItem onClick={handleMenuClose}>
         <div>
@@ -256,13 +268,22 @@ export function PrimarySearchAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          <Link href={'./'}> My NFT Friends </Link>
+          <Link href={'/'}> My NFT Friends </Link>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
+              onChange={(value) => { if(value.target.value != "") {
+                setSearchValue(value.target.value)
+              } else {
+                //console.log("searchValue");
+                setSearchValue("emptyField")
+              }
+              }}
+              
+              onKeyDown={(key) => key.key == 'Enter' ? openSearchPage() : null}
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
