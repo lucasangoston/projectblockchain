@@ -5,7 +5,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import { ethers } from 'ethers'
-import ABI from '../../../abi.json'
+import ABI from '../../../abi/createProfile.json'
+import Link from 'next/link';
+import { authenticate, challenge, client } from '../../../api';
 
 const address = '0x420f0257D43145bb002E69B14FF2Eb9630Fc4736'
 
@@ -44,8 +46,8 @@ function TabPanel(props: TabPanelProps) {
 
 export function FormLogin() {
   const [value, setValue] = React.useState(0);
-  const [profile, setProfile] = React.useState('');
   const [username, setUsername] = React.useState('');
+  const [token, setToken] = React.useState();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -75,7 +77,7 @@ export function FormLogin() {
       const tx = await contract.proxyCreateProfile(
         {
           to: userConnected,
-          handle: handle.toString(),
+          handle: 'newprofiletest1',
           imageURI: 'https://ipfs.io/ipfs/QmY9dUwYu67puaWBMxRKW98LPbXCznPwHUbhX5NeWnCJbX',
           followModule: '0x0000000000000000000000000000000000000000',
           followModuleInitData: [],
@@ -83,9 +85,44 @@ export function FormLogin() {
         }
       )
       await tx.wait()
+      console.log(tx)
       console.log("user successfully created")
     } catch (err) {
       console.log({ err })
+    }
+  }
+
+  async function login() {
+    try {
+      /* first request the challenge from the API server */
+      const challengeInfo = await client.query({
+        query: challenge,
+        variables: { address },
+      });
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      /* ask the user to sign a message with the challenge info returned from the server */
+      const signature = await signer.signMessage(
+        challengeInfo.data.challenge.text,
+      );
+      /* authenticate the user */
+      const authData = await client.mutate({
+        mutation: authenticate,
+        variables: {
+          address,
+          signature,
+        },
+      });
+      /* if user authentication is successful, you will receive an accessToken and refreshToken */
+      const {
+        data: {
+          authenticate: { accessToken },
+        },
+      } = authData;
+      console.log({ accessToken });
+      setToken(accessToken);
+    } catch (err) {
+      console.log('Error signing in: ', err);
     }
   }
 
@@ -120,10 +157,11 @@ export function FormLogin() {
                 variant="standard"
                 style={{ marginTop: '20px' }}
               />
-
-              <Button variant="contained" style={{ marginTop: '50px' }}>
-                Continue
-              </Button>
+              <Link href="./">
+                <Button onClick={login} variant="contained" style={{ marginTop: '50px' }}>
+                  Continue
+                </Button>
+              </Link>
             </FormControl>
           </div>
         </TabPanel>
@@ -157,9 +195,12 @@ export function FormLogin() {
                 variant="standard"
                 style={{ marginTop: '20px' }}
               /> */}
-              <Button onClick={() => {createNewProfile(username);}} variant="contained" style={{ marginTop: '50px' }}>
-                Continue
-              </Button>
+              //<Link href="./">
+                <Button onClick={() => { createNewProfile(username); }} variant="contained" style={{ marginTop: '50px' }}>
+                  Continue
+                </Button>
+              //</Link>
+
             </FormControl>
           </div>
         </TabPanel>

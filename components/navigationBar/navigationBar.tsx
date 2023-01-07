@@ -18,7 +18,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { client, exploreProfiles, challenge, authenticate } from '../../api';
+import { client, challenge, authenticate } from '../../api';
 import { Button } from '@mui/material';
 
 /*
@@ -120,10 +120,10 @@ export function PrimarySearchAppBar() {
       /* if user authentication is successful, you will receive an accessToken and refreshToken */
       const {
         data: {
-          authenticate: { accessToken },
+          authenticate: { accessToken, refreshToken },
         },
       } = authData;
-      console.log({ accessToken });
+      console.log({ accessToken, refreshToken });
       setToken(accessToken);
     } catch (err) {
       console.log('Error signing in: ', err);
