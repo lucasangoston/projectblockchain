@@ -34,7 +34,13 @@ function a11yProps(index) {
   };
 }
 
-export default function SearchTabs({profileName, profilesResults, publicationWord, publicationsResults, nftsProfiles}) {
+export default function SearchTabs({
+  profileName,
+  profilesResults,
+  publicationWord,
+  publicationsResults,
+  nftsProfiles,
+}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -55,13 +61,22 @@ export default function SearchTabs({profileName, profilesResults, publicationWor
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <SearchProfilesResults name={profileName} results={profilesResults}></SearchProfilesResults>
+        <SearchProfilesResults
+          name={profileName}
+          results={profilesResults}
+        ></SearchProfilesResults>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <SearchNftsProfilesResults name={profileName} results={nftsProfiles}></SearchNftsProfilesResults>
+        <SearchNftsProfilesResults
+          name={profileName}
+          results={nftsProfiles}
+        ></SearchNftsProfilesResults>
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <SearchPublicationsResults name={publicationWord} results={publicationsResults}></SearchPublicationsResults>
+        <SearchPublicationsResults
+          name={publicationWord}
+          results={publicationsResults}
+        ></SearchPublicationsResults>
       </TabPanel>
     </Box>
   );

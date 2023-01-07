@@ -3,14 +3,14 @@ import { PostList } from '../home/post/PostList';
 import ProfileInfos from './profileInfos';
 import ProfileTabs from './profileTabs';
 
-export function Profile({nfts}) {
+export function Profile({ nft }) {
   return (
     <div className="flex">
       <Box sx={{ ml: '2rem' }}>
         <ProfileInfos></ProfileInfos>
       </Box>
       <Box>
-        <ProfileTabs nfts={nfts}></ProfileTabs>
+        <ProfileTabs nfts={nft}></ProfileTabs>
       </Box>
     </div>
   );

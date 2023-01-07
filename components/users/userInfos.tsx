@@ -11,7 +11,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { RecommendedUsers } from '../home/recommendation/recommendedUsers';
-import { client, defaultProfile, getProfileById, getPublications } from '../../api';
+import {
+  client,
+  defaultProfile,
+  getProfileById,
+  getPublications,
+} from '../../api';
 import { ethers } from 'ethers';
 import ABI from '../../abi/interaction.json';
 import { useEffect, useState } from 'react';
@@ -19,7 +24,7 @@ import { useRouter } from 'next/router';
 
 const address = '0x60Ae865ee4C725cd04353b5AAb364553f56ceF82';
 
-export default function UserInfos(props: { id: String; }) {
+export default function UserInfos(props: { id: String }) {
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState<DialogProps['scroll']>('paper');
 
@@ -54,87 +59,86 @@ export default function UserInfos(props: { id: String; }) {
     }
   }, [props.id]);
 
-  const idd = props.id
-  
+  const idd = props.id;
+
   async function fetchProfileById() {
     try {
       const returnedProfileById = await client.query({
         query: getProfileById,
-        variables: { idd }
-      })
-      console.log(returnedProfileById)
-      const data = { ...returnedProfileById.data.profile }
+        variables: { idd },
+      });
+      console.log(returnedProfileById);
+      const data = { ...returnedProfileById.data.profile };
       /* format their picture if it is not in the right format */
-      const picture = data.picture
+      const picture = data.picture;
       if (picture || picture.original || picture.original.url) {
         if (picture.original.url.startsWith('ipfs://')) {
-          let result = picture.original.url.substring(7, picture.original.url.length)
-          data.avatarUrl = `http://lens.infura-ipfs.io/ipfs/${result}`
+          const result = picture.original.url.substring(
+            7,
+            picture.original.url.length,
+          );
+          data.avatarUrl = `http://lens.infura-ipfs.io/ipfs/${result}`;
         } else {
-          data.avatarUrl = data.picture.original.url
+          data.avatarUrl = data.picture.original.url;
         }
       }
-      setProfileData(data)
+      setProfileData(data);
 
       const publications = await client.query({
         query: getPublications,
         variables: {
-          id: data.id, limit: 50
-        }
-      })
-      setPubs(publications.data.publications.items)
+          id: data.id,
+          limit: 50,
+        },
+      });
+      setPubs(publications.data.publications.items);
 
-      console.log("pubs : ", publications)
-
+      console.log('pubs : ', publications);
     } catch (err) {
-      console.log('error fetching profile...', err)
+      console.log('error fetching profile...', err);
     }
   }
 
   async function followUser() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const signer = await provider.getSigner()
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = await provider.getSigner();
 
-    const contract = new ethers.Contract(
-      address,
-      ABI,
-      signer
-    )
+    const contract = new ethers.Contract(address, ABI, signer);
 
     try {
-      const tx = await contract.follow(
-        [props.id],
-        [0x0]
-      )
-      await tx.wait()
-      console.log("followed user successfully")
+      const tx = await contract.follow([props.id], [0x0]);
+      await tx.wait();
+      console.log('followed user successfully');
     } catch (err) {
-      console.log({ err })
+      console.log({ err });
     }
   }
 
   if (!profileData) return null;
 
   return (
-    
     <Card sx={{ maxWidth: 300 }}>
       <CardMedia
         component="img"
         alt="green iguana"
         height="140"
-        image={profileData.avatarUrl}
+        image={profileData['avatarUrl']}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-        {profileData.handle}
+          {profileData['handle']}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-        {profileData.bio}
+          {profileData['bio']}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={handleClickOpen('paper')}>Followers {profileData.stats.totalFollowers}</Button>
-        <Button onClick={handleClickOpen('paper')}>Folliwings {profileData.stats.totalFollowing}</Button>
+        <Button onClick={handleClickOpen('paper')}>
+          Followers {profileData['stats']['totalFollowers']}
+        </Button>
+        <Button onClick={handleClickOpen('paper')}>
+          Folliwings {profileData['stats']['totalFollowing']}
+        </Button>
         <Dialog
           open={open}
           onClose={handleClose}

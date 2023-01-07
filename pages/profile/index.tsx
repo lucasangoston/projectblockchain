@@ -1,25 +1,18 @@
-import Link from "next/link";
-import * as React from "react";
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import RecommendedProfiles from "./recommended";
-import { client } from "../../api/api";
-import { getProfileById } from "../../api/profile";
-import { getPublications} from "../../api/publication"
-import { ethers } from 'ethers'
-import ABI from '../../abi.json'
-import { PostList } from "../../components/home/post/PostList";
-import { PrimarySearchAppBar } from "../../components/navigationBar/navigationBar";
-import { Box, Container, Grid } from "@mui/material";
-import { Profile } from "../../components/profile/profile";
+import * as React from 'react';
+import { useState } from 'react';
+import { client } from '../../api/api';
+import { getProfileById } from '../../api/profile';
+import { getPublications } from '../../api/publication';
+import { PrimarySearchAppBar } from '../../components/navigationBar/navigationBar';
+import { Profile } from '../../components/profile/profile';
 import { getUserNfts } from '../../api/nft';
-const address1 = "0x54be3a794282c030b15e43ae2bb182e14c409c5e"//"0x60Ae865ee4C725cd04353b5AAb364553f56ceF82"
-const address = "0x54be3a794282c030b15e43ae2bb182e14c409c5e"
 
+const address1 = '0x54be3a794282c030b15e43ae2bb182e14c409c5e'; //"0x60Ae865ee4C725cd04353b5AAb364553f56ceF82"
+const address = '0x54be3a794282c030b15e43ae2bb182e14c409c5e';
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState();
-  const [nfts, setNfts] = useState([]);
+  const [nft, setNfts] = useState([]);
   const [pubs, setPubs] = useState([]);
 
   // useEffect(() => {
@@ -60,8 +53,6 @@ export default function ProfilePage() {
       console.log('error fetching profile...', err);
     }
     try {
-      
-      
       const response = await client.query({
         query: getUserNfts,
         variables: { address },
@@ -69,11 +60,9 @@ export default function ProfilePage() {
       const nftsData = response.data.nfts.items;
 
       setNfts(nftsData);
-      
     } catch (err) {
       console.log('error to get nfts', err);
     }
-
   }
 
   // if (!profile || !pubs) return null;
@@ -82,7 +71,7 @@ export default function ProfilePage() {
     <div>
       <PrimarySearchAppBar></PrimarySearchAppBar>
       <div style={{ marginTop: 100 }}>
-        <Profile nfts = {nfts}></Profile>
+        <Profile nft={nft}></Profile>
       </div>
     </div>
   );

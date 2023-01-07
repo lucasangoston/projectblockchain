@@ -6,7 +6,6 @@ import Box from '@mui/material/Box';
 import { PostList } from '../home/post/PostList';
 import { NftList } from '../nfts/nftList';
 
-
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -35,7 +34,6 @@ function a11yProps(index) {
 }
 
 export default function ProfileTabs(nfts) {
-  
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -58,7 +56,7 @@ export default function ProfileTabs(nfts) {
         <PostList></PostList>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <NftList nfts={nfts}/>
+        <NftList nfts={nfts} />
       </TabPanel>
     </Box>
   );

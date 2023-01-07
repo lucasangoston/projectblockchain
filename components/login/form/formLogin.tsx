@@ -4,12 +4,12 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import { ethers } from 'ethers'
-import ABI from '../../../abi/createProfile.json'
+import { ethers } from 'ethers';
+import ABI from '../../../abi/createProfile.json';
 import Link from 'next/link';
 import { authenticate, challenge, client } from '../../../api';
 
-const address = '0x420f0257D43145bb002E69B14FF2Eb9630Fc4736'
+const address = '0x420f0257D43145bb002E69B14FF2Eb9630Fc4736';
 
 function a11yProps(index: number) {
   return {
@@ -54,41 +54,35 @@ export function FormLogin() {
   };
 
   function changeUsername(event: any) {
-    setUsername(event.target.value)
+    setUsername(event.target.value);
   }
 
   async function createNewProfile(handle: String) {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = await provider.getSigner();
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const signer = await provider.getSigner()
+    const userConnected = await signer.getAddress();
 
+    const contract = new ethers.Contract(address, ABI, signer);
 
-    const userConnected = await signer.getAddress()
-
-    const contract = new ethers.Contract(
-      address,
-      ABI,
-      signer
-    )
-
-    console.log({ userConnected, address, handle, contract })
+    console.log({ userConnected, address, handle, contract });
 
     try {
-      const tx = await contract.proxyCreateProfile(
-        {
-          to: userConnected,
-          handle: 'newprofiletest1',
-          imageURI: 'https://ipfs.io/ipfs/QmY9dUwYu67puaWBMxRKW98LPbXCznPwHUbhX5NeWnCJbX',
-          followModule: '0x0000000000000000000000000000000000000000',
-          followModuleInitData: [],
-          followNFTURI: 'https://ipfs.io/ipfs/QmTFLSXdEQ6qsSzaXaCSNtiv6wA56qq87ytXJ182dXDQJS',
-        }
-      )
-      await tx.wait()
-      console.log(tx)
-      console.log("user successfully created")
+      const tx = await contract.proxyCreateProfile({
+        to: userConnected,
+        handle: 'newprofiletest1',
+        imageURI:
+          'https://ipfs.io/ipfs/QmY9dUwYu67puaWBMxRKW98LPbXCznPwHUbhX5NeWnCJbX',
+        followModule: '0x0000000000000000000000000000000000000000',
+        followModuleInitData: [],
+        followNFTURI:
+          'https://ipfs.io/ipfs/QmTFLSXdEQ6qsSzaXaCSNtiv6wA56qq87ytXJ182dXDQJS',
+      });
+      await tx.wait();
+      console.log(tx);
+      console.log('user successfully created');
     } catch (err) {
-      console.log({ err })
+      console.log({ err });
     }
   }
 
@@ -158,7 +152,11 @@ export function FormLogin() {
                 style={{ marginTop: '20px' }}
               />
               <Link href="./">
-                <Button onClick={login} variant="contained" style={{ marginTop: '50px' }}>
+                <Button
+                  onClick={login}
+                  variant="contained"
+                  style={{ marginTop: '50px' }}
+                >
                   Continue
                 </Button>
               </Link>
@@ -177,30 +175,17 @@ export function FormLogin() {
                 onChange={changeUsername}
                 value={username}
               />
-              {/* <TextField
-                id="outlined-basic"
-                label="Prenom"
-                variant="standard"
-                style={{ marginTop: '20px' }}
-              />
-              <TextField
-                id="outlined-basic"
-                label="email"
-                variant="standard"
-                style={{ marginTop: '30px' }}
-              />
-              <TextField
-                id="outlined-basic"
-                label="mot de passe"
-                variant="standard"
-                style={{ marginTop: '20px' }}
-              /> */}
-              //<Link href="./">
-                <Button onClick={() => { createNewProfile(username); }} variant="contained" style={{ marginTop: '50px' }}>
+              <Link href="./">
+                <Button
+                  onClick={() => {
+                    createNewProfile(username);
+                  }}
+                  variant="contained"
+                  style={{ marginTop: '50px' }}
+                >
                   Continue
                 </Button>
-              //</Link>
-
+              </Link>
             </FormControl>
           </div>
         </TabPanel>

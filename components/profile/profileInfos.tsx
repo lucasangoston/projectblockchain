@@ -45,13 +45,11 @@ export default function ProfileInfos() {
   }, []);
 
   async function fetchProfile() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = await provider.getSigner();
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const signer = await provider.getSigner()
+    const userConnected = await signer.getAddress();
 
-
-    const userConnected = await signer.getAddress()
-    
     try {
       const returnedProfile = await client.query({
         query: defaultProfile,
@@ -59,7 +57,7 @@ export default function ProfileInfos() {
       });
       console.log(returnedProfile);
       const data = { ...returnedProfile.data.defaultProfile };
-      console.log(data.name)
+      console.log(data.name);
       /* format their picture if it is not in the right format */
       const picture = data.picture;
       if (picture || picture.original || picture.original.url) {
@@ -93,25 +91,28 @@ export default function ProfileInfos() {
   if (!profile) return null;
 
   return (
-    
     <Card sx={{ maxWidth: 300 }}>
       <CardMedia
         component="img"
         alt="green iguana"
         height="140"
-        image={profile.avatarUrl}
+        image={profile['avatarUrl']}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-        {profile.handle}
+          {profile['handle']}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-        {profile.bio}
+          {profile['bio']}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={handleClickOpen('paper')}>Followers {profile.stats.totalFollowers}</Button>
-        <Button onClick={handleClickOpen('paper')}>Folliwings {profile.stats.totalFollowing}</Button>
+        <Button onClick={handleClickOpen('paper')}>
+          Followers {profile['stats']['totalFollowers']}
+        </Button>
+        <Button onClick={handleClickOpen('paper')}>
+          Followings {profile['stats']['totalFollowing']}
+        </Button>
         <Dialog
           open={open}
           onClose={handleClose}
