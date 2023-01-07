@@ -10,6 +10,11 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { blue, red } from '@mui/material/colors';
 import { useState, useEffect } from 'react';
 import styles from './styles/recommendedUsers.module.css';
+import { ethers } from 'ethers'
+import ABI from '../../../abi/interaction.json'
+import Link from 'next/link';
+
+const address = "0x60Ae865ee4C725cd04353b5AAb364553f56ceF82"
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -49,6 +54,28 @@ export function RecommendedUsers() {
     }
   }
 
+  async function followUser(id: String) {
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = await provider.getSigner()
+
+    const contract = new ethers.Contract(
+      address,
+      ABI,
+      signer
+    )
+
+    try {
+      const tx = await contract.follow(
+        [id],
+        [0x0]
+      )
+      await tx.wait()
+      console.log("followed user successfully")
+    } catch (err) {
+      console.log({ err })
+    }
+  }
+
   return (
     <div className="fixed" style={{ width: '25vw' }}>
       <Card
@@ -77,9 +104,12 @@ export function RecommendedUsers() {
                         {avatar}
                       </Avatar>
                       <h2> {name} </h2>
-                      <Button variant="outlined" size="small">
-                        Add
-                      </Button>
+                      <Link href={`./users/${id}`}>
+                        <p className='cursor-pointer text-violet-600 text-lg font-medium text-center mt-2 mb-2'>View</p>
+                      </Link>
+                      {/* <Button variant="outlined" size="small">
+                        View
+                      </Button> */}
                     </Grid>
                     <hr style={{ marginBottom: '10px', marginTop: '10px' }} />
                   </div>

@@ -11,10 +11,15 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
 import { RecommendedUsers } from '../home/recommendation/recommendedUsers';
-import { client, defaultProfile } from '../../api';
+import { client, defaultProfile, getProfileById, getPublications } from '../../api';
 import { ethers } from 'ethers';
+import ABI from '../../abi/interaction.json';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 
-export default function ProfileInfos() {
+const address = '0x60Ae865ee4C725cd04353b5AAb364553f56ceF82';
+
+export default function UserInfos(props: { id: String; }) {
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState<DialogProps['scroll']>('paper');
 
@@ -37,60 +42,78 @@ export default function ProfileInfos() {
     }
   }, [open]);
 
-  const [profile, setProfile] = React.useState();
-  const [pubs, setPubs] = React.useState([]);
+  const [profileData, setProfileData] = useState();
+  const [pubs, setPubs] = useState([]);
 
-  React.useEffect(() => {
-    fetchProfile();
-  }, []);
+  const router = useRouter();
+  //const { id } = router.query;
 
-  async function fetchProfile() {
+  useEffect(() => {
+    if (props.id) {
+      fetchProfileById();
+    }
+  }, [props.id]);
 
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
-    const signer = await provider.getSigner()
-
-
-    const userConnected = await signer.getAddress()
-    
+  const idd = props.id
+  
+  async function fetchProfileById() {
     try {
-      const returnedProfile = await client.query({
-        query: defaultProfile,
-        variables: { ethereumAddress: userConnected },
-      });
-      console.log(returnedProfile);
-      const data = { ...returnedProfile.data.defaultProfile };
-      console.log(data.name)
+      const returnedProfileById = await client.query({
+        query: getProfileById,
+        variables: { idd }
+      })
+      console.log(returnedProfileById)
+      const data = { ...returnedProfileById.data.profile }
       /* format their picture if it is not in the right format */
-      const picture = data.picture;
+      const picture = data.picture
       if (picture || picture.original || picture.original.url) {
         if (picture.original.url.startsWith('ipfs://')) {
-          const result = picture.original.url.substring(
-            7,
-            picture.original.url.length,
-          );
-          data.avatarUrl = `http://lens.infura-ipfs.io/ipfs/${result}`;
+          let result = picture.original.url.substring(7, picture.original.url.length)
+          data.avatarUrl = `http://lens.infura-ipfs.io/ipfs/${result}`
         } else {
-          data.avatarUrl = data.picture.original.url;
+          data.avatarUrl = data.picture.original.url
         }
       }
-      setProfile(data);
+      setProfileData(data)
 
-      // const publications = await client.query({
-      //   query: getPublications,
-      //   variables: {
-      //     id: data.id,
-      //     limit: 50,
-      //   },
-      // });
-      // setPubs(publications.data.publications.items);
+      const publications = await client.query({
+        query: getPublications,
+        variables: {
+          id: data.id, limit: 50
+        }
+      })
+      setPubs(publications.data.publications.items)
 
-      // console.log('pubs : ', publications);
+      console.log("pubs : ", publications)
+
     } catch (err) {
-      console.log('error fetching profile...', err);
+      console.log('error fetching profile...', err)
     }
   }
 
-  if (!profile) return null;
+  async function followUser() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = await provider.getSigner()
+
+    const contract = new ethers.Contract(
+      address,
+      ABI,
+      signer
+    )
+
+    try {
+      const tx = await contract.follow(
+        [props.id],
+        [0x0]
+      )
+      await tx.wait()
+      console.log("followed user successfully")
+    } catch (err) {
+      console.log({ err })
+    }
+  }
+
+  if (!profileData) return null;
 
   return (
     
@@ -99,19 +122,19 @@ export default function ProfileInfos() {
         component="img"
         alt="green iguana"
         height="140"
-        image={profile.avatarUrl}
+        image={profileData.avatarUrl}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-        {profile.handle}
+        {profileData.handle}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-        {profile.bio}
+        {profileData.bio}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={handleClickOpen('paper')}>Followers {profile.stats.totalFollowers}</Button>
-        <Button onClick={handleClickOpen('paper')}>Folliwings {profile.stats.totalFollowing}</Button>
+        <Button onClick={handleClickOpen('paper')}>Followers {profileData.stats.totalFollowers}</Button>
+        <Button onClick={handleClickOpen('paper')}>Folliwings {profileData.stats.totalFollowing}</Button>
         <Dialog
           open={open}
           onClose={handleClose}

@@ -1,10 +1,16 @@
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 
-const API_URL = 'https://api.lens.dev'
+const API_URL = 'https://api-mumbai.lens.dev'
+const MUMBAI_API_URL = 'https://api-mumbai.lens.dev'
 
 /* create the API client */
 export const client = new ApolloClient({
   uri: API_URL,
+  cache: new InMemoryCache()
+})
+
+export const mumbaiClient = new ApolloClient({
+  uri: MUMBAI_API_URL,
   cache: new InMemoryCache()
 })
 
@@ -731,6 +737,33 @@ export const authenticate = gql`
     }
   }
 `
+
+export const createProfile = gql`
+  mutation CreateProfile( 
+    $handle: Handle!,
+    $profilePictureUri: null,
+    $followNFTURI: null,
+    $followModule: null
+    ) {
+    createProfile(request:{ 
+                  handle: $handle,
+                  profilePictureUri: null,
+                  followNFTURI: null,
+                  followModule: {
+                      freeFollowModule: true
+                    }
+                  }) {
+      ... on RelayerResult {
+        txHash
+      }
+      ... on RelayError {
+        reason
+      }
+      __typename
+    }
+  }
+`
+
 // export const refresh = gql`
 //   mutation Refresh($refreshToken: ) {
 //     refresh(request: {
@@ -742,85 +775,90 @@ export const authenticate = gql`
 //   }
 // `
 
-
-// export const defaultProfile = gql`
-//   query DefaultProfile($address: EthereumAddress!) {
-//     defaultProfile( address: $address ) {
-//       id
-//       name
-//       bio
-//       isDefault
-//       followNftAddress
-//       metadata
-//       handle
-//       picture {
-//         ... on NftImage {
-//           contractAddress
-//           tokenId
-//           uri
-//           chainId
-//           verified
-//         }
-//         ... on MediaSet {
-//           original {
-//             url
-//             mimeType
-//           }
-//         }
-//       }
-//       coverPicture {
-//         ... on NftImage {
-//           contractAddress
-//           tokenId
-//           uri
-//           chainId
-//           verified
-//         }
-//         ... on MediaSet {
-//           original {
-//             url
-//             mimeType
-//           }
-//         }
-//       }
-//       ownedBy
-//       dispatcher {
-//         address
-//         canUseRelay
-//       }
-//       stats {
-//         totalFollowers
-//         totalFollowing
-//         totalPosts
-//         totalComments
-//         totalMirrors
-//         totalPublications
-//         totalCollects
-//       }
-//       followModule {
-//         ... on FeeFollowModuleSettings {
-//           type
-//           contractAddress
-//           amount {
-//             asset {
-//               name
-//               symbol
-//               decimals
-//               address
-//             }
-//             value
-//           }
-//           recipient
-//         }
-//         ... on ProfileFollowModuleSettings {
-//         type
-//         }
-//         ... on RevertFollowModuleSettings {
-//         type
-//         }
-//       }
-//     }
-//   }
-// `
+export const defaultProfile = gql`
+query DefaultProfile {
+  defaultProfile(request: { ethereumAddress: "0x60645A96974b14D73291a18507Ee2D1c21D2d16b"}) {
+    id
+    name
+    bio
+    isDefault
+    attributes {
+      displayType
+      traitType
+      key
+      value
+    }
+    followNftAddress
+    metadata
+    handle
+    picture {
+      ... on NftImage {
+        contractAddress
+        tokenId
+        uri
+        chainId
+        verified
+      }
+      ... on MediaSet {
+        original {
+          url
+          mimeType
+        }
+      }
+    }
+    coverPicture {
+      ... on NftImage {
+        contractAddress
+        tokenId
+        uri
+        chainId
+        verified
+      }
+      ... on MediaSet {
+        original {
+          url
+          mimeType
+        }
+      }
+    }
+    ownedBy
+    dispatcher {
+      address
+      canUseRelay
+    }
+    stats {
+      totalFollowers
+      totalFollowing
+      totalPosts
+      totalComments
+      totalMirrors
+      totalPublications
+      totalCollects
+    }
+    followModule {
+      ... on FeeFollowModuleSettings {
+        type
+        contractAddress
+        amount {
+          asset {
+            name
+            symbol
+            decimals
+            address
+          }
+          value
+        }
+        recipient
+      }
+      ... on ProfileFollowModuleSettings {
+       type
+      }
+      ... on RevertFollowModuleSettings {
+       type
+      }
+    }
+  }
+}
+`
 
 

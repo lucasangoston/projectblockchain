@@ -18,7 +18,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import { client, exploreProfiles, challenge, authenticate } from '../../api';
+import { client, challenge, authenticate } from '../../api';
 import { Button } from '@mui/material';
 
 /*
@@ -120,10 +120,10 @@ export function PrimarySearchAppBar() {
       /* if user authentication is successful, you will receive an accessToken and refreshToken */
       const {
         data: {
-          authenticate: { accessToken },
+          authenticate: { accessToken, refreshToken },
         },
       } = authData;
-      console.log({ accessToken });
+      console.log({ accessToken, refreshToken });
       setToken(accessToken);
     } catch (err) {
       console.log('Error signing in: ', err);
@@ -266,8 +266,10 @@ export function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Link href={`/login`}>
-            <Button
+          <div>
+          {/* if the user has not yet connected their wallet, show a connect button */}
+          {!address && <Button
+              onClick={connect}
               variant="contained"
               style={{
                 backgroundColor: '#f2c14e',
@@ -275,8 +277,34 @@ export function PrimarySearchAppBar() {
               }}
             >
               Connexion
-            </Button>
-          </Link>
+            </Button>}
+          {/* if the user has connected their wallet but has not yet authenticated, show them a login button */}
+          {address && !token && (
+             <Link href={`/login`}>
+             <Button
+               onClick={connect}
+               variant="contained"
+               style={{
+                 backgroundColor: '#f2c14e',
+                 color: 'black',
+               }}
+             >
+               Login
+             </Button>
+           </Link>
+          )}
+          {/* once the user has authenticated, show them a success message */}
+          {address && token && <Button
+              onClick={connect}
+              variant="contained"
+              style={{
+                backgroundColor: '#f2c14e',
+                color: 'black',
+              }}
+            >
+              Disconnect
+            </Button>}
+          </div>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Link href={`/chat`}>
