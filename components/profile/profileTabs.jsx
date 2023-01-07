@@ -4,14 +4,10 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { PostList } from '../home/post/PostList';
+import { NftList } from '../nfts/nftList';
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
 
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -24,24 +20,25 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <div>{children}</div>
         </Box>
       )}
     </div>
   );
 }
 
-function a11yProps(index: number) {
+function a11yProps(index) {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 
-export default function ProfileTabs() {
+export default function ProfileTabs(nfts) {
+  
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
@@ -61,7 +58,7 @@ export default function ProfileTabs() {
         <PostList></PostList>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <PostList></PostList>
+        <NftList nfts={nfts}/>
       </TabPanel>
     </Box>
   );

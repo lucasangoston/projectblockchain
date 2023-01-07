@@ -1,0 +1,11 @@
+.container{
+    background: url("https://www.pixelstalk.net/wp-content/uploads/images6/NFT-HD-Wallpaper-Robot.jpg");
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justifyContent: center;
+    alignItems: center;
+    position: fixed;
+    margin:0;
+    padding: 0;
+}

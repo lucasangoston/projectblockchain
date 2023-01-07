@@ -7,8 +7,11 @@ import { useRouter } from 'next/router';
 import { client } from '../../api/api';
 import { getUserNfts } from '../../api/nft';
 
-export function SearchProfilesResults({ name, results }) {
 
+export function SearchNftsProfilesResults({ name, results })  {
+   
+  
+  
   return results.length != 0 ? (
     <div className="flex flex-col justify-center items-center">
       {results.map(

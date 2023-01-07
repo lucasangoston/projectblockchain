@@ -2,7 +2,6 @@ import { Box, Container, Grid } from '@mui/material';
 import { PostList } from './post/PostList';
 import { RecommendedUsers } from './recommendation/recommendedUsers';
 import { WritePost } from './post/writePost';
-import { Feed } from './feed/feed';
 
 export function Home() {
   return (

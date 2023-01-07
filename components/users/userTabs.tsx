@@ -1,13 +1,17 @@
 import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { PostList } from '../home/post/PostList';
-import { SearchNftsProfilesResults } from './searchNftsProfilesResults';
-import { SearchProfilesResults } from './searchProfilesResults';
-import { SearchPublicationsResults } from './searchPublicationsResults';
 
-function TabPanel(props) {
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+
+function TabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -20,24 +24,24 @@ function TabPanel(props) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <div>{children}</div>
+          <Typography>{children}</Typography>
         </Box>
       )}
     </div>
   );
 }
 
-function a11yProps(index) {
+function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 
-export default function SearchTabs({profileName, profilesResults, publicationWord, publicationsResults, nftsProfiles}) {
+export default function UserTabs() {
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
@@ -49,19 +53,15 @@ export default function SearchTabs({profileName, profilesResults, publicationWor
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Profiles" {...a11yProps(0)} />
-          <Tab label="Profiles with same NFTs" {...a11yProps(0)} />
-          <Tab label="Publications" {...a11yProps(1)} />
+          <Tab label="Publications" {...a11yProps(0)} />
+          <Tab label="NFTs" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <SearchProfilesResults name={profileName} results={profilesResults}></SearchProfilesResults>
+        <PostList></PostList>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <SearchNftsProfilesResults name={profileName} results={nftsProfiles}></SearchNftsProfilesResults>
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <SearchPublicationsResults name={publicationWord} results={publicationsResults}></SearchPublicationsResults>
+        <PostList></PostList>
       </TabPanel>
     </Box>
   );

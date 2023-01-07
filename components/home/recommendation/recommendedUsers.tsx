@@ -10,6 +10,12 @@ import { recommendedProfiles } from '../../../api/profile';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { blue, red } from '@mui/material/colors';
 import { useState, useEffect } from 'react';
+import styles from './styles/recommendedUsers.module.css';
+import { ethers } from 'ethers'
+import ABI from '../../../abi/interaction.json'
+import Link from 'next/link';
+
+const address = "0x60Ae865ee4C725cd04353b5AAb364553f56ceF82"
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -49,12 +55,38 @@ export function RecommendedUsers() {
     }
   }
 
-  return (
-    <div className="fixed" style={{ width: '400px', minWidth: '30Opx' }}>
-      <Card style={{ borderRadius: '10px' }}>
-        <CardHeader title={'Recommendations'} style={{ textAlign: 'center' }} />
+  async function followUser(id: String) {
+    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const signer = await provider.getSigner()
 
-        {/* remplacer une fois qu'ont aura de vraies données */}
+    const contract = new ethers.Contract(
+      address,
+      ABI,
+      signer
+    )
+
+    try {
+      const tx = await contract.follow(
+        [id],
+        [0x0]
+      )
+      await tx.wait()
+      console.log("followed user successfully")
+    } catch (err) {
+      console.log({ err })
+    }
+  }
+
+  return (
+    <div className="fixed" style={{ width: '25vw' }}>
+      <Card
+        style={{
+          borderRadius: '10px',
+          overflow: 'auto',
+          maxHeight: '51vh',
+        }}
+      >
+        <CardHeader title={'Recommendations'} style={{ textAlign: 'center' }} />
         <CardContent>
           <Grid container spacing={2} direction="column">
             <Grid item>
@@ -62,20 +94,26 @@ export function RecommendedUsers() {
                 let avatar = '';
                 if (name) avatar = (name as string).slice(0, 1);
                 return (
-                  <Grid
-                    key={id}
-                    container
-                    direction="row"
-                    justifyContent={'space-between'}
-                  >
-                    <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-                      {avatar}
-                    </Avatar>
-                    <h2> {name} </h2>
-                    <Button variant="outlined" size="small">
-                      Add
-                    </Button>
-                  </Grid>
+                  <div className={styles.recommendations}>
+                    <Grid
+                      key={id}
+                      container
+                      direction="row"
+                      justifyContent={'space-between'}
+                    >
+                      <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                        {avatar}
+                      </Avatar>
+                      <h2> {name} </h2>
+                      <Link href={`./users/${id}`}>
+                        <p className='cursor-pointer text-violet-600 text-lg font-medium text-center mt-2 mb-2'>View</p>
+                      </Link>
+                      {/* <Button variant="outlined" size="small">
+                        View
+                      </Button> */}
+                    </Grid>
+                    <hr style={{ marginBottom: '10px', marginTop: '10px' }} />
+                  </div>
                 );
               })}
             </Grid>
