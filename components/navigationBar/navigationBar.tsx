@@ -90,8 +90,7 @@ export function PrimarySearchAppBar() {
   }, []);
 
   function openSearchPage() {
-    // 
-    router.push('/search/'+ searchValue);
+    router.push(searchValue == "" ? '/search/emptyField' : '/search/'+ searchValue);
   }
 
   async function checkConnection() {
@@ -276,7 +275,13 @@ export function PrimarySearchAppBar() {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
-              onChange={(value) => {console.log(value.target.value); setSearchValue(value.target.value)}}
+              onChange={(value) => { if(value.target.value != "") {
+                setSearchValue(value.target.value)
+              } else {
+                //console.log("searchValue");
+                setSearchValue("emptyField")
+              }
+              }}
               
               onKeyDown={(key) => key.key == 'Enter' ? openSearchPage() : null}
               inputProps={{ 'aria-label': 'search' }}
