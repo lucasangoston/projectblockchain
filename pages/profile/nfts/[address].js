@@ -8,7 +8,12 @@ import { NftList } from '../../../components/nfts/nftList';
 import { EmptyResult } from '../../../components/nfts/emptyResult';
 import { PrimarySearchAppBar } from "../../../components/navigationBar/navigationBar";
 
-//test with address : 0x54be3a794282c030b15e43ae2bb182e14c409c5e
+
+/**
+ * Ce fichier n'est pas utilisé mais je le garde pour tester les NFTs d'un profile rapidement si besoin
+ */
+
+//Par exemple : localhost:3000/profile/nfts/0x54be3a794282c030b15e43ae2bb182e14c409c5e
 
 export default function UserNfts() {
 

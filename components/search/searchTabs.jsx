@@ -3,6 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Box from '@mui/material/Box';
 import { PostList } from '../home/post/PostList';
+import { SearchNftsProfilesResults } from './searchNftsProfilesResults';
 import { SearchProfilesResults } from './searchProfilesResults';
 import { SearchPublicationsResults } from './searchPublicationsResults';
 
@@ -33,7 +34,7 @@ function a11yProps(index) {
   };
 }
 
-export default function SearchTabs({profileName, profilesResults, publicationWord, publicationsResults}) {
+export default function SearchTabs({profileName, profilesResults, publicationWord, publicationsResults, nftsProfiles}) {
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
@@ -49,6 +50,7 @@ export default function SearchTabs({profileName, profilesResults, publicationWor
           aria-label="basic tabs example"
         >
           <Tab label="Profiles" {...a11yProps(0)} />
+          <Tab label="Profiles with same NFTs" {...a11yProps(0)} />
           <Tab label="Publications" {...a11yProps(1)} />
         </Tabs>
       </Box>
@@ -56,6 +58,9 @@ export default function SearchTabs({profileName, profilesResults, publicationWor
         <SearchProfilesResults name={profileName} results={profilesResults}></SearchProfilesResults>
       </TabPanel>
       <TabPanel value={value} index={1}>
+        <SearchNftsProfilesResults name={profileName} results={nftsProfiles}></SearchNftsProfilesResults>
+      </TabPanel>
+      <TabPanel value={value} index={2}>
         <SearchPublicationsResults name={publicationWord} results={publicationsResults}></SearchPublicationsResults>
       </TabPanel>
     </Box>

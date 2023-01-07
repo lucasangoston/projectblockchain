@@ -1,6 +1,6 @@
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 
-const API_URL = 'https://api.lens.dev'
+const API_URL = 'https://api-mumbai.lens.dev'
 
 /* create the API client */
 export const client = new ApolloClient({

@@ -13,8 +13,10 @@ export default function Search() {
 
   const [profiles, setProfiles] = useState([]);
   const [publications, setPublications] = useState([]);
+  const [nftsProfiles, setNftsProfiles] = useState([]);
   const router = useRouter();
   const { name } = router.query;
+
   useEffect(() => {
     if (name) {
       fetchWantedProfiles();
@@ -23,6 +25,9 @@ export default function Search() {
 
   async function fetchWantedProfiles() {
 
+    /**
+     * Research profiles with a non empty name
+     */
     if (name != "emptyField") {
       const response = await client.query({
         query: searchProfiles,
@@ -33,7 +38,6 @@ export default function Search() {
       });
 
       try {
-
         const profileData = await Promise.all(
           response.data.search.items.map(async (profileInfo) => {
             const profile = { ...profileInfo };
@@ -56,15 +60,16 @@ export default function Search() {
       } catch (err) {
         console.log({ err });
       }
+
+    
     } else {
 
+      /**
+       * Research profiles with an empty name
+       */
       const response = await client.query({
         query: exploreProfiles,
       });
-
-
-
-
       try {
         const profileData = await Promise.all(
           response.data.exploreProfiles.items.map(async (profileInfo) => {
@@ -90,6 +95,10 @@ export default function Search() {
       }
     }
 
+
+    /**
+     * Research publications with a non empty name
+     */
     if (name != "emptyField") {
       try {
         const response = await client.query({
@@ -109,6 +118,9 @@ export default function Search() {
       }
     } else {
 
+      /**
+     * Research publications with an empty name
+     */
       try {
         const response = await client.query({
 
@@ -127,7 +139,10 @@ export default function Search() {
 
     }
 
-    const NftFilter = false;
+
+    /**
+     * For NFTs profiles tab 
+     */
 
     async function getMyNfts() {
       const address = "0x54be3a794282c030b15e43ae2bb182e14c409c5e";
@@ -139,6 +154,7 @@ export default function Search() {
         });
         const nftsData = response.data.nfts.items;
         const mynftCollections = nftsData.map((nft) => nft.collectionName);
+        console.log(mynftCollections);
         return mynftCollections;
 
 
@@ -149,31 +165,26 @@ export default function Search() {
     }
 
     const promiseMatchingProfiles = profiles.map(async (res) => {
-      const myNftCollections = ["vMts meta"];////await getMyNfts();
-      var matchingProfiles = [];
+      const myNftCollections = await getMyNfts(); //tester avec : ["BadgeToken"];//
       const address = res.ownedBy;
       var containsSameCollections = false;
+
       try {
         const response = await client.query({
           query: getUserNfts,
           variables: { address },
         });
+        const nftsData = response.data.nfts.items;
+        const nftCollections = await nftsData.map((nft) => nft.collectionName);
+        console.log(nftCollections);
+        myNftCollections.forEach(collection => {
+          if (nftCollections.includes(collection)) {
+            containsSameCollections = true;
+            console.log("yessss");
+          }
+        });
 
-      
-          const nftsData = response.data.nfts.items;
-
-          const nftCollections = await nftsData.map((nft) => nft.collectionName);
-
-           myNftCollections.forEach( collection => {
-            if (nftCollections.includes(collection)) {
-              containsSameCollections = true;
-            }
-          });
-
- 
-
-      console.log(containsSameCollections);
-        return containsSameCollections; 
+        return containsSameCollections;
 
       } catch (err) {
         console.log('error to get nfts', err);
@@ -181,23 +192,18 @@ export default function Search() {
 
 
     });
-     
-    const matchingProfilesBoolArray = await Promise.all(promiseMatchingProfiles);
-    
-    const matchingProfiles = profiles.filter((value, index) => matchingProfilesBoolArray[index]);
-    console.log(matchingProfiles);
-    if (NftFilter) {
-      console.log("coucouuu");
-      setProfiles(matchingProfiles);
-    }
-  
 
+    const matchingProfilesBoolArray = await Promise.all(promiseMatchingProfiles);
+    const matchingProfiles = profiles.filter((value, index) => matchingProfilesBoolArray[index]);
+
+    setNftsProfiles(matchingProfiles);
   }
+  
   return (
     <div>
       <PrimarySearchAppBar></PrimarySearchAppBar>
       <div className="pt-20">
-        <SearchTabs profileName={name} profilesResults={profiles} publicationWord={name} publicationsResults={publications} />
+        <SearchTabs profileName={name} profilesResults={profiles} publicationWord={name} publicationsResults={publications} nftsProfiles={nftsProfiles} />
       </div>
     </div>
   );

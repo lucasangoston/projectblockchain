@@ -6,7 +6,7 @@ query Nfts($address: EthereumAddress!) {
     nfts(request: {
       ownerAddress: $address,
       limit: 10,
-      chainIds: [1]
+      chainIds: [80001]
     }) {
       items {
         contractName
