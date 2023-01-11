@@ -3,10 +3,8 @@ import { useRouter } from 'next/router';
 import { client } from '../../api/api';
 import { getProfileById } from '../../api/profile';
 import { getPublications } from '../../api/publication';
-import { ethers } from 'ethers';
-import ABI from '../../abi/interaction.json';
-
-const address = '0x60Ae865ee4C725cd04353b5AAb364553f56ceF82';
+import { Grid } from '@mui/material';
+import { CurrentUser } from '../../components/users/userDetails/currentUser';
 
 export default function ProfileId() {
   const [profileData, setProfileData] = useState();
@@ -59,53 +57,22 @@ export default function ProfileId() {
     }
   }
 
-  async function followUser() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = await provider.getSigner();
-
-    const contract = new ethers.Contract(address, ABI, signer);
-
-    try {
-      const tx = await contract.follow([id], [0x0]);
-      await tx.wait();
-      console.log('followed user successfully');
-    } catch (err) {
-      console.log({ err });
-    }
-  }
-
   if (!profileData || !pubs) return null;
 
   return (
-    <div className="pt-20">
-      <div className="flex flex-col justify-center items-center">
-        <button onClick={followUser}>Follow User</button>
-        <p className="text-4xl mt-8 mb-8">{profileData.name}</p>
-        {profileData.picture ? (
-          <img className="w-64 rounded-full" src={profileData.avatarUrl} />
-        ) : (
-          <div
-            className="w-64 rounded-full"
-            style={{
-              width: '200px',
-              height: '200px',
-              backgroundColor: 'black',
-            }}
-          />
-        )}
-        <p className="text-4xl mt-8 mb-8">
-          Followers {profileData.stats.totalFollowers}
-        </p>
-        <p className="text-4xl mt-8 mb-8">
-          Following {profileData.stats.totalFollowing}
-        </p>
-
-        {pubs.map((pub) => (
-          <div key={pub.id} className="shadow p-10 rounded mb-8 w-2/3">
-            <p>{pub.metadata.content}</p>
-          </div>
-        ))}
-      </div>
+    <div className="flex flex-col justify-center items-center">
+      <Grid container spacing={2}>
+        <Grid item xs={3}>
+          <CurrentUser profileData={profileData}></CurrentUser>
+        </Grid>
+        <Grid item xs={9}>
+          {pubs.map((pub) => (
+            <div key={pub.id} className="shadow p-10 rounded mb-8 w-2/3">
+              <p>{pub.metadata.content}</p>
+            </div>
+          ))}
+        </Grid>
+      </Grid>
     </div>
   );
 }
