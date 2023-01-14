@@ -33,7 +33,7 @@ export default function ProfileId() {
       const picture = data.picture;
       if (picture || picture.original || picture.original.url) {
         if (picture.original.url.startsWith('ipfs://')) {
-          let result = picture.original.url.substring(
+          const result = picture.original.url.substring(
             7,
             picture.original.url.length,
           );
@@ -64,7 +64,7 @@ export default function ProfileId() {
     const signer = await provider.getSigner();
 
     const contract = new ethers.Contract(address, ABI, signer);
-
+ 
     try {
       const tx = await contract.follow([id], [0x0]);
       await tx.wait();

@@ -1,5 +1,5 @@
+import Home from '../components/home/home';
 import { PrimarySearchAppBar } from '../components/navigationBar/navigationBar';
-import { Home } from '../components/home/home';
 import { Preview } from '../components/preview/preview';
 
 export default function App() {
