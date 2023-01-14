@@ -61,13 +61,27 @@ export default function ProfileId() {
 
   return (
     <div className="flex flex-col justify-center items-center">
-      <Grid container spacing={2}>
-        <Grid item xs={3}>
-          <CurrentUser profileData={profileData}></CurrentUser>
+      <Grid container>
+        <Grid item md={3}>
+          <Grid>
+            <CurrentUser profileData={profileData}></CurrentUser>
+          </Grid>
         </Grid>
-        <Grid item xs={9}>
+        <Grid item md={9}>
+          <div style={{ borderBottom: '1px solid grey', height: '15.3vh' }}>
+            <h1
+              style={{
+                textAlign: 'center',
+                fontSize: '30px',
+                marginTop: '5vh',
+              }}
+            >
+              NFT
+            </h1>
+          </div>
+          <br />
           {pubs.map((pub) => (
-            <div key={pub.id} className="shadow p-10 rounded mb-8 w-2/3">
+            <div key={pub.id}>
               <p>{pub.metadata.content}</p>
             </div>
           ))}

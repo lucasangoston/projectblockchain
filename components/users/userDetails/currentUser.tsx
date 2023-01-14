@@ -32,7 +32,7 @@ export class CurrentUser extends Component<{ profileData: any }> {
   render() {
     let { profileData } = this.props;
     return (
-      <Card>
+      <Card className="fixed" style={{ width: '25vw' }}>
         <CardHeader
           avatar={
             <Avatar aria-label="recipe">
@@ -47,15 +47,47 @@ export class CurrentUser extends Component<{ profileData: any }> {
           }
         />
         <CardContent>
-          <p className="text-4xl mt-8 mb-8">
-            Followers {profileData.stats.totalFollowers}
-          </p>
-          <p className="text-4xl mt-8 mb-8">
-            Following {profileData.stats.totalFollowing}
-          </p>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <h6 style={{ fontWeight: 'bold' }}>
+                {profileData.stats.totalFollowers} followers
+              </h6>
+            </Grid>
+            <Grid item xs={6}>
+              <h6 style={{ fontWeight: 'bold' }}>
+                {profileData.stats.totalFollowing} following
+              </h6>
+            </Grid>
+          </Grid>
         </CardContent>
         <CardContent></CardContent>
       </Card>
     );
   }
 }
+
+/*
+<CardActions>
+        <Button onClick={handleClickOpen('paper')}>
+          Followers {profile['stats']['totalFollowers']}
+        </Button>
+        <Button onClick={handleClickOpen('paper')}>
+          Followings {profile['stats']['totalFollowing']}
+        </Button>
+        <Dialog
+          open={open}
+          onClose={handleClose}
+          scroll={scroll}
+          aria-labelledby="scroll-dialog-title"
+          aria-describedby="scroll-dialog-description"
+        >
+          <DialogTitle id="scroll-dialog-title">Follow</DialogTitle>
+          <DialogContent dividers={scroll === 'paper'}>
+            <RecommendedUsers></RecommendedUsers>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>Cancel</Button>
+          </DialogActions>
+        </Dialog>
+      </CardActions>
+ */

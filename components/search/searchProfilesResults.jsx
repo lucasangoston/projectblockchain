@@ -2,10 +2,6 @@ import * as React from 'react';
 import Link from 'next/link';
 import { EmptyResults } from './emptyResults';
 
-import { useRouter } from 'next/router';
-import { client } from '../../api/api';
-import { getUserNfts } from '../../api/nft';
-
 export function SearchProfilesResults({ name, results }) {
   return results.length != 0 ? (
     <div className="flex flex-col justify-center items-center">

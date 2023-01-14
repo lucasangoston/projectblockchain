@@ -13,6 +13,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { RecommendedUsers } from '../home/recommendation/recommendedUsers';
 import { client, defaultProfile } from '../../api';
 import { ethers } from 'ethers';
+import CardHeader from '@mui/material/CardHeader';
+import Avatar from '@mui/material/Avatar';
+import { Grid } from '@mui/material';
 
 export default function ProfileInfos() {
   const [open, setOpen] = React.useState(false);
@@ -91,20 +94,24 @@ export default function ProfileInfos() {
   if (!profile) return null;
 
   return (
-    <Card sx={{ maxWidth: 300 }}>
-      <CardMedia
-        component="img"
-        alt="green iguana"
-        height="140"
-        image={profile['avatarUrl']}
+    <Card sx={{ width: '20vw' }}>
+      <CardHeader
+        avatar={
+          <Avatar aria-label="recipe">
+            <img src={profile['avatarUrl']} />
+          </Avatar>
+        }
+        title={profile['handle']}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {profile['handle']}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          {profile['bio']}
-        </Typography>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <h6 style={{ fontWeight: 'bold' }}></h6>
+          </Grid>
+          <Grid item xs={6}>
+            <h6 style={{ fontWeight: 'bold' }}></h6>
+          </Grid>
+        </Grid>
       </CardContent>
       <CardActions>
         <Button onClick={handleClickOpen('paper')}>

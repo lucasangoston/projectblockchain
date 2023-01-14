@@ -85,6 +85,7 @@ export function RecommendedUsers() {
             <Grid item>
               {profiles.map(({ id, name }) => {
                 let avatar = '';
+                if (!name) return;
                 if (name) avatar = (name as string).slice(0, 1);
                 return (
                   <div className={styles.recommendations}>
