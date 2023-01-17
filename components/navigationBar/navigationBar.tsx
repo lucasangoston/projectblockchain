@@ -201,7 +201,7 @@ export function PrimarySearchAppBar() {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
-      <MenuItem>
+      {/* <MenuItem>
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
@@ -212,7 +212,7 @@ export function PrimarySearchAppBar() {
           </Badge>
         </IconButton>
         <p>Notifications</p>
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"

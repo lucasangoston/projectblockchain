@@ -70,7 +70,7 @@ export class CurrentUser extends Component<{ profileData: any }> {
             onClose={() => this.setState({ open: false })}
             style={{       
               overflow: 'auto',
-              maxHeight: '60vh',
+              maxHeight: '100vh',
             }}
             aria-labelledby="scroll-dialog-title"
             aria-describedby="scroll-dialog-description"
@@ -96,11 +96,11 @@ export class CurrentUser extends Component<{ profileData: any }> {
                             {avatar}
                           </Avatar>
                           <h2> {profile.name} </h2>
-                          <Link href={`./users/${profile.id}`}>
+                          {/* <Link href={`./users/${profile.id}`}>
                             <p className="cursor-pointer text-blue-600 text-lg font-medium text-center mt-2 mb-2">
                               View
                             </p>
-                          </Link>
+                          </Link> */}
                         </Grid>
                         <hr style={{ marginBottom: '10px', marginTop: '10px' }} />
                       </div>
@@ -130,11 +130,11 @@ export class CurrentUser extends Component<{ profileData: any }> {
                             {avatar}
                           </Avatar>
                           <h2> {wallet.defaultProfile.name} </h2>
-                          <Link href={`./users/${wallet.defaultProfile.id}`}>
+                          {/* <Link href={`./users/${wallet.defaultProfile.id}`}>
                             <p className="cursor-pointer text-blue-600 text-lg font-medium text-center mt-2 mb-2">
                               View
                             </p>
-                          </Link>
+                          </Link> */}
                         </Grid>
                         <hr style={{ marginBottom: '10px', marginTop: '10px' }} />
                       </div>

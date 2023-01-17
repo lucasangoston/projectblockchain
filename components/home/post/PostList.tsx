@@ -22,7 +22,7 @@ export function PostList({ postList }: Props) {
       alignItems="center"
     >
 
-      <Grid item md={10}>
+      <Grid item md={50}>
         {postList.map(({root}:any) => {
           return (<Post key={root.id} post={new PostFields(root.id, root.profile, root.metadata, root.createdAt)}></Post>)
         }

@@ -99,7 +99,7 @@ export function RecommendedUsers() {
                       </Avatar>
                       <h2> {name} </h2>
                       <Link href={`./users/${id}`}>
-                        <p className="cursor-pointer text-violet-600 text-lg font-medium text-center mt-2 mb-2">
+                        <p className="cursor-pointer text-blue-600 text-lg font-medium text-center mt-2 mb-2">
                           View
                         </p>
                       </Link>

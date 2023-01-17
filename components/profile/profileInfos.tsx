@@ -201,11 +201,11 @@ export default function ProfileInfos() {
                           {avatar}
                         </Avatar>
                         <h2> {wallet.defaultProfile.name} </h2>
-                        <Link href={`./users/${wallet.defaultProfile.id}`}>
+                        {/* <Link href={`./users/${wallet.defaultProfile.id}`}>
                           <p className="cursor-pointer text-blue-600 text-lg font-medium text-center mt-2 mb-2">
                             View
                           </p>
-                        </Link>
+                        </Link> */}
                       </Grid>
                       <hr style={{ marginBottom: '10px', marginTop: '10px' }} />
                     </div>
