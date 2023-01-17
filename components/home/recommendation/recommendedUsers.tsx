@@ -34,8 +34,6 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export function RecommendedUsers() {
-
-
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -56,20 +54,10 @@ export function RecommendedUsers() {
       console.log({ err });
     }
 
-
-    try {
-      /* fetch profiles from Lens API */
-      const response = await client.query({ query: recommendedProfiles });
-      setProfiles(response.data.recommendedProfiles);
-    } catch (err) {
-      console.log({ err });
-    }
-
     const promiseMatchingProfiles = profiles.map(async (res: any) => {
-
       const myNftCollections = ['Lens Protocol Profiles']; // await getMyNfts(); Lens Protocol Profiles
       const address = res.ownedBy;
-      var containsSameCollections = false;
+      let containsSameCollections = false;
 
       try {
         const response = await client.query({
@@ -77,7 +65,9 @@ export function RecommendedUsers() {
           variables: { address },
         });
         const nftsData = response.data.nfts.items;
-        const nftCollections = await nftsData.map((nft: any) => nft.collectionName);
+        const nftCollections = await nftsData.map(
+          (nft: any) => nft.collectionName,
+        );
         console.log(nftCollections);
         myNftCollections.forEach((collection) => {
           if (nftCollections.includes(collection)) {
@@ -94,24 +84,10 @@ export function RecommendedUsers() {
     const matchingProfilesBoolArray = await Promise.all(
       promiseMatchingProfiles,
     );
-    const matchingProfiles = await profiles.filter(
+    const matchingProfiles = profiles.filter(
       (value, index) => matchingProfilesBoolArray[index],
     );
-  setProfiles(matchingProfiles);
-  }
-
-  async function followUser(id: String) {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = await provider.getSigner();
-
-    const contract = new ethers.Contract(address, ABI, signer);
-
-    try {
-      const tx = await contract.follow([id], [0x0]);
-      await tx.wait();
-    } catch (err) {
-      console.log({ err });
-    }
+    setProfiles(matchingProfiles);
   }
 
   return (

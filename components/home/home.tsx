@@ -23,35 +23,26 @@ export default function Home() {
     });
     setPosts(response.data.feed.items);
 
+    console.log(response);
+
     try {
       const postsData = await Promise.all(
         response.data.feed.items.map(async (feedInfo: any) => {
           const feed = { ...feedInfo };
 
-  const response = await client.query({
-    query: getFeed,
-    variables: {
-      profileId,
-      limit: 50,
-    },
-  });
-  setPosts(response.data.feed.items);
-  
-  try {
-  
-    const postsData = await Promise.all(
-      response.data.feed.items.map(async (feedInfo:any) => {
-        const feed = { ...feedInfo };
-
-        const post:PostFields = new PostFields(feed.id, feed.profile, feed.metaData, feed.createdAt);
-        return post;
-      }),
-    
-    )
-  } catch (err) {
-    console.log({ err });
-  }}
-
+          const post: PostFields = new PostFields(
+            feed.id,
+            feed.profile,
+            feed.metaData,
+            feed.createdAt,
+          );
+          return post;
+        }),
+      );
+    } catch (err) {
+      console.log({ err });
+    }
+  }
 
   return (
     <Box display="grid" gridTemplateColumns="repeat(12, 1fr)">
