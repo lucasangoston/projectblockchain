@@ -1,9 +1,18 @@
 import * as React from 'react';
-import { Post } from './post';
+import { Post, PostFields } from './post';
 import { Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 
-export function PostList() {
+interface PostList {
+  posts: any[];
+}
+
+interface Props {
+  postList: never[];
+}
+
+export function PostList({ postList }: Props) {
+
   return (
     <Grid
       container
@@ -12,18 +21,12 @@ export function PostList() {
       justifyContent="center"
       alignItems="center"
     >
-      {/* remplacer une fois qu'ont aura de vraies données */}
-      <Grid item md={10}>
-        <Post></Post>
-      </Grid>
-      <Grid item md={10}>
-        <Post></Post>
-      </Grid>
-      <Grid item md={10}>
-        <Post></Post>
-      </Grid>
-      <Grid item md={10}>
-        <Post></Post>
+
+      <Grid item md={50}>
+        {postList.map(({root}:any) => {
+          return (<Post key={root.id} post={new PostFields(root.id, root.profile, root.metadata, root.createdAt)}></Post>)
+        }
+        )}
       </Grid>
     </Grid>
   );

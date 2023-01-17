@@ -13,7 +13,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { RecommendedUsers } from '../home/recommendation/recommendedUsers';
 import {
   client,
-  defaultProfile,
   getProfileById,
   getPublications,
 } from '../../api';

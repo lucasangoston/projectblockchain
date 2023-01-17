@@ -53,7 +53,7 @@ export default function ProfileTabs(nfts) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <PostList></PostList>
+        <p>No posts sended</p>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <NftList nfts={nfts} />

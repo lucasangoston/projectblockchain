@@ -42,6 +42,7 @@ export function WritePost() {
           </Avatar>
         }
         title="Lucas Angoston"
+        su
       />
       <CardContent>
         <TextField

@@ -6,6 +6,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import { client } from '../../../api/api';
+import { getUserNfts } from '../../../api/nft';
 import { recommendedProfiles } from '../../../api/profile';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { blue, red } from '@mui/material/colors';
@@ -48,26 +49,45 @@ export function RecommendedUsers() {
     try {
       /* fetch profiles from Lens API */
       const response = await client.query({ query: recommendedProfiles });
-      console.log(response.data);
       setProfiles(response.data.recommendedProfiles);
     } catch (err) {
       console.log({ err });
     }
-  }
 
-  async function followUser(id: String) {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = await provider.getSigner();
+    const promiseMatchingProfiles = profiles.map(async (res: any) => {
+      const myNftCollections = ['Lens Protocol Profiles']; // await getMyNfts(); Lens Protocol Profiles
+      const address = res.ownedBy;
+      let containsSameCollections = false;
 
-    const contract = new ethers.Contract(address, ABI, signer);
+      try {
+        const response = await client.query({
+          query: getUserNfts,
+          variables: { address },
+        });
+        const nftsData = response.data.nfts.items;
+        const nftCollections = await nftsData.map(
+          (nft: any) => nft.collectionName,
+        );
+        console.log(nftCollections);
+        myNftCollections.forEach((collection) => {
+          if (nftCollections.includes(collection)) {
+            containsSameCollections = true;
+          }
+        });
 
-    try {
-      const tx = await contract.follow([id], [0x0]);
-      await tx.wait();
-      console.log('followed user successfully');
-    } catch (err) {
-      console.log({ err });
-    }
+        return containsSameCollections;
+      } catch (err) {
+        console.log('error to get nfts', err);
+      }
+    });
+
+    const matchingProfilesBoolArray = await Promise.all(
+      promiseMatchingProfiles,
+    );
+    const matchingProfiles = profiles.filter(
+      (value, index) => matchingProfilesBoolArray[index],
+    );
+    setProfiles(matchingProfiles);
   }
 
   return (
@@ -85,9 +105,10 @@ export function RecommendedUsers() {
             <Grid item>
               {profiles.map(({ id, name }) => {
                 let avatar = '';
+                if (!name) return;
                 if (name) avatar = (name as string).slice(0, 1);
                 return (
-                  <div className={styles.recommendations}>
+                  <div key={id} className={styles.recommendations}>
                     <Grid
                       key={id}
                       container
@@ -99,7 +120,7 @@ export function RecommendedUsers() {
                       </Avatar>
                       <h2> {name} </h2>
                       <Link href={`./users/${id}`}>
-                        <p className="cursor-pointer text-violet-600 text-lg font-medium text-center mt-2 mb-2">
+                        <p className="cursor-pointer text-blue-600 text-lg font-medium text-center mt-2 mb-2">
                           View
                         </p>
                       </Link>

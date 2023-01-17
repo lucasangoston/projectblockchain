@@ -1,6 +1,6 @@
 // Reading the access token from the storage
 
-export function readAccessToken(){
+export default function readAccessToken(){
 
 }
 

@@ -1,23 +1,28 @@
+import Link from 'next/link';
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import RecommendedProfiles from './recommended';
 import { client } from '../../api/api';
 import { getProfileById } from '../../api/profile';
 import { getPublications } from '../../api/publication';
+import { ethers } from 'ethers';
+import { PostList } from '../../components/home/post/PostList';
 import { PrimarySearchAppBar } from '../../components/navigationBar/navigationBar';
+import { Box, Container, Grid } from '@mui/material';
 import { Profile } from '../../components/profile/profile';
 import { getUserNfts } from '../../api/nft';
-
 const address1 = '0x54be3a794282c030b15e43ae2bb182e14c409c5e'; //"0x60Ae865ee4C725cd04353b5AAb364553f56ceF82"
 const address = '0x54be3a794282c030b15e43ae2bb182e14c409c5e';
 
 export default function ProfilePage() {
   const [profile, setProfile] = useState();
-  const [nft, setNfts] = useState([]);
+  const [nfts, setNfts] = useState([]);
   const [pubs, setPubs] = useState([]);
 
-  // useEffect(() => {
-  //   fetchProfile();
-  // }, []);
+  useEffect(() => {
+    fetchProfile();
+  }, []);
 
   async function fetchProfile() {
     try {
@@ -65,13 +70,13 @@ export default function ProfilePage() {
     }
   }
 
-  // if (!profile || !pubs) return null;
+  if (!profile || !pubs) return null;
 
   return (
     <div>
       <PrimarySearchAppBar></PrimarySearchAppBar>
       <div style={{ marginTop: 100 }}>
-        <Profile nft={nft}></Profile>
+        <Profile nft={nfts}></Profile>
       </div>
     </div>
   );

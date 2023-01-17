@@ -14,7 +14,6 @@ export default function RecommendedProfiles() {
     try {
       /* fetch profiles from Lens API */
       const response = await client.query({ query: recommendedProfiles });
-      console.log(response.data);
       setProfiles(response.data.recommendedProfiles);
     } catch (err) {
       console.log({ err });

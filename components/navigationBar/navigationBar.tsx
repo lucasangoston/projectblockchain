@@ -17,23 +17,9 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
-import { client } from '../../api/api';
-import { exploreProfiles } from '../../api/profile';
-import { challenge, authenticate } from '../../api/authentication';
 import { useRouter } from 'next/router';
 import { Button } from '@mui/material';
 
-/*
-<Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } }}
-                    >
-                        My NFT Friends
-                    </Typography>
-*/
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -82,10 +68,10 @@ export function PrimarySearchAppBar() {
   const router = useRouter();
 
   const [searchValue, setSearchValue] = useState('');
-  useEffect(() => {
-    /* when the app loads, check to see if the user has already connected their wallet */
-    checkConnection();
-  }, []);
+  // useEffect(() => {
+  //   /* when the app loads, check to see if the user has already connected their wallet */
+  //   checkConnection();
+  // }, []);
 
   function openSearchPage() {
     router.push(
@@ -93,54 +79,54 @@ export function PrimarySearchAppBar() {
     );
   }
 
-  async function checkConnection() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const accounts = await provider.listAccounts();
-    if (accounts.length) {
-      setAddress(accounts[0]);
-    }
-  }
+  // async function checkConnection() {
+  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //   const accounts = await provider.listAccounts();
+  //   if (accounts.length) {
+  //     setAddress(accounts[0]);
+  //   }
+  // }
 
-  async function connect() {
-    /* this allows the user to connect their wallet */
-    const account = await window.ethereum.send('eth_requestAccounts');
-    if (account.result.length) {
-      setAddress(account.result[0]);
-    }
-  }
-  async function login() {
-    try {
-      /* first request the challenge from the API server */
-      const challengeInfo = await client.query({
-        query: challenge,
-        variables: { address },
-      });
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      /* ask the user to sign a message with the challenge info returned from the server */
-      const signature = await signer.signMessage(
-        challengeInfo.data.challenge.text,
-      );
-      /* authenticate the user */
-      const authData = await client.mutate({
-        mutation: authenticate,
-        variables: {
-          address,
-          signature,
-        },
-      });
-      /* if user authentication is successful, you will receive an accessToken and refreshToken */
-      const {
-        data: {
-          authenticate: { accessToken, refreshToken },
-        },
-      } = authData;
-      console.log({ accessToken, refreshToken });
-      setToken(accessToken);
-    } catch (err) {
-      console.log('Error signing in: ', err);
-    }
-  }
+  // async function connect() {
+  //   /* this allows the user to connect their wallet */
+  //   const account = await window.ethereum.send('eth_requestAccounts');
+  //   if (account.result.length) {
+  //     setAddress(account.result[0]);
+  //   }
+  // }
+  // async function login() {
+  //   try {
+  //     /* first request the challenge from the API server */
+  //     const challengeInfo = await client.query({
+  //       query: challenge,
+  //       variables: { address },
+  //     });
+  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     const signer = provider.getSigner();
+  //     /* ask the user to sign a message with the challenge info returned from the server */
+  //     const signature = await signer.signMessage(
+  //       challengeInfo.data.challenge.text,
+  //     );
+  //     /* authenticate the user */
+  //     const authData = await client.mutate({
+  //       mutation: authenticate,
+  //       variables: {
+  //         address,
+  //         signature,
+  //       },
+  //     });
+  //     /* if user authentication is successful, you will receive an accessToken and refreshToken */
+  //     const {
+  //       data: {
+  //         authenticate: { accessToken, refreshToken },
+  //       },
+  //     } = authData;
+
+  //     setToken(accessToken);
+  //   } catch (err) {
+  //     console.log('Error signing in: ', err);
+  //   }
+  // }
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -186,20 +172,7 @@ export function PrimarySearchAppBar() {
       <MenuItem onClick={handleMenuClose}>
         <Link href={'/profile'}>Profile</Link>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>
-        <div>
-          {/* if the user has not yet connected their wallet, show a connect button */}
-          {!address && <button onClick={connect}>Connect</button>}
-          {/* if the user has connected their wallet but has not yet authenticated, show them a login button */}
-          {address && !token && (
-            <div onClick={login}>
-              <button>Login</button>
-            </div>
-          )}
-          {/* once the user has authenticated, show them a success message */}
-          {address && token && <h2>Disconnect</h2>}
-        </div>
-      </MenuItem>
+
     </Menu>
   );
 
@@ -228,7 +201,7 @@ export function PrimarySearchAppBar() {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
-      <MenuItem>
+      {/* <MenuItem>
         <IconButton
           size="large"
           aria-label="show 17 new notifications"
@@ -239,7 +212,7 @@ export function PrimarySearchAppBar() {
           </Badge>
         </IconButton>
         <p>Notifications</p>
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -289,49 +262,16 @@ export function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <div>
-            {/* if the user has not yet connected their wallet, show a connect button */}
-            {!address && (
-              <Button
-                onClick={connect}
-                variant="contained"
-                style={{
-                  backgroundColor: '#f2c14e',
-                  color: 'black',
-                }}
-              >
-                Connexion
-              </Button>
-            )}
-            {/* if the user has connected their wallet but has not yet authenticated, show them a login button */}
-            {address && !token && (
-              <Link href={`/login`}>
-                <Button
-                  onClick={connect}
-                  variant="contained"
-                  style={{
-                    backgroundColor: '#f2c14e',
-                    color: 'black',
-                  }}
-                >
-                  Login
-                </Button>
-              </Link>
-            )}
-            {/* once the user has authenticated, show them a success message */}
-            {address && token && (
-              <Button
-                onClick={connect}
-                variant="contained"
-                style={{
-                  backgroundColor: '#f2c14e',
-                  color: 'black',
-                }}
-              >
-                Disconnect
-              </Button>
-            )}
-          </div>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: '#f2c14e',
+              color: 'black',
+            }}
+          >
+           <Link href='./login'>Create new profile</Link> 
+          </Button>
+
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Link href={`/chat`}>
@@ -354,17 +294,20 @@ export function PrimarySearchAppBar() {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
+            <Link href={`/profile`}>
             <IconButton
               size="large"
               edge="end"
               aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
+              // aria-controls={menuId}
+              // aria-haspopup="true"
+              // onClick={handleProfileMenuOpen}
               color="inherit"
             >
               <AccountCircle />
             </IconButton>
+            </Link>
+            
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton

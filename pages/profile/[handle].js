@@ -26,7 +26,7 @@ export default function Profile() {
         query: getProfile,
         variables: { handle },
       });
-      console.log(returnedProfile);
+
       const profileData = { ...returnedProfile.data.profile };
       /* format their picture if it is not in the right format */
       const picture = profileData.picture;
@@ -49,13 +49,9 @@ export default function Profile() {
           id: profileData.id,
           limit: 50,
         },
-      });  console.log("coucouuuu");
+      });
+      console.log('coucouuuu');
       setPublications(pubs.data.publications.items);
-
-      
-
-      
-
     } catch (err) {
       console.log('error fetching profile...', err);
     }

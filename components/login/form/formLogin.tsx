@@ -8,6 +8,7 @@ import { ethers } from 'ethers';
 import ABI from '../../../abi/createProfile.json';
 import Link from 'next/link';
 import { authenticate, challenge, client } from '../../../api';
+import { ContentPasteSearchOutlined } from '@mui/icons-material';
 
 const address = '0x420f0257D43145bb002E69B14FF2Eb9630Fc4736';
 
@@ -53,11 +54,11 @@ export function FormLogin() {
     setValue(newValue);
   };
 
-  function changeUsername(event: any) {
-    setUsername(event.target.value);
-  }
+  // function changeUsername(event: any) {
+  //   setUsername(event.target.value);
+  // }
 
-  async function createNewProfile(handle: String) {
+  async function createNewProfile() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
 
@@ -65,12 +66,12 @@ export function FormLogin() {
 
     const contract = new ethers.Contract(address, ABI, signer);
 
-    console.log({ userConnected, address, handle, contract });
+    console.log({ userConnected, address, contract });
 
     try {
       const tx = await contract.proxyCreateProfile({
         to: userConnected,
-        handle: 'newprofiletest1',
+        handle: username,
         imageURI:
           'https://ipfs.io/ipfs/QmY9dUwYu67puaWBMxRKW98LPbXCznPwHUbhX5NeWnCJbX',
         followModule: '0x0000000000000000000000000000000000000000',
@@ -131,11 +132,11 @@ export function FormLogin() {
             aria-label="basic tabs example"
             centered
           >
-            <Tab label="Déjà un compte" {...a11yProps(0)} />
-            <Tab label="Créer un compte" {...a11yProps(1)} />
+            <Tab label="Créer un compte" {...a11yProps(0)} />
+            {/* <Tab label="Créer un compte" {...a11yProps(1)} /> */}
           </Tabs>
         </Box>
-        <TabPanel value={value} index={0}>
+        {/* <TabPanel value={value} index={0}>
           <div style={{ textAlign: 'center' }}>
             <h2>Connexion</h2>
             <FormControl>
@@ -162,8 +163,8 @@ export function FormLogin() {
               </Link>
             </FormControl>
           </div>
-        </TabPanel>
-        <TabPanel value={value} index={1}>
+        </TabPanel> */}
+        <TabPanel value={value} index={0}>
           <div style={{ textAlign: 'center' }}>
             <h2>Inscription</h2>
             <FormControl>
@@ -172,15 +173,23 @@ export function FormLogin() {
                 label="Nom"
                 variant="standard"
                 style={{ marginTop: '30px' }}
-                onChange={changeUsername}
+                onChange={(value) => {
+                  if (value.target.value != '') {
+                    setUsername(value.target.value);
+                    console.log(username);
+                  } else {
+                    setUsername('');
+                  }
+                }}
                 value={username}
               />
               <Link href="./">
                 <Button
                   onClick={() => {
-                    createNewProfile(username);
+                    if( username != '') createNewProfile();
+                    else return
                   }}
-                  variant="contained"
+                  variant="outlined"
                   style={{ marginTop: '50px' }}
                 >
                   Continue

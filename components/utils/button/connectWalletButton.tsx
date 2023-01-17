@@ -1,22 +1,50 @@
-import { Button } from '@mui/material';
+import { Button, Link } from '@mui/material';
 import * as React from 'react';
 import { authenticate, challenge, client } from '../../../api';
 import { ethers } from 'ethers';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export function ConnectWalletButton() {
   const [address, setAddress] = useState('');
   const [token, setToken] = useState();
+
+  useEffect(() => {
+    /* when the app loads, check to see if the user has already connected their wallet */
+    checkConnection();
+  }, []);
+
+  console.log(global.isConnected);
+
+
   return (
-    <Button
-      style={{
-        backgroundColor: '#ffffff',
-        color: '#000000',
-      }}
-      variant="contained"
-    >
-      Connexion Wallet
-    </Button>
+    <div>
+      {!address && <Button
+        style={{
+          backgroundColor: '#ffffff',
+          color: '#000000',
+        }}
+        variant="contained"
+        onClick={connect}
+      >
+        Connexion Wallet
+      </Button>}
+      {address && !token && (
+
+        <Button
+          style={{
+            backgroundColor: '#ffffff',
+            color: '#000000',
+          }}
+          variant="contained"
+          onClick={login}
+        >
+          <Link href={'/'}> Hello </Link>
+        </Button>
+      )}
+      
+        
+      
+    </div>
   );
 
   async function checkConnection() {
@@ -32,6 +60,7 @@ export function ConnectWalletButton() {
     const account = await window.ethereum.send('eth_requestAccounts');
     if (account.result.length) {
       setAddress(account.result[0]);
+      globalThis.isConnected = true;
     }
   }
 
