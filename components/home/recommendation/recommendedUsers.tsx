@@ -6,6 +6,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import { client } from '../../../api/api';
+import { getUserNfts } from '../../../api/nft';
 import { recommendedProfiles } from '../../../api/profile';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { blue, red } from '@mui/material/colors';
@@ -33,6 +34,8 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 export function RecommendedUsers() {
+
+
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -52,6 +55,49 @@ export function RecommendedUsers() {
     } catch (err) {
       console.log({ err });
     }
+
+
+    try {
+      /* fetch profiles from Lens API */
+      const response = await client.query({ query: recommendedProfiles });
+      setProfiles(response.data.recommendedProfiles);
+    } catch (err) {
+      console.log({ err });
+    }
+
+    const promiseMatchingProfiles = profiles.map(async (res: any) => {
+
+      const myNftCollections = ['Lens Protocol Profiles']; // await getMyNfts(); Lens Protocol Profiles
+      const address = res.ownedBy;
+      var containsSameCollections = false;
+
+      try {
+        const response = await client.query({
+          query: getUserNfts,
+          variables: { address },
+        });
+        const nftsData = response.data.nfts.items;
+        const nftCollections = await nftsData.map((nft: any) => nft.collectionName);
+        console.log(nftCollections);
+        myNftCollections.forEach((collection) => {
+          if (nftCollections.includes(collection)) {
+            containsSameCollections = true;
+          }
+        });
+
+        return containsSameCollections;
+      } catch (err) {
+        console.log('error to get nfts', err);
+      }
+    });
+
+    const matchingProfilesBoolArray = await Promise.all(
+      promiseMatchingProfiles,
+    );
+    const matchingProfiles = await profiles.filter(
+      (value, index) => matchingProfilesBoolArray[index],
+    );
+  setProfiles(matchingProfiles);
   }
 
   async function followUser(id: String) {

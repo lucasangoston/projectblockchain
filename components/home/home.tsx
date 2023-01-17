@@ -25,8 +25,6 @@ async function fetchPosts() {
     },
   });
   setPosts(response.data.feed.items);
-
-  console.log(response);
   
   try {
   
