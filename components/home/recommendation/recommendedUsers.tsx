@@ -63,7 +63,6 @@ export function RecommendedUsers() {
     try {
       const tx = await contract.follow([id], [0x0]);
       await tx.wait();
-      console.log('followed user successfully');
     } catch (err) {
       console.log({ err });
     }
