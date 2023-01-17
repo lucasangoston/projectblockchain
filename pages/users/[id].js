@@ -5,13 +5,18 @@ import { getProfileById } from '../../api/profile';
 import { getPublications } from '../../api/publication';
 import { Grid } from '@mui/material';
 import { CurrentUser } from '../../components/users/userDetails/currentUser';
-import { PrimarySearchAppBar } from '../../components/navigationBar/navigationBar'
+import { PrimarySearchAppBar } from '../../components/navigationBar/navigationBar';
 import { follower, following } from '../../api/profile';
 import { getUserNfts } from '../../api/nft';
-import { NftList } from "../../components/nfts/nftList";
+import { NftList } from '../../components/nfts/nftList';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import IconButton from '@mui/material/IconButton';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -67,7 +72,6 @@ export default function ProfileId() {
         query: getProfileById,
         variables: { id },
       });
-      console.log(returnedProfileById);
       const data = { ...returnedProfileById.data.profile };
       /* format their picture if it is not in the right format */
       const picture = data.picture;
@@ -83,8 +87,6 @@ export default function ProfileId() {
         }
       }
 
-      console.log(data);
-
       const publications = await client.query({
         query: getPublications,
         variables: {
@@ -93,20 +95,16 @@ export default function ProfileId() {
         },
       });
       setPubs(publications.data.publications.items);
-      console.log(publications.data);
 
       const response = await client.query({
         query: getUserNfts,
         variables: {
-          address: data.ownedBy
+          address: data.ownedBy,
         },
       });
       const nftsData = response.data.nfts.items;
 
       setNfts(nftsData);
-
-      console.log("nfts : ", nftsData[0]);
-
 
       const profileFollowing = await client.query({
         query: following,
@@ -117,8 +115,6 @@ export default function ProfileId() {
       });
       setFollowings(profileFollowing.data.following.items);
 
-      console.log('followings : ', profileFollowing.data.following.items);
-
       const profileFollowers = await client.query({
         query: follower,
         variables: {
@@ -126,22 +122,18 @@ export default function ProfileId() {
           limit: 50,
         },
       });
-      if (profileFollowers.data.followers.items) setFollow(profileFollowers.data.followers.items);
+      if (profileFollowers.data.followers.items)
+        setFollow(profileFollowers.data.followers.items);
 
-      console.log('followers : ', profileFollowers.data.followers.items);
+      var dataPlus = { data, followers, followings };
 
-      var dataPlus = { data, followers, followings }
-
-      console.log(dataPlus)
       setProfileData(dataPlus);
-
     } catch (err) {
       console.log('error fetching profile...', err);
     }
   }
 
   if (!profileData || !pubs || !nfts) return null;
-
   return (
     <div className="flex flex-col justify-center items-center">
       <PrimarySearchAppBar></PrimarySearchAppBar>
@@ -153,7 +145,6 @@ export default function ProfileId() {
           </Grid>
         </Grid>
         <Grid item md={9}>
-          
           <Box sx={{ ml: '2rem' }}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
               <Tabs
@@ -166,11 +157,17 @@ export default function ProfileId() {
               </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-              {pubs.map((pub) => (
-                <div key={pub.id}>
-                  <p>{pub.metadata.content}</p>
-                </div>
-              ))}
+              {pubs.map((pub) => {
+                if (!pub.metadata.content) return;
+                return (
+                  <div key={pub.id}>
+                    <Card>
+                      <CardContent>{pub.metadata.content}</CardContent>
+                    </Card>
+                    <br />
+                  </div>
+                );
+              })}
             </TabPanel>
             <TabPanel value={value} index={1}>
               <NftList nfts={nfts} />

@@ -1,6 +1,5 @@
 export function NftList({ nfts }) {
-
-  console.log("nfts", nfts);
+  console.log('nfts', nfts);
 
   return (
     <div>

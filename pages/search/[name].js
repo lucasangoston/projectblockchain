@@ -1,16 +1,15 @@
 /* pages/index.js */
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import { client } from '../../api/api'
-import { searchProfiles, searchPublications } from '../../api/search'
-import SearchTabs from '../../components/search/searchTabs'
-import { PrimarySearchAppBar } from "../../components/navigationBar/navigationBar";
-import { exploreProfiles } from '../../api/profile'
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { client } from '../../api/api';
+import { searchProfiles, searchPublications } from '../../api/search';
+import SearchTabs from '../../components/search/searchTabs';
+import { PrimarySearchAppBar } from '../../components/navigationBar/navigationBar';
+import { exploreProfiles } from '../../api/profile';
 import { explorePublications } from '../../api/publication';
 import { getUserNfts } from '../../api/nft';
 
 export default function Search() {
-
   const [profiles, setProfiles] = useState([]);
   const [publications, setPublications] = useState([]);
   const [nftsProfiles, setNftsProfiles] = useState([]);
@@ -24,11 +23,10 @@ export default function Search() {
   }, [name]);
 
   async function fetchWantedProfiles() {
-
     /**
      * Research profiles with a non empty name
      */
-    if (name != "emptyField") {
+    if (name !== 'emptyField') {
       const response = await client.query({
         query: searchProfiles,
         variables: {
@@ -60,10 +58,7 @@ export default function Search() {
       } catch (err) {
         console.log({ err });
       }
-
-    
     } else {
-
       /**
        * Research profiles with an empty name
        */
@@ -95,14 +90,12 @@ export default function Search() {
       }
     }
 
-
     /**
      * Research publications with a non empty name
      */
-    if (name != "emptyField") {
+    if (name !== 'emptyField') {
       try {
         const response = await client.query({
-
           query: searchPublications,
           variables: { name, limit: 50 },
         });
@@ -117,35 +110,33 @@ export default function Search() {
         console.log({ err });
       }
     } else {
-
       /**
-     * Research publications with an empty name
-     */
+       * Research publications with an empty name
+       */
       try {
         const response = await client.query({
-
           query: explorePublications,
         });
         const publicationData = await Promise.all(
-          response.data.explorePublications.items.map(async (publicationInfo) => {
-            return { ...publicationInfo };
-          }),
+          response.data.explorePublications.items.map(
+            async (publicationInfo) => {
+              return { ...publicationInfo };
+            },
+          ),
         );
 
         setPublications(publicationData);
       } catch (err) {
         console.log({ err });
       }
-
     }
 
-
     /**
-     * For NFTs profiles tab 
+     * For NFTs profiles tab
      */
 
     async function getMyNfts() {
-      const address = "0x54be3a794282c030b15e43ae2bb182e14c409c5e";
+      const address = '0x54be3a794282c030b15e43ae2bb182e14c409c5e';
 
       try {
         const response = await client.query({
@@ -156,16 +147,14 @@ export default function Search() {
         const mynftCollections = nftsData.map((nft) => nft.collectionName);
         console.log(mynftCollections);
         return mynftCollections;
-
-
       } catch (err) {
         console.log('error to get nfts', err);
-        return null
+        return null;
       }
     }
 
     const promiseMatchingProfiles = profiles.map(async (res) => {
-      const myNftCollections = await getMyNfts(); //tester avec : ["BadgeToken"];//
+      const myNftCollections = ['Lens Protocol Profiles']; // await getMyNfts(); //tester avec : ["BadgeToken"];//
       const address = res.ownedBy;
       var containsSameCollections = false;
 
@@ -177,33 +166,40 @@ export default function Search() {
         const nftsData = response.data.nfts.items;
         const nftCollections = await nftsData.map((nft) => nft.collectionName);
         console.log(nftCollections);
-        myNftCollections.forEach(collection => {
+        myNftCollections.forEach((collection) => {
           if (nftCollections.includes(collection)) {
             containsSameCollections = true;
-            console.log("yessss");
+            console.log('yessss');
           }
         });
 
         return containsSameCollections;
-
       } catch (err) {
         console.log('error to get nfts', err);
       }
-
-
     });
 
-    const matchingProfilesBoolArray = await Promise.all(promiseMatchingProfiles);
-    const matchingProfiles = profiles.filter((value, index) => matchingProfilesBoolArray[index]);
+    const matchingProfilesBoolArray = await Promise.all(
+      promiseMatchingProfiles,
+    );
+    const matchingProfiles = profiles.filter(
+      (value, index) => matchingProfilesBoolArray[index],
+    );
 
     setNftsProfiles(matchingProfiles);
   }
-  
+
   return (
     <div>
       <PrimarySearchAppBar></PrimarySearchAppBar>
       <div className="pt-20">
-        <SearchTabs profileName={name} profilesResults={profiles} publicationWord={name} publicationsResults={publications} nftsProfiles={nftsProfiles} />
+        <SearchTabs
+          profileName={name}
+          profilesResults={profiles}
+          publicationWord={name}
+          publicationsResults={publications}
+          nftsProfiles={nftsProfiles}
+        />
       </div>
     </div>
   );
