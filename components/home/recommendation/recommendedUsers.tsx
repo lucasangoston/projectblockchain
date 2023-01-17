@@ -48,7 +48,6 @@ export function RecommendedUsers() {
     try {
       /* fetch profiles from Lens API */
       const response = await client.query({ query: recommendedProfiles });
-      console.log(response.data);
       setProfiles(response.data.recommendedProfiles);
     } catch (err) {
       console.log({ err });
@@ -88,7 +87,7 @@ export function RecommendedUsers() {
                 if (!name) return;
                 if (name) avatar = (name as string).slice(0, 1);
                 return (
-                  <div className={styles.recommendations}>
+                  <div key={id} className={styles.recommendations}>
                     <Grid
                       key={id}
                       container

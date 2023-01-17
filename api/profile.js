@@ -263,6 +263,24 @@ export const recommendedProfiles = gql`
     }
   }
 `
+
+export const getProfile = gql`
+query Profile($handle: Handle!) {
+  profile(request: { handle: $handle }) {
+    id
+    name
+    bio
+    picture {
+      ... on MediaSet {
+        original {
+          url
+        }
+      }
+    }
+    handle
+  }
+}
+`
 export const defaultProfile = gql`
 query DefaultProfile {
   defaultProfile(request: { ethereumAddress: "0x60645A96974b14D73291a18507Ee2D1c21D2d16b"}) {

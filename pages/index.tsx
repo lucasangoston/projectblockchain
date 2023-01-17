@@ -1,5 +1,5 @@
+import Home from '../components/home/home';
 import { PrimarySearchAppBar } from '../components/navigationBar/navigationBar';
-import { Home } from '../components/home/home';
 import { Preview } from '../components/preview/preview';
 import { createClient, configureChains, mainnet } from 'wagmi'
 import { polygonMumbai, polygon } from '@wagmi/core/chains'

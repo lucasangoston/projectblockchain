@@ -35,7 +35,7 @@ export default function ProfileId() {
       const picture = data.picture;
       if (picture || picture.original || picture.original.url) {
         if (picture.original.url.startsWith('ipfs://')) {
-          let result = picture.original.url.substring(
+          const result = picture.original.url.substring(
             7,
             picture.original.url.length,
           );

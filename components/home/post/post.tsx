@@ -18,6 +18,24 @@ interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
 
+export class PostFields {
+  id: string;
+  profile: any;
+  metadata: any;
+  createdAt: string;
+
+  constructor(id: string, profile: any, metadata: any, createdAt: string) {
+    this.id = id;
+    this.profile = profile;
+    this.metadata = metadata;
+    this.createdAt = createdAt;
+  }
+}
+
+interface Props {
+  post: PostFields;
+}
+
 const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -29,33 +47,52 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-export function Post() {
+
+
+export function Post(post: Props) {
+  
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
+  
   return (
-    <Card style={{ borderRadius: '10px' }}>
+    <Card style={{ borderRadius: '10px' }} className="m-4">
+
+      
+      <div className='flex flex-row'>
+        {post.post.profile.picture != null ? 
+      <img
+              className="w-10 h-10 rounded-full m-4"
+              //src={post.post.profile.picture != null ? post.post.profile.picture.original.url : 'https://picsum.photos/200'}
+              src={post.post.profile.picture != null ? (post.post.profile.picture.original.url.startsWith('ipfs://')
+              ? `http://lens.infura-ipfs.io/ipfs/${post.post.profile.picture.original.url.substring(
+                  7,
+                  post.post.profile.picture.original.url.length,
+                )}`
+              : post.post.profile.picture.original.url) :'https://picsum.photos/200' }
+            />
+      :
+
+      <Avatar className="w-10 h-10 rounded-full m-4" sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                        { post.post.profile.name != null ? (post.post.profile.name as string).slice(0,1) : " "}
+                      </Avatar>
+    }
       <CardHeader
-        avatar={
-          <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
-            L
-          </Avatar>
-        }
         action={
           <IconButton aria-label="settings">
             <MoreVertIcon />
           </IconButton>
         }
-        title="Lucas Angoston"
-        subheader="27 Novembre 2022"
+        title={post.post.profile.name}
+        subheader={new Date(post.post.createdAt).toString().split("GMT")[0]}
       />
+      </div>
+      
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          Ceci est un post exemple, il sera remplacé par un contenu
-          ultérieurement
+        <Typography variant="body2" color="text.secondary" className="text-[16px]">
+        {post.post.metadata.content}
         </Typography>
       </CardContent>
       <CardActions>
