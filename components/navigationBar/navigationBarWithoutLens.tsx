@@ -1,7 +1,8 @@
 import { Button } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 
 export function NavigationBarWithoutLens() {
+
   const [navbarOpen, setNavbarOpen] = React.useState(false);
   return (
     <nav className="relative flex flex-wrap items-center justify-between px-2 py-3 bg-purple-500">

@@ -11,6 +11,7 @@ export function TextPreview() {
         vous.
       </h1>
       <ConnectWalletButton></ConnectWalletButton>
+      
     </div>
   );
 }

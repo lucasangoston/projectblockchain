@@ -5,10 +5,14 @@ import { getProfileById } from '../../api/profile';
 import { getPublications } from '../../api/publication';
 import { Grid } from '@mui/material';
 import { CurrentUser } from '../../components/users/userDetails/currentUser';
+import { PrimarySearchAppBar } from '../../components/navigationBar/navigationBar'
+import { follower, following } from '../../api/profile';
 
 export default function ProfileId() {
   const [profileData, setProfileData] = useState();
   const [pubs, setPubs] = useState([]);
+  const [followings, setFollowings] = useState([]);
+  const [followers, setFollow] = useState([]);
 
   const router = useRouter();
   const { id } = router.query;
@@ -40,7 +44,9 @@ export default function ProfileId() {
           data.avatarUrl = data.picture.original.url;
         }
       }
-      setProfileData(data);
+      
+
+      console.log(data);
 
       const publications = await client.query({
         query: getPublications,
@@ -51,7 +57,33 @@ export default function ProfileId() {
       });
       setPubs(publications.data.publications.items);
 
-      console.log('pubs : ', publications);
+      const profileFollowing = await client.query({
+        query: following,
+        variables: {
+          address: data.ownedBy,
+          limit: 50,
+        },
+      });
+      setFollowings(profileFollowing.data.following.items);
+
+      console.log('followings : ', profileFollowing.data.following.items);
+
+      const profileFollowers = await client.query({
+        query: follower,
+        variables: {
+          profileId: data.id,
+          limit: 50,
+        },
+      });
+      if(profileFollowers.data.followers.items) setFollow(profileFollowers.data.followers.items);
+
+      console.log('followers : ', profileFollowers.data.followers.items);
+
+      var dataPlus = {data, followers, followings}
+
+      console.log(dataPlus)
+      setProfileData(dataPlus);
+
     } catch (err) {
       console.log('error fetching profile...', err);
     }
@@ -61,6 +93,8 @@ export default function ProfileId() {
 
   return (
     <div className="flex flex-col justify-center items-center">
+      <PrimarySearchAppBar></PrimarySearchAppBar>
+      <div style={{ height:'7vh'}}></div>
       <Grid container>
         <Grid item md={3}>
           <Grid>
