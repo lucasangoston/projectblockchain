@@ -20,24 +20,31 @@ import { ethers } from 'ethers';
 import ABI from '../../../abi/interaction.json';
 import { client } from '../../../api';
 import { getUserNfts } from '../../../api/nft';
-import { router } from 'next/client';
 import { blue } from '@mui/material/colors';
-import styles from '../styles/style.module.css';
+import { useRouter } from 'next/router';
 
 const address = '0x60Ae865ee4C725cd04353b5AAb364553f56ceF82';
 
-async function followUser() {
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-  const signer = await provider.getSigner();
+export function HandleClickFollowUser() {
+  const router = useRouter();
   const { id } = router.query;
 
-  const contract = new ethers.Contract(address, ABI, signer);
+  useEffect(() => {
+    followUser(id);
+  }, [id]);
 
-  try {
-    const tx = await contract.follow([id], [0x0]);
-    await tx.wait();
-  } catch (err) {
-    console.log({ err });
+  async function followUser(id: any) {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = await provider.getSigner();
+
+    const contract = new ethers.Contract(address, ABI, signer);
+
+    try {
+      const tx = await contract.follow([id], [0x0]);
+      await tx.wait();
+    } catch (err) {
+      console.log({ err });
+    }
   }
 }
 
@@ -91,7 +98,7 @@ export function CurrentUser({ profileData }: Props) {
         action={
           <IconButton aria-label="settings">
             {isMatchingProfile ? (
-              <PersonAddIcon onClick={followUser}></PersonAddIcon>
+              <PersonAddIcon onClick={HandleClickFollowUser}></PersonAddIcon>
             ) : (
               <div></div>
             )}

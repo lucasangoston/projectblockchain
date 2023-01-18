@@ -12,8 +12,6 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { blue, red } from '@mui/material/colors';
 import { useState, useEffect } from 'react';
 import styles from './styles/recommendedUsers.module.css';
-import { ethers } from 'ethers';
-import ABI from '../../../abi/interaction.json';
 import Link from 'next/link';
 
 export function RecommendedUsers() {
@@ -61,11 +59,11 @@ export function RecommendedUsers() {
                         {avatar}
                       </Avatar>
                       <h2> {name} </h2>
-                      <Link href={`./users/${id}`}>
+                      <a href="./users/[id]">
                         <p className="cursor-pointer text-blue-600 text-lg font-medium text-center mt-2 mb-2">
                           View
                         </p>
-                      </Link>
+                      </a>
                       {/* <Button variant="outlined" size="small">
                         View
                       </Button> */}
