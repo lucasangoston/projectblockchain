@@ -6,6 +6,7 @@ import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
 import Avatar from '@mui/material/Avatar';
 import { client } from '../../../api/api';
+import { getUserNfts } from '../../../api/nft';
 import { recommendedProfiles } from '../../../api/profile';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import { blue, red } from '@mui/material/colors';
@@ -52,21 +53,41 @@ export function RecommendedUsers() {
     } catch (err) {
       console.log({ err });
     }
-  }
 
-  async function followUser(id: String) {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = await provider.getSigner();
+    const promiseMatchingProfiles = profiles.map(async (res: any) => {
+      const myNftCollections = ['Lens Protocol Profiles']; // await getMyNfts(); Lens Protocol Profiles
+      const address = res.ownedBy;
+      let containsSameCollections = false;
 
-    const contract = new ethers.Contract(address, ABI, signer);
+      try {
+        const response = await client.query({
+          query: getUserNfts,
+          variables: { address },
+        });
+        const nftsData = response.data.nfts.items;
+        const nftCollections = await nftsData.map(
+          (nft: any) => nft.collectionName,
+        );
+        console.log(nftCollections);
+        myNftCollections.forEach((collection) => {
+          if (nftCollections.includes(collection)) {
+            containsSameCollections = true;
+          }
+        });
 
-    try {
-      const tx = await contract.follow([id], [0x0]);
-      await tx.wait();
-      console.log('followed user successfully');
-    } catch (err) {
-      console.log({ err });
-    }
+        return containsSameCollections;
+      } catch (err) {
+        console.log('error to get nfts', err);
+      }
+    });
+
+    const matchingProfilesBoolArray = await Promise.all(
+      promiseMatchingProfiles,
+    );
+    const matchingProfiles = profiles.filter(
+      (value, index) => matchingProfilesBoolArray[index],
+    );
+    setProfiles(matchingProfiles);
   }
 
   return (

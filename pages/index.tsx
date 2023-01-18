@@ -1,9 +1,6 @@
 import Home from '../components/home/home';
 import { PrimarySearchAppBar } from '../components/navigationBar/navigationBar';
 import { Preview } from '../components/preview/preview';
-import { createClient, configureChains, mainnet } from 'wagmi'
-import { polygonMumbai, polygon } from '@wagmi/core/chains'
-import { publicProvider } from 'wagmi/providers/public'
 import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 
