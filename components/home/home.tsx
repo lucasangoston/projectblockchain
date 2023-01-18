@@ -6,12 +6,14 @@ import { WritePost } from './post/writePost';
 import { client } from '../../api/api'
 import { getFeed } from '../../api/feed'
 import { PostFields } from './post/post';
+import {useRouter} from "next/router";
 
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
+  const router = useRouter();
 
-  const profileId = "0x1b";
+  const profileId = "0x5a7a";
   fetchPosts();
 
 
