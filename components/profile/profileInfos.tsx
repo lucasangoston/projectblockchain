@@ -197,8 +197,6 @@ export default function ProfileInfos() {
                 {myProfiles.map(( p ) => {
                   let avatar = '';
 
-                  
-
                   if (p?.id === undefined) return;
                   if (p.handle) avatar = (p.handle as string).slice(0, 1);
                   return (

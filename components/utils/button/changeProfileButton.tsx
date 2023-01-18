@@ -114,7 +114,7 @@ export function ChangeProfileButton() {
         try {
             const returnedProfile = await clientA.mutate({
                 mutation: setDefaultProfile,
-                variables: { profileId: '0x60f5' },
+                variables: { profileId: '0x5a7a' },
             });
             console.log(returnedProfile.data.createSetDefaultProfileTypedData.typedData);
 
