@@ -48,15 +48,15 @@ export default function ProfileTabs(nfts) {
           onChange={handleChange}
           aria-label="basic tabs example"
         >
-          <Tab label="Publications" {...a11yProps(0)} />
-          <Tab label="NFTs" {...a11yProps(1)} />
+          <Tab label="NFTs" {...a11yProps(0)} />
+          <Tab label="Publications" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <p>No posts sended</p>
+        <NftList nfts={nfts} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <NftList nfts={nfts} />
+        <p>No posts sended</p>
       </TabPanel>
     </Box>
   );

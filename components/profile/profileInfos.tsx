@@ -168,7 +168,7 @@ export default function ProfileInfos() {
   if (!myProfile || !myProfiles) return;
 
   return (
-    <Card sx={{ width: '25vw' }}>
+    <Card sx={{ width: '22vw' }}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe">

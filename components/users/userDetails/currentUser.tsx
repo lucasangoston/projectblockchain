@@ -122,15 +122,15 @@ export function CurrentUser({profileData}:Props) {
                               direction="row"
                               justifyContent={'space-between'}
                             >
-                              <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                              <Grid item md={6} >
+                                <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
                                 {avatar}
                               </Avatar>
-                              <h2> {profile.name} </h2>
-                              {/* <Link href={`./users/${profile.id}`}>
-                                <p className="cursor-pointer text-blue-600 text-lg font-medium text-center mt-2 mb-2">
-                                  View
-                                </p>
-                              </Link> */}
+                              </Grid>
+                              <Grid item md={6} >
+                                <h2> {profile.name} </h2>
+                              </Grid>
+                              
                             </Grid>
                             <hr style={{ marginBottom: '10px', marginTop: '10px' }} />
                           </div>
