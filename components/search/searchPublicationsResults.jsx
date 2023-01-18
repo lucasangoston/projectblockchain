@@ -13,7 +13,7 @@ export function SearchPublicationsResults({ name, results }) {
               className="w-6 rounded mr-4"
               src={pub.profile.avatarUrl || 'https://picsum.photos/200'}
             />
-            <Link href={`/profile/${pub.profile.handle}`}>
+            <Link href={`/users/${pub.profile.profileId}`}>
               {pub.profile.name}
             </Link>
           </div>
