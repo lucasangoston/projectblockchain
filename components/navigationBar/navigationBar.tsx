@@ -253,6 +253,16 @@ export function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
+
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: '#f2c14e',
+              color: 'black',
+            }}
+          >
+           <Link href='./login'>Create new profile</Link> 
+          </Button>
           
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>

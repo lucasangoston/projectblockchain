@@ -245,8 +245,10 @@ export default function ProfileInfos() {
             <Grid container spacing={2} direction="column">
               <Grid item>
                 {followings.map(({ profile }) => {
+          
                   let avatar = '';
                   if (!profile.name) return;
+                  let id = profile.id;
                   if (profile.name) avatar = (profile.name as string).slice(0, 1);
                   return (
                     <div className={styles.recommendations}>
@@ -256,15 +258,15 @@ export default function ProfileInfos() {
                         direction="row"
                         justifyContent={'space-between'}
                       >
-                        <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                        <br></br>
+                        <Grid item md={6} >
+                          <Avatar sx={{ bgcolor: blue[500], marginRight: '50px' }} aria-label="recipe">
                           {avatar}
                         </Avatar>
+                        </Grid>
+                        <Grid item md={6}>
                         <h2> {profile.name} </h2>
-                        <Link href={`./users/${profile.id}`}>
-                          <p className="cursor-pointer text-blue-600 text-lg font-medium text-center mt-2 mb-2">
-                            View
-                          </p>
-                        </Link>
+                        </Grid>                   
                       </Grid>
                       <hr style={{ marginBottom: '10px', marginTop: '10px' }} />
                     </div>
@@ -294,11 +296,6 @@ export default function ProfileInfos() {
                           {avatar}
                         </Avatar>
                         <h2> {wallet.defaultProfile.name} </h2>
-                        {/* <Link href={`./users/${wallet.defaultProfile.id}`}>
-                          <p className="cursor-pointer text-blue-600 text-lg font-medium text-center mt-2 mb-2">
-                            View
-                          </p>
-                        </Link> */}
                       </Grid>
                       <hr style={{ marginBottom: '10px', marginTop: '10px' }} />
                     </div>

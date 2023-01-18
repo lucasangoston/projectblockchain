@@ -13,15 +13,6 @@ export function Profile({ nft }) {
       <Box sx={{ ml: '2rem' }}>
         <ProfileInfos></ProfileInfos>
         <br></br>
-        <Button
-            variant="contained"
-            style={{
-              backgroundColor: '#f2c14e',
-              color: 'black',
-            }}
-          >
-           <Link href='./login'>Create new profile</Link> 
-          </Button>
       </Box>
       <Box>
         <ProfileTabs nfts={nft}></ProfileTabs>

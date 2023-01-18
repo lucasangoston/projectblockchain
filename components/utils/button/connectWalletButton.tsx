@@ -26,10 +26,9 @@ export function ConnectWalletButton() {
         variant="contained"
         onClick={connect}
       >
-        Connexion Wallet
+        Connect Wallet
       </Button>}
       {address && !token && (
-
         <Button
           style={{
             backgroundColor: '#ffffff',
@@ -38,12 +37,31 @@ export function ConnectWalletButton() {
           variant="contained"
           onClick={login}
         >
+          Login
+        </Button>
+      )}
+      <br></br>
+      {address && !token && (
+        <Button
+          style={{
+            backgroundColor: '#ffffff',
+            color: '#000000',
+          }}
+          variant="contained"
+        >
+          <Link href='./login'>Create new profile</Link>
+        </Button>
+      )}
+      {address && token && (
+        <Button>
           <Link href={'/'}> Hello </Link>
         </Button>
       )}
-      
-        
-      
+
+
+
+
+
     </div>
   );
 
