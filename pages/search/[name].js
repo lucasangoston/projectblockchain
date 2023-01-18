@@ -155,6 +155,11 @@ export default function Search() {
     }
 
     const promiseMatchingProfiles = profiles.map(async (res) => {
+
+      const myNftCollections =['Lens Protocol Profiles']// ['Carv Achievements']; // await getMyNfts(); //tester avec : ["BadgeToken"];//
+
+      const address = res.ownedBy;
+
       var containsSameCollections = false;
       const myNftCollections =['Carv Achievements']// ['Carv Achievements']; // await getMyNfts(); 
       const address = res.ownedBy;

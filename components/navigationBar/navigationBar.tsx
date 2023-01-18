@@ -232,15 +232,6 @@ export function PrimarySearchAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="fixed">
         <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="open drawer"
-            sx={{ mr: 2 }}
-          >
-            <MenuIcon />
-          </IconButton>
           <Link href={'/'}> My NFT Friends </Link>
           <Search>
             <SearchIconWrapper>
@@ -262,19 +253,10 @@ export function PrimarySearchAppBar() {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search>
-          <Button
-            variant="contained"
-            style={{
-              backgroundColor: '#f2c14e',
-              color: 'black',
-            }}
-          >
-           <Link href='./login'>Create new profile</Link> 
-          </Button>
-
+          
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            <Link href={`/chat`}>
+            {/* <Link href={`/chat`}>
               <IconButton
                 size="large"
                 aria-label="show 4 new mails"
@@ -293,15 +275,12 @@ export function PrimarySearchAppBar() {
               <Badge badgeContent={17} color="error">
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
             <Link href={`/profile`}>
             <IconButton
               size="large"
               edge="end"
               aria-label="account of current user"
-              // aria-controls={menuId}
-              // aria-haspopup="true"
-              // onClick={handleProfileMenuOpen}
               color="inherit"
             >
               <AccountCircle />
