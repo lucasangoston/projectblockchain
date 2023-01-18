@@ -23,6 +23,7 @@ export default function Search() {
   }, [name]);
 
   async function fetchWantedProfiles() {
+    setNftsProfiles([]);
     /**
      * Research profiles with a non empty name
      */
@@ -154,10 +155,9 @@ export default function Search() {
     }
 
     const promiseMatchingProfiles = profiles.map(async (res) => {
-      const myNftCollections =['Lens Protocol Profiles']// ['Carv Achievements']; // await getMyNfts(); //tester avec : ["BadgeToken"];//
-      const address = res.ownedBy;
       var containsSameCollections = false;
-
+      const myNftCollections =['Carv Achievements']// ['Carv Achievements']; // await getMyNfts(); 
+      const address = res.ownedBy;
       try {
         const response = await client.query({
           query: getUserNfts,
@@ -168,11 +168,9 @@ export default function Search() {
         console.log(nftCollections);
         myNftCollections.forEach((collection) => {
           if (nftCollections.includes(collection)) {
-            containsSameCollections = true;
-            console.log('yessss');
+            containsSameCollections = true;  
           }
         });
-
         return containsSameCollections;
       } catch (err) {
         console.log('error to get nfts', err);
