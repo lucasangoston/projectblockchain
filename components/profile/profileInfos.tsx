@@ -10,7 +10,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
-import { defaultProfile, follower, following } from '../../api/profile';
+import { defaultProfile, follower, following, getMyProfiles } from '../../api/profile';
 import { ethers } from 'ethers';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
@@ -18,11 +18,13 @@ import { Grid, Link } from '@mui/material';
 import styles from '../home/recommendation/styles/recommendedUsers.module.css';
 import { blue } from '@mui/material/colors';
 import { client } from "../../api/api";
+import { ChangeProfileButton } from '../utils/button/changeProfileButton';
 
 
 export default function ProfileInfos() {
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState<DialogProps['scroll']>('paper');
+  const [openProfiles, setOpenProfiles] = React.useState(false);
 
   const handleClickOpen = (scrollType: DialogProps['scroll']) => () => {
     setOpen(true);
@@ -31,6 +33,15 @@ export default function ProfileInfos() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleClickOpenProfiles = (scrollType: DialogProps['scroll']) => () => {
+    setOpenProfiles(true);
+    setScroll(scrollType);
+  };
+
+  const handleCloseProfiles = () => {
+    setOpenProfiles(false);
   };
 
   const descriptionElementRef = React.useRef<HTMLElement>(null);
@@ -43,12 +54,27 @@ export default function ProfileInfos() {
     }
   }, [open]);
 
-  const [profile, setProfile] = React.useState();
+  const descriptionElementRefProfiles = React.useRef<HTMLElement>(null);
+  React.useEffect(() => {
+    if (openProfiles) {
+      const { current: descriptionElement } = descriptionElementRef;
+      if (descriptionElement !== null) {
+        descriptionElement.focus();
+      }
+    }
+  }, [openProfiles]);
+
+  const [myProfile, setProfile] = React.useState();
   const [followings, setFollowings] = React.useState([]);
   const [followers, setFollow] = React.useState([]);
+  const [myProfiles, setMyProfiles] = React.useState([]);
 
   React.useEffect(() => {
     fetchProfile();
+  }, []);
+
+  React.useEffect(() => {
+    fetchMyProfiles();
   }, []);
 
   async function fetchProfile() {
@@ -100,7 +126,7 @@ export default function ProfileInfos() {
           limit: 50,
         },
       });
-      if(profileFollowers.data.followers.items) setFollow(profileFollowers.data.followers.items);
+      if (profileFollowers.data.followers.items) setFollow(profileFollowers.data.followers.items);
 
       console.log('my followers : ', profileFollowers.data.followers.items);
 
@@ -109,39 +135,106 @@ export default function ProfileInfos() {
     }
   }
 
+  async function fetchMyProfiles() {
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = await provider.getSigner();
+
+    const myAddress = await signer.getAddress();
+
+    console.log(myAddress);
+
+    try {
+      const returnedProfiles = await client.query({
+        query: getMyProfiles,
+        variables: { address: myAddress },
+      });
+      
+
+      const profiles = returnedProfiles.data.profiles.items;
+      console.log(profiles);
+
+      setMyProfiles(returnedProfiles.data.profiles.items);
 
 
-  if (!profile) return null;
+
+    } catch (err) {
+      console.log('error fetching profile...', err);
+    }
+  }
+
+  console.log("myProfiles", myProfiles);
+
+  if (!myProfile || !myProfiles) return;
 
   return (
     <Card sx={{ width: '25vw' }}>
       <CardHeader
         avatar={
           <Avatar aria-label="recipe">
-            <img src={profile['avatarUrl']} />
+            <img src={myProfile['avatarUrl']} />
           </Avatar>
         }
-        title={profile['handle']}
+        title={myProfile['handle']}
       />
-      {/* <CardContent>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <h6 style={{ fontWeight: 'bold' }}></h6>
-          </Grid>
-          <Grid item xs={6}>
-            <h6 style={{ fontWeight: 'bold' }}></h6>
-          </Grid>
-        </Grid>
-      </CardContent> */}
       <CardActions>
+      <Button onClick={handleClickOpenProfiles('paper')}>
+          My Profiles
+        </Button>
+        <Dialog
+          open={openProfiles}
+          aria-labelledby="scroll-dialog-title"
+          aria-describedby="scroll-dialog-description"
+          style={{
+            overflow: 'auto',
+            maxHeight: '70vh',
+          }}
+        >
+          <DialogTitle id="scroll-dialog-title">My profiles</DialogTitle>
+          <DialogContent dividers={scroll === 'paper'}>
+            <Grid container spacing={2} direction="column">
+              <Grid item>
+                {myProfiles.map(( p ) => {
+                  let avatar = '';
+
+                  if (p?.id === undefined) return;
+                  if (p.handle) avatar = (p.handle as string).slice(0, 1);
+                  return (
+                    <div className={styles.recommendations}>
+                      <Grid
+                        key={p.id}
+                        container
+                        direction="row"
+                        justifyContent={'space-between'}
+                      >
+                        <Avatar sx={{ bgcolorm: blue[500] }} aria-label="recipe">
+                          {avatar}
+                        </Avatar>
+                        <h2> {p.handle} </h2>
+                        <ChangeProfileButton></ChangeProfileButton>
+                      </Grid>
+                      <hr style={{ marginBottom: '10px', marginTop: '10px' }} />
+                    </div>
+                  );
+                })}
+              </Grid>
+            </Grid>
+
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleCloseProfiles}>Cancel</Button>
+          </DialogActions>
+
+        </Dialog>
+
         <Button onClick={handleClickOpen('paper')}>
-          Followers {profile['stats']['totalFollowers']} Followings {profile['stats']['totalFollowing']}
+          Followers {myProfile['stats']['totalFollowers']} Followings {myProfile['stats']['totalFollowing']}
         </Button>
         <Dialog
           open={open}
           aria-labelledby="scroll-dialog-title"
           aria-describedby="scroll-dialog-description"
-          style={{       
+          style={{
             overflow: 'auto',
             maxHeight: '70vh',
           }}
@@ -149,7 +242,7 @@ export default function ProfileInfos() {
           <DialogTitle id="scroll-dialog-title">Following</DialogTitle>
           <DialogContent dividers={scroll === 'paper'}>
 
-           <Grid container spacing={2} direction="column">
+            <Grid container spacing={2} direction="column">
               <Grid item>
                 {followings.map(({ profile }) => {
                   let avatar = '';

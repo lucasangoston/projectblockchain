@@ -282,8 +282,8 @@ query Profile($handle: Handle!) {
 }
 `
 export const defaultProfile = gql`
-query DefaultProfile {
-  defaultProfile(request: { ethereumAddress: "0x60645A96974b14D73291a18507Ee2D1c21D2d16b"}) {
+query DefaultProfile($ethereumAddress: EthereumAddress!) {
+  defaultProfile(request: { ethereumAddress: $ethereumAddress}) {
     id
     name
     bio
@@ -592,4 +592,129 @@ query Followers(
     }
   }
 }
+`
+
+export const getMyProfiles = gql`
+query Profiles(
+  $address: EthereumAddress!
+) {
+  profiles(request: { ownedBy: [$address], limit: 20 }) {
+    items {
+      id
+      name
+      bio
+      attributes {
+        displayType
+        traitType
+        key
+        value
+      }
+      followNftAddress
+      metadata
+      isDefault
+      picture {
+        ... on NftImage {
+          contractAddress
+          tokenId
+          uri
+          verified
+        }
+        ... on MediaSet {
+          original {
+            url
+            mimeType
+          }
+        }
+        __typename
+      }
+      handle
+      coverPicture {
+        ... on NftImage {
+          contractAddress
+          tokenId
+          uri
+          verified
+        }
+        ... on MediaSet {
+          original {
+            url
+            mimeType
+          }
+        }
+        __typename
+      }
+      ownedBy
+      dispatcher {
+        address
+        canUseRelay
+      }
+      stats {
+        totalFollowers
+        totalFollowing
+        totalPosts
+        totalComments
+        totalMirrors
+        totalPublications
+        totalCollects
+      }
+      followModule {
+        ... on FeeFollowModuleSettings {
+          type
+          amount {
+            asset {
+              symbol
+              name
+              decimals
+              address
+            }
+            value
+          }
+          recipient
+        }
+        ... on ProfileFollowModuleSettings {
+         type
+        }
+        ... on RevertFollowModuleSettings {
+         type
+        }
+      }
+    }
+    pageInfo {
+      prev
+      next
+      totalCount
+    }
+  }
+}
+`
+
+export const setDefaultProfile = gql`
+  mutation CreateSetDefaultProfileTypedData(
+    $profileId: ProfileId!
+  ) {
+    createSetDefaultProfileTypedData(request: { profileId: $profileId}) {
+      id
+      expiresAt
+      typedData {
+        types {
+          SetDefaultProfileWithSig {
+            name
+            type
+          }
+        }
+        domain {
+          name
+          chainId
+          version
+          verifyingContract
+        }
+        value {
+          nonce
+          deadline
+          wallet
+          profileId
+        }
+      }
+    }
+  }
 `
