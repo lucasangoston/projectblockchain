@@ -10,16 +10,20 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import DialogTitle from '@mui/material/DialogTitle';
-import { defaultProfile, follower, following, getMyProfiles } from '../../api/profile';
+import {
+  defaultProfile,
+  follower,
+  following,
+  getMyProfiles,
+} from '../../api/profile';
 import { ethers } from 'ethers';
 import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import { Grid, Link } from '@mui/material';
 import styles from '../home/recommendation/styles/recommendedUsers.module.css';
 import { blue } from '@mui/material/colors';
-import { client } from "../../api/api";
+import { client } from '../../api/api';
 import { ChangeProfileButton } from '../utils/button/changeProfileButton';
-
 
 export default function ProfileInfos() {
   const [open, setOpen] = React.useState(false);
@@ -54,16 +58,6 @@ export default function ProfileInfos() {
     }
   }, [open]);
 
-  const descriptionElementRefProfiles = React.useRef<HTMLElement>(null);
-  React.useEffect(() => {
-    if (openProfiles) {
-      const { current: descriptionElement } = descriptionElementRef;
-      if (descriptionElement !== null) {
-        descriptionElement.focus();
-      }
-    }
-  }, [openProfiles]);
-
   const [myProfile, setProfile] = React.useState();
   const [followings, setFollowings] = React.useState([]);
   const [followers, setFollow] = React.useState([]);
@@ -88,7 +82,7 @@ export default function ProfileInfos() {
         query: defaultProfile,
         variables: { ethereumAddress: userConnected },
       });
-      console.log(returnedProfile);
+
       const data = { ...returnedProfile.data.defaultProfile };
 
       /* format their picture if it is not in the right format */
@@ -105,8 +99,6 @@ export default function ProfileInfos() {
         }
       }
       setProfile(data);
-      console.log(data);
-      console.log(userConnected);
 
       const profileFollowing = await client.query({
         query: following,
@@ -117,8 +109,6 @@ export default function ProfileInfos() {
       });
       setFollowings(profileFollowing.data.following.items);
 
-      console.log('my followings : ', profileFollowing.data.following.items);
-      console.log(data.id)
       const profileFollowers = await client.query({
         query: follower,
         variables: {
@@ -126,45 +116,32 @@ export default function ProfileInfos() {
           limit: 50,
         },
       });
-      if (profileFollowers.data.followers.items) setFollow(profileFollowers.data.followers.items);
-
-      console.log('my followers : ', profileFollowers.data.followers.items);
-
+      if (profileFollowers.data.followers.items)
+        setFollow(profileFollowers.data.followers.items);
     } catch (err) {
       console.log('error fetching profile...', err);
     }
   }
 
   async function fetchMyProfiles() {
-
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
 
     const myAddress = await signer.getAddress();
-
-    console.log(myAddress);
 
     try {
       const returnedProfiles = await client.query({
         query: getMyProfiles,
         variables: { address: myAddress },
       });
-      
 
       const profiles = returnedProfiles.data.profiles.items;
-      console.log(profiles);
 
       setMyProfiles(returnedProfiles.data.profiles.items);
-
-
-
     } catch (err) {
       console.log('error fetching profile...', err);
     }
   }
-
-  console.log("myProfiles", myProfiles);
-
   if (!myProfile || !myProfiles) return;
 
   return (
@@ -178,9 +155,7 @@ export default function ProfileInfos() {
         title={myProfile['handle']}
       />
       <CardActions>
-      <Button onClick={handleClickOpenProfiles('paper')}>
-          My Profiles
-        </Button>
+        <Button onClick={handleClickOpenProfiles('paper')}>My Profiles</Button>
         <Dialog
           open={openProfiles}
           aria-labelledby="scroll-dialog-title"
@@ -194,24 +169,29 @@ export default function ProfileInfos() {
           <DialogContent dividers={scroll === 'paper'}>
             <Grid container spacing={2} direction="column">
               <Grid item>
-                {myProfiles.map(( p ) => {
+                {myProfiles.map((profile: any) => {
                   let avatar = '';
 
-                  if (p?.id === undefined) return;
-                  if (p.handle) avatar = (p.handle as string).slice(0, 1);
+                  if (profile?.id === undefined) return;
+                  if (profile.handle)
+                    avatar = (profile.handle as string).slice(0, 1);
                   return (
-                    <div className={styles.recommendations}>
+                    <div key={profile.id} style={{ marginBottom: '10px' }}>
                       <Grid
-                        key={p.id}
                         container
                         direction="row"
                         justifyContent={'space-between'}
                       >
-                        <Avatar sx={{ bgcolorm: blue[500] }} aria-label="recipe">
+                        <Avatar
+                          sx={{ bgcolorm: blue[500] }}
+                          aria-label="recipe"
+                        >
                           {avatar}
                         </Avatar>
-                        <h2> {p.handle} </h2>
-                        <ChangeProfileButton></ChangeProfileButton>
+                        <h2> {profile.handle} </h2>
+                        <ChangeProfileButton
+                          id={profile.id}
+                        ></ChangeProfileButton>
                       </Grid>
                       <hr style={{ marginBottom: '10px', marginTop: '10px' }} />
                     </div>
@@ -219,16 +199,15 @@ export default function ProfileInfos() {
                 })}
               </Grid>
             </Grid>
-
           </DialogContent>
           <DialogActions>
             <Button onClick={handleCloseProfiles}>Cancel</Button>
           </DialogActions>
-
         </Dialog>
 
         <Button onClick={handleClickOpen('paper')}>
-          Followers {myProfile['stats']['totalFollowers']} Followings {myProfile['stats']['totalFollowing']}
+          Followers {myProfile['stats']['totalFollowers']} Followings{' '}
+          {myProfile['stats']['totalFollowing']}
         </Button>
         <Dialog
           open={open}
@@ -241,32 +220,32 @@ export default function ProfileInfos() {
         >
           <DialogTitle id="scroll-dialog-title">Following</DialogTitle>
           <DialogContent dividers={scroll === 'paper'}>
-
             <Grid container spacing={2} direction="column">
               <Grid item>
-                {followings.map(({ profile }) => {
-          
+                {followings.map((profile: any) => {
                   let avatar = '';
                   if (!profile.name) return;
-                  let id = profile.id;
-                  if (profile.name) avatar = (profile.name as string).slice(0, 1);
+                  if (profile.name)
+                    avatar = (profile.name as string).slice(0, 1);
                   return (
-                    <div className={styles.recommendations}>
+                    <div key={profile.id} style={{ marginBottom: '10px' }}>
                       <Grid
-                        key={profile.id}
                         container
                         direction="row"
                         justifyContent={'space-between'}
                       >
                         <br></br>
-                        <Grid item md={6} >
-                          <Avatar sx={{ bgcolor: blue[500], marginRight: '50px' }} aria-label="recipe">
-                          {avatar}
-                        </Avatar>
+                        <Grid item md={6}>
+                          <Avatar
+                            sx={{ bgcolor: blue[500], marginRight: '50px' }}
+                            aria-label="recipe"
+                          >
+                            {avatar}
+                          </Avatar>
                         </Grid>
                         <Grid item md={6}>
-                        <h2> {profile.name} </h2>
-                        </Grid>                   
+                          <h2> {profile.name} </h2>
+                        </Grid>
                       </Grid>
                       <hr style={{ marginBottom: '10px', marginTop: '10px' }} />
                     </div>
@@ -274,20 +253,22 @@ export default function ProfileInfos() {
                 })}
               </Grid>
             </Grid>
-
           </DialogContent>
           <DialogTitle id="scroll-dialog-title">Followers</DialogTitle>
           <DialogContent dividers={scroll === 'paper'}>
             <Grid container spacing={2} direction="column">
               <Grid item>
-                {followers.map(({ wallet }) => {
+                {followers.map((wallet: any) => {
                   let avatar = '';
                   if (!wallet.defaultProfile.name) return;
-                  if (wallet.defaultProfile.name) avatar = (wallet.defaultProfile.name as string).slice(0, 1);
+                  if (wallet.defaultProfile.name)
+                    avatar = (wallet.defaultProfile.name as string).slice(0, 1);
                   return (
-                    <div className={styles.recommendations}>
+                    <div
+                      key={wallet.defaultProfile.id}
+                      style={{ marginBottom: '10px' }}
+                    >
                       <Grid
-                        key={wallet.defaultProfile.id}
                         container
                         direction="row"
                         justifyContent={'space-between'}
@@ -303,13 +284,12 @@ export default function ProfileInfos() {
                 })}
               </Grid>
             </Grid>
-
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
           </DialogActions>
         </Dialog>
-      </CardActions >
-    </Card >
+      </CardActions>
+    </Card>
   );
 }

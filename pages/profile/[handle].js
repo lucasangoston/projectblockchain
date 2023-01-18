@@ -11,8 +11,6 @@ import ABI from '../../abi/interaction.json';
 
 const address = '0x60Ae865ee4C725cd04353b5AAb364553f56ceF82';
 
-
-
 export default function Profile() {
   /* create initial state to hold user profile and array of publications */
   const [profile, setProfile] = useState();
@@ -57,11 +55,9 @@ export default function Profile() {
           id: profileData.id,
           limit: 50,
         },
-
       });
-      console.log('coucouuuu');
-      setPublications(pubs.data.publications.items);
 
+      setPublications(pubs.data.publications.items);
     } catch (err) {
       console.log('error fetching profile...', err);
     }
@@ -70,11 +66,10 @@ export default function Profile() {
   if (!profile) return null;
 
   async function followUser() {
-
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
     const contract = new ethers.Contract(address, ABI, signer);
-  
+
     try {
       const tx = await contract.follow([profile.id], [0x0]);
       await tx.wait();

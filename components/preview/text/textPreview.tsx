@@ -1,5 +1,4 @@
 import styles from './style/textPreview.module.css';
-import { Button } from '@mui/material';
 import * as React from 'react';
 import { ConnectWalletButton } from '../../utils/button/connectWalletButton';
 
@@ -11,7 +10,6 @@ export function TextPreview() {
         vous.
       </h1>
       <ConnectWalletButton></ConnectWalletButton>
-      
     </div>
   );
 }

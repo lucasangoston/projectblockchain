@@ -13,21 +13,20 @@ export function ConnectWalletButton() {
     checkConnection();
   }, []);
 
-  console.log(global.isConnected);
-
-
   return (
     <div>
-      {!address && <Button
-        style={{
-          backgroundColor: '#ffffff',
-          color: '#000000',
-        }}
-        variant="contained"
-        onClick={connect}
-      >
-        Connect Wallet
-      </Button>}
+      {!address && (
+        <Button
+          style={{
+            backgroundColor: '#ffffff',
+            color: '#000000',
+          }}
+          variant="contained"
+          onClick={connect}
+        >
+          Connect Wallet
+        </Button>
+      )}
       {address && !token && (
         <Button
           style={{
@@ -49,7 +48,7 @@ export function ConnectWalletButton() {
           }}
           variant="contained"
         >
-          <Link href='./login'>Create new profile</Link>
+          <Link href="./login">Create new profile</Link>
         </Button>
       )}
       {address && token && (
@@ -57,11 +56,6 @@ export function ConnectWalletButton() {
           <Link href={'/'}> Hello </Link>
         </Button>
       )}
-
-
-
-
-
     </div>
   );
 
@@ -78,7 +72,6 @@ export function ConnectWalletButton() {
     const account = await window.ethereum.send('eth_requestAccounts');
     if (account.result.length) {
       setAddress(account.result[0]);
-      globalThis.isConnected = true;
     }
   }
 
@@ -109,7 +102,6 @@ export function ConnectWalletButton() {
           authenticate: { accessToken },
         },
       } = authData;
-      console.log({ accessToken });
       setToken(accessToken);
     } catch (err) {
       console.log('Error signing in: ', err);

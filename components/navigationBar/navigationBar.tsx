@@ -20,7 +20,6 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from '@mui/material';
 
-
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
   borderRadius: theme.shape.borderRadius,
@@ -68,65 +67,12 @@ export function PrimarySearchAppBar() {
   const router = useRouter();
 
   const [searchValue, setSearchValue] = useState('');
-  // useEffect(() => {
-  //   /* when the app loads, check to see if the user has already connected their wallet */
-  //   checkConnection();
-  // }, []);
 
   function openSearchPage() {
     router.push(
       searchValue == '' ? '/search/emptyField' : '/search/' + searchValue,
     );
   }
-
-  // async function checkConnection() {
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const accounts = await provider.listAccounts();
-  //   if (accounts.length) {
-  //     setAddress(accounts[0]);
-  //   }
-  // }
-
-  // async function connect() {
-  //   /* this allows the user to connect their wallet */
-  //   const account = await window.ethereum.send('eth_requestAccounts');
-  //   if (account.result.length) {
-  //     setAddress(account.result[0]);
-  //   }
-  // }
-  // async function login() {
-  //   try {
-  //     /* first request the challenge from the API server */
-  //     const challengeInfo = await client.query({
-  //       query: challenge,
-  //       variables: { address },
-  //     });
-  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //     const signer = provider.getSigner();
-  //     /* ask the user to sign a message with the challenge info returned from the server */
-  //     const signature = await signer.signMessage(
-  //       challengeInfo.data.challenge.text,
-  //     );
-  //     /* authenticate the user */
-  //     const authData = await client.mutate({
-  //       mutation: authenticate,
-  //       variables: {
-  //         address,
-  //         signature,
-  //       },
-  //     });
-  //     /* if user authentication is successful, you will receive an accessToken and refreshToken */
-  //     const {
-  //       data: {
-  //         authenticate: { accessToken, refreshToken },
-  //       },
-  //     } = authData;
-
-  //     setToken(accessToken);
-  //   } catch (err) {
-  //     console.log('Error signing in: ', err);
-  //   }
-  // }
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -153,6 +99,7 @@ export function PrimarySearchAppBar() {
   };
 
   const menuId = 'primary-search-account-menu';
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -172,7 +119,6 @@ export function PrimarySearchAppBar() {
       <MenuItem onClick={handleMenuClose}>
         <Link href={'/profile'}>Profile</Link>
       </MenuItem>
-
     </Menu>
   );
 
@@ -201,18 +147,6 @@ export function PrimarySearchAppBar() {
         </IconButton>
         <p>Messages</p>
       </MenuItem>
-      {/* <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem> */}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -243,7 +177,6 @@ export function PrimarySearchAppBar() {
                 if (value.target.value != '') {
                   setSearchValue(value.target.value);
                 } else {
-                  //console.log("searchValue");
                   setSearchValue('emptyField');
                 }
               }}
@@ -261,42 +194,21 @@ export function PrimarySearchAppBar() {
               color: 'black',
             }}
           >
-           <Link href='./login'>Create new profile</Link> 
+            <Link href="./login">Create new profile</Link>
           </Button>
-          
+
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            {/* <Link href={`/chat`}>
+            <Link href={`/profile`}>
               <IconButton
                 size="large"
-                aria-label="show 4 new mails"
+                edge="end"
+                aria-label="account of current user"
                 color="inherit"
               >
-                <Badge badgeContent={4} color="error">
-                  <MailIcon />
-                </Badge>
+                <AccountCircle />
               </IconButton>
             </Link>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton> */}
-            <Link href={`/profile`}>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-            </Link>
-            
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton

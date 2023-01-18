@@ -5,7 +5,6 @@ import { ethers } from 'ethers';
 import { useEffect, useState } from 'react';
 
 export default function App() {
-
   const [address, setAddress] = useState('');
 
   useEffect(() => {
@@ -18,11 +17,11 @@ export default function App() {
     const accounts = await provider.listAccounts();
     if (accounts.length) {
       setAddress(accounts[0]);
-      return true
+      return true;
     }
   }
-  
-  if(address) {
+
+  if (address) {
     return (
       <div style={{ backgroundColor: '#f8f9fa' }}>
         <PrimarySearchAppBar></PrimarySearchAppBar>
@@ -30,11 +29,8 @@ export default function App() {
           <Home></Home>
         </div>
       </div>
-      
     );
   } else {
-    return <Preview></Preview>
+    return <Preview></Preview>;
   }
-
- 
 }

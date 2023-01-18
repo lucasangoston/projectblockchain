@@ -135,7 +135,6 @@ export default function Search() {
     /**
      * For NFTs profiles tab
      */
-
     async function getMyNfts() {
       const address = '0x54be3a794282c030b15e43ae2bb182e14c409c5e';
 
@@ -156,7 +155,7 @@ export default function Search() {
 
     const promiseMatchingProfiles = profiles.map(async (res) => {
       var containsSameCollections = false;
-      const myNftCollections =['Carv Achievements']// ['Carv Achievements']; // await getMyNfts(); 
+      const myNftCollections = ['Carv Achievements']; // ['Carv Achievements']; // await getMyNfts();
       const address = res.ownedBy;
       try {
         const response = await client.query({
@@ -168,7 +167,7 @@ export default function Search() {
         console.log(nftCollections);
         myNftCollections.forEach((collection) => {
           if (nftCollections.includes(collection)) {
-            containsSameCollections = true;  
+            containsSameCollections = true;
           }
         });
         return containsSameCollections;

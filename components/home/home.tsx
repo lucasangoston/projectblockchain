@@ -1,21 +1,20 @@
-import { Box, Container, Grid } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { PostList } from './post/PostList';
 import { RecommendedUsers } from './recommendation/recommendedUsers';
-import { WritePost } from './post/writePost';
 import { client } from '../../api/api';
 import { getFeed } from '../../api/feed';
-import { PostFields } from './post/post';
-import {useRouter} from "next/router";
+import { useRouter } from 'next/router';
+import { PostFields } from '../../domain/PostFields';
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
-  const router = useRouter();
 
+  const profileId = '0x5a7a';
 
-  const profileId = "0x5a7a";
-
-  fetchPosts();
+  useEffect(() => {
+    fetchPosts();
+  });
 
   async function fetchPosts() {
     const response = await client.query({
@@ -26,26 +25,6 @@ export default function Home() {
       },
     });
     setPosts(response.data.feed.items);
-
-    console.log(response);
-
-    try {
-      const postsData = await Promise.all(
-        response.data.feed.items.map(async (feedInfo: any) => {
-          const feed = { ...feedInfo };
-
-          const post: PostFields = new PostFields(
-            feed.id,
-            feed.profile,
-            feed.metaData,
-            feed.createdAt,
-          );
-          return post;
-        }),
-      );
-    } catch (err) {
-      console.log({ err });
-    }
   }
 
   return (

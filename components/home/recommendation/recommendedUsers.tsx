@@ -16,30 +16,7 @@ import { ethers } from 'ethers';
 import ABI from '../../../abi/interaction.json';
 import Link from 'next/link';
 
-const address = '0x60Ae865ee4C725cd04353b5AAb364553f56ceF82';
-
-interface ExpandMoreProps extends IconButtonProps {
-  expand: boolean;
-}
-
-const ExpandMore = styled((props: ExpandMoreProps) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-  marginLeft: 'auto',
-  transition: theme.transitions.create('transform', {
-    duration: theme.transitions.duration.shortest,
-  }),
-}));
-
 export function RecommendedUsers() {
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
   const [profiles, setProfiles] = useState([]);
   useEffect(() => {
     fetchRecommendedProfiles();
@@ -53,7 +30,6 @@ export function RecommendedUsers() {
     } catch (err) {
       console.log({ err });
     }
-
   }
 
   return (

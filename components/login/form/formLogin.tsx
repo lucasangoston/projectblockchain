@@ -48,15 +48,10 @@ function TabPanel(props: TabPanelProps) {
 export function FormLogin() {
   const [value, setValue] = React.useState(0);
   const [username, setUsername] = React.useState('');
-  const [token, setToken] = React.useState();
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
-
-  // function changeUsername(event: any) {
-  //   setUsername(event.target.value);
-  // }
 
   async function createNewProfile() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -87,40 +82,6 @@ export function FormLogin() {
     }
   }
 
-  async function login() {
-    try {
-      /* first request the challenge from the API server */
-      const challengeInfo = await client.query({
-        query: challenge,
-        variables: { address },
-      });
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      /* ask the user to sign a message with the challenge info returned from the server */
-      const signature = await signer.signMessage(
-        challengeInfo.data.challenge.text,
-      );
-      /* authenticate the user */
-      const authData = await client.mutate({
-        mutation: authenticate,
-        variables: {
-          address,
-          signature,
-        },
-      });
-      /* if user authentication is successful, you will receive an accessToken and refreshToken */
-      const {
-        data: {
-          authenticate: { accessToken },
-        },
-      } = authData;
-      console.log({ accessToken });
-      setToken(accessToken);
-    } catch (err) {
-      console.log('Error signing in: ', err);
-    }
-  }
-
   return (
     <div>
       <h1 style={{ textAlign: 'center', marginTop: '30px' }}>My NFT Friend</h1>
@@ -133,37 +94,8 @@ export function FormLogin() {
             centered
           >
             <Tab label="Créer un compte" {...a11yProps(0)} />
-            {/* <Tab label="Créer un compte" {...a11yProps(1)} /> */}
           </Tabs>
         </Box>
-        {/* <TabPanel value={value} index={0}>
-          <div style={{ textAlign: 'center' }}>
-            <h2>Connexion</h2>
-            <FormControl>
-              <TextField
-                id="outlined-basic"
-                label="email"
-                variant="standard"
-                style={{ marginTop: '30px' }}
-              />
-              <TextField
-                id="outlined-basic"
-                label="mot de passe"
-                variant="standard"
-                style={{ marginTop: '20px' }}
-              />
-              <Link href="./">
-                <Button
-                  onClick={login}
-                  variant="contained"
-                  style={{ marginTop: '50px' }}
-                >
-                  Continue
-                </Button>
-              </Link>
-            </FormControl>
-          </div>
-        </TabPanel> */}
         <TabPanel value={value} index={0}>
           <div style={{ textAlign: 'center' }}>
             <h2>Inscription</h2>
@@ -186,8 +118,8 @@ export function FormLogin() {
               <Link href="./">
                 <Button
                   onClick={() => {
-                    if( username != '') createNewProfile();
-                    else return
+                    if (username != '') createNewProfile();
+                    else return;
                   }}
                   variant="outlined"
                   style={{ marginTop: '50px' }}

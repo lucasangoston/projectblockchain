@@ -5,7 +5,9 @@ import * as React from 'react';
 import styles from '../contact/style/contact.module.css';
 
 export function Contact() {
-  function displayContactMessage() {}
+  function displayContactMessage() {
+    return;
+  }
 
   return (
     <div onClick={displayContactMessage} className={styles.contact}>

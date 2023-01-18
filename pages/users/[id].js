@@ -170,11 +170,6 @@ export default function ProfileId() {
               <NftList nfts={nfts} />
             </TabPanel>
           </Box>
-          {/* {nfts.map((nft) => (
-            <div>
-              <p>{nft.collectionName}</p>
-            </div>
-          ))} */}
         </Grid>
       </Grid>
     </div>
