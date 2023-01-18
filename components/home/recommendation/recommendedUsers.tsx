@@ -54,40 +54,6 @@ export function RecommendedUsers() {
       console.log({ err });
     }
 
-    const promiseMatchingProfiles = profiles.map(async (res: any) => {
-      const myNftCollections = ['Lens Protocol Profiles']; // await getMyNfts(); Lens Protocol Profiles
-      const address = res.ownedBy;
-      let containsSameCollections = false;
-
-      try {
-        const response = await client.query({
-          query: getUserNfts,
-          variables: { address },
-        });
-        const nftsData = response.data.nfts.items;
-        const nftCollections = await nftsData.map(
-          (nft: any) => nft.collectionName,
-        );
-        console.log(nftCollections);
-        myNftCollections.forEach((collection) => {
-          if (nftCollections.includes(collection)) {
-            containsSameCollections = true;
-          }
-        });
-
-        return containsSameCollections;
-      } catch (err) {
-        console.log('error to get nfts', err);
-      }
-    });
-
-    const matchingProfilesBoolArray = await Promise.all(
-      promiseMatchingProfiles,
-    );
-    const matchingProfiles = profiles.filter(
-      (value, index) => matchingProfilesBoolArray[index],
-    );
-    setProfiles(matchingProfiles);
   }
 
   return (
