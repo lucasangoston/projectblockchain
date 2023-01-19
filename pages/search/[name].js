@@ -156,9 +156,9 @@ export default function Search() {
     const promiseMatchingProfiles = profiles.map(async (res) => {
       var containsSameCollections = false;
       const myNftCollections = ['Lens Protocol Profiles']; // ['Carv Achievements']; // await getMyNfts();
-      const address = res.ownedBy;   
+      const address = res.ownedBy;
       try {
-        const response = await client.query({      
+        const response = await client.query({
           query: getUserNfts,
           variables: { address },
         });
@@ -167,7 +167,7 @@ export default function Search() {
         console.log(nftCollections);
         myNftCollections.forEach((collection) => {
           if (nftCollections.includes(collection)) {
-            containsSameCollections = true;//     
+            containsSameCollections = true; //
           }
         });
         return containsSameCollections;

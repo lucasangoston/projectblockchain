@@ -14,12 +14,16 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import { Grid } from '@mui/material';
 import { PostFields } from '../../../domain/PostFields';
+import { CommentFields } from '../../../domain/CommentFields';
 
 interface Props {
   post: PostFields;
+  comments: CommentFields[];
 }
 
-export function Post(post: Props) {
+export function Post({ post, comments }: Props) {
+  console.log(comments);
+
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -29,18 +33,18 @@ export function Post(post: Props) {
   return (
     <Card style={{ borderRadius: '10px' }} className="m-4">
       <div className="flex flex-row">
-        {post.post.profile.picture != null ? (
+        {post.profile.picture != null ? (
           <img
             className="w-10 h-10 rounded-full m-4"
             //src={post.post.profile.picture != null ? post.post.profile.picture.original.url : 'https://picsum.photos/200'}
             src={
-              post.post.profile.picture != null
-                ? post.post.profile.picture.original.url.startsWith('ipfs://')
-                  ? `http://lens.infura-ipfs.io/ipfs/${post.post.profile.picture.original.url.substring(
+              post.profile.picture != null
+                ? post.profile.picture.original.url.startsWith('ipfs://')
+                  ? `http://lens.infura-ipfs.io/ipfs/${post.profile.picture.original.url.substring(
                       7,
-                      post.post.profile.picture.original.url.length,
+                      post.profile.picture.original.url.length,
                     )}`
-                  : post.post.profile.picture.original.url
+                  : post.profile.picture.original.url
                 : 'https://picsum.photos/200'
             }
           />
@@ -50,8 +54,8 @@ export function Post(post: Props) {
             sx={{ bgcolor: blue[500] }}
             aria-label="recipe"
           >
-            {post.post.profile.name != null
-              ? (post.post.profile.name as string).slice(0, 1)
+            {post.profile.name != null
+              ? (post.profile.name as string).slice(0, 1)
               : ' '}
           </Avatar>
         )}
@@ -61,8 +65,8 @@ export function Post(post: Props) {
               <MoreVertIcon />
             </IconButton>
           }
-          title={post.post.profile.name}
-          subheader={new Date(post.post.createdAt).toString().split('GMT')[0]}
+          title={post.profile.name}
+          subheader={new Date(post.createdAt).toString().split('GMT')[0]}
         />
       </div>
 
@@ -72,7 +76,7 @@ export function Post(post: Props) {
           color="text.secondary"
           className="text-[16px]"
         >
-          {post.post.metadata.content}
+          {post.metadata.content}
         </Typography>
       </CardContent>
       <CardActions>
@@ -93,6 +97,43 @@ export function Post(post: Props) {
           </IconButton>
         </Grid>
       </CardActions>
+      <hr />
+      <Grid
+        container
+        spacing={3}
+        direction="column"
+        justifyContent="left"
+        alignItems="left"
+      >
+        <Grid item md={50}>
+          {comments.map((comment) => {
+            return (
+              <Card
+                key={comment.id}
+                style={{ borderRadius: '10px' }}
+                className="m-4"
+              >
+                <div className="flex flex-col m-4">
+                  <div>{comment.profile.name}</div>
+                  <div>
+                    {new Date(comment.createdAt).toString().split('GMT')[0]}
+                  </div>
+                </div>
+
+                <CardContent>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    className="text-[14px] text-black"
+                  >
+                    {comment.metadata.content}
+                  </Typography>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </Grid>
+      </Grid>
     </Card>
   );
 }

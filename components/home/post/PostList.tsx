@@ -17,7 +17,7 @@ export function PostList({ postList }: Props) {
       alignItems="center"
     >
       <Grid item md={50}>
-        {postList.map(({ root }: any) => {
+        {postList.map(({ root, comments }: any) => {
           return (
             <Post
               key={root.id}
@@ -29,6 +29,7 @@ export function PostList({ postList }: Props) {
                   root.createdAt,
                 )
               }
+              comments={comments}
             ></Post>
           );
         })}

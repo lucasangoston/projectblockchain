@@ -11,7 +11,7 @@ export default function LoginLens() {
           <FormLogin></FormLogin>
         </Grid>
         <Grid item md={6}>
-          <LoginImage></LoginImage>  
+          <LoginImage></LoginImage>
         </Grid>
       </Grid>
     </div>

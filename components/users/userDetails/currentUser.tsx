@@ -162,6 +162,7 @@ export function CurrentUser({ profileData }: Props) {
               <Grid item>
                 {profileData.followers.map((wallet: any) => {
                   let avatar = '';
+                  console.log(wallet);
                   if (!wallet.defaultProfile.name) return;
                   if (wallet.defaultProfile.name)
                     avatar = (wallet.defaultProfile.name as string).slice(0, 1);

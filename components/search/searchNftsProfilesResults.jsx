@@ -6,7 +6,14 @@ export function SearchNftsProfilesResults({ name, results }) {
   return results.length != 0 ? (
     <div className="flex flex-col justify-center items-center">
       {results.map(
-        ({ avatarUrl, bio, handle, profileId, name, stats: { totalFollowers } }) => (
+        ({
+          avatarUrl,
+          bio,
+          handle,
+          profileId,
+          name,
+          stats: { totalFollowers },
+        }) => (
           <div
             key={profileId}
             className="w-2/3 shadow-md p-6 rounded-lg mb-8 flex flex-col items-center"
