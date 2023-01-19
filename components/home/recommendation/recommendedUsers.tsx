@@ -59,11 +59,14 @@ export function RecommendedUsers() {
                         {avatar}
                       </Avatar>
                       <h2> {name} </h2>
-                      <a href="./users/[id]">
+                      <Link
+                        href="./users/[id]"
+                        as={`./users/${encodeURIComponent(id)}`}
+                      >
                         <p className="cursor-pointer text-blue-600 text-lg font-medium text-center mt-2 mb-2">
                           View
                         </p>
-                      </a>
+                      </Link>
                       {/* <Button variant="outlined" size="small">
                         View
                       </Button> */}

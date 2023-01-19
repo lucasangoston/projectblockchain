@@ -246,6 +246,13 @@ export default function ProfileInfos() {
                         <Grid item md={6}>
                           <h2> {profile.name} </h2>
                         </Grid>
+                        <Grid item md={6}>
+                          <Link href={'./users/${profile.id}'}>
+                            <p className="cursor-pointer text-blue-600 text-lg font-medium text-center mt-2 mb-2">
+                              View
+                            </p>
+                          </Link>
+                        </Grid>
                       </Grid>
                       <hr style={{ marginBottom: '10px', marginTop: '10px' }} />
                     </div>
@@ -277,6 +284,11 @@ export default function ProfileInfos() {
                           {avatar}
                         </Avatar>
                         <h2> {wallet.defaultProfile.name} </h2>
+                        <Link href={'./users/${profile.id}'}>
+                          <p className="cursor-pointer text-blue-600 text-lg font-medium text-center mt-2 mb-2">
+                            View
+                          </p>
+                        </Link>
                       </Grid>
                       <hr style={{ marginBottom: '10px', marginTop: '10px' }} />
                     </div>

@@ -94,7 +94,7 @@ export function CurrentUser({ profileData }: Props) {
             <img src={profileData.data.avatarUrl} />
           </Avatar>
         }
-        title={profileData.name}
+        title={profileData.data.name}
         action={
           <IconButton aria-label="settings">
             {isMatchingProfile ? (
