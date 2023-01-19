@@ -103,6 +103,7 @@ export function ConnectWalletButton() {
         },
       } = authData;
       setToken(accessToken);
+      localStorage.setItem('accessToken', accessToken);
     } catch (err) {
       console.log('Error signing in: ', err);
     }

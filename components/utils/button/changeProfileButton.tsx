@@ -13,25 +13,24 @@ import omitDeep from 'omit-deep';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
+import { omit } from 'superstruct';
 
 const addressA = '0x60Ae865ee4C725cd04353b5AAb364553f56ceF82';
 
 const API_URL = 'https://api-mumbai.lens.dev';
 
 export function ChangeProfileButton(id: any) {
-  const [address, setAddress] = useState('');
-  const [token, setToken] = useState();
+  const accessToken = localStorage.getItem('accessTocken');
 
   useEffect(() => {
     /* when the app loads, check to see if the user has already connected their wallet */
-    checkConnection();
   }, []);
 
   const clientA = new ApolloClient({
     uri: API_URL,
     cache: new InMemoryCache(),
     headers: {
-      Authorization: 'Bearer ' + token,
+      Authorization: 'Bearer ' + accessToken,
     },
   });
 
@@ -50,56 +49,12 @@ export function ChangeProfileButton(id: any) {
     </div>
   );
 
-  async function checkConnection() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const accounts = await provider.listAccounts();
-    if (accounts.length) {
-      setAddress(accounts[0]);
-    }
-  }
-
-  async function login() {
-    try {
-      /* first request the challenge from the API server */
-      const challengeInfo = await client.query({
-        query: challenge,
-        variables: { address },
-      });
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      /* ask the user to sign a message with the challenge info returned from the server */
-      const signature = await signer.signMessage(
-        challengeInfo.data.challenge.text,
-      );
-      /* authenticate the user */
-      const authData = await client.mutate({
-        mutation: authenticate,
-        variables: {
-          address,
-          signature,
-        },
-      });
-      /* if user authentication is successful, you will receive an accessToken and refreshToken */
-      const {
-        data: {
-          authenticate: { accessToken },
-        },
-      } = authData;
-      console.log({ accessToken });
-      setToken(accessToken);
-    } catch (err) {
-      console.log('Error signing in: ', err);
-    }
-  }
-
   async function changeDefaultProfile() {
     /*
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
 
     const contract = new ethers.Contract(addressA, ABI, signer);
-
-    await login();
 
     try {
       const returnedProfile = await clientA.mutate({

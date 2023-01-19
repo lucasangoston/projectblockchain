@@ -60,6 +60,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+function disconnect() {
+  localStorage.clear();
+}
+
 export function PrimarySearchAppBar() {
   /* local state variables to hold user's address and access token */
   const [address, setAddress] = useState('');
@@ -192,9 +196,20 @@ export function PrimarySearchAppBar() {
             style={{
               backgroundColor: '#f2c14e',
               color: 'black',
+              marginRight: '15px',
             }}
           >
             <Link href="./login">Create new profile</Link>
+          </Button>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: '#f2c14e',
+              color: 'black',
+            }}
+            onClick={disconnect}
+          >
+            <Link href="/">Disconnect</Link>
           </Button>
 
           <Box sx={{ flexGrow: 1 }} />

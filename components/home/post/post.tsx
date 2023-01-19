@@ -14,12 +14,17 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import { Grid } from '@mui/material';
 import { PostFields } from '../../../domain/PostFields';
+import { CommentFields } from '../../../domain/CommentFields';
 
 interface Props {
   post: PostFields;
 }
 
-export function Post(post: Props) {
+interface Comments {
+  comments: PostFields;
+}
+
+export function Post(post: Props, comments: Comments) {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {

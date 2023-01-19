@@ -2,26 +2,16 @@ import Home from '../components/home/home';
 import { PrimarySearchAppBar } from '../components/navigationBar/navigationBar';
 import { Preview } from '../components/preview/preview';
 import { ethers } from 'ethers';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export default function App() {
-  const [address, setAddress] = useState('');
+  let accessToken;
 
-  useEffect(() => {
-    /* when the app loads, check to see if the user has already connected their wallet */
-    checkConnection();
-  }, []);
-
-  async function checkConnection() {
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const accounts = await provider.listAccounts();
-    if (accounts.length) {
-      setAddress(accounts[0]);
-      return true;
-    }
+  if (typeof window !== 'undefined') {
+    accessToken = localStorage.getItem('accessToken');
   }
 
-  if (address) {
+  if (accessToken) {
     return (
       <div style={{ backgroundColor: '#f8f9fa' }}>
         <PrimarySearchAppBar></PrimarySearchAppBar>
