@@ -19,7 +19,7 @@ const addressA = '0x60Ae865ee4C725cd04353b5AAb364553f56ceF82';
 
 const API_URL = 'https://api-mumbai.lens.dev';
 
-export function ChangeProfileButton(id: any) {
+export function ChangeProfileButton(id) {
   const accessToken = localStorage.getItem('accessTocken');
 
   useEffect(() => {
@@ -33,6 +33,8 @@ export function ChangeProfileButton(id: any) {
       Authorization: 'Bearer ' + accessToken,
     },
   });
+
+  console.log(id.id);
 
   return (
     <div>
@@ -50,7 +52,7 @@ export function ChangeProfileButton(id: any) {
   );
 
   async function changeDefaultProfile() {
-    /*
+    
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = await provider.getSigner();
 
@@ -59,8 +61,10 @@ export function ChangeProfileButton(id: any) {
     try {
       const returnedProfile = await clientA.mutate({
         mutation: setDefaultProfile,
-        variables: { profileId: id },
+        variables: { profileId: id.id },
       });
+
+      
 
       const result =
         returnedProfile.data.createSetDefaultProfileTypedData.typedData;
@@ -100,6 +104,5 @@ export function ChangeProfileButton(id: any) {
       console.log('error changing default profile...', err);
     }
 
-     */
   }
 }

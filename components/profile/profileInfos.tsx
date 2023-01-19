@@ -169,7 +169,7 @@ export default function ProfileInfos() {
           <DialogContent dividers={scroll === 'paper'}>
             <Grid container spacing={2} direction="column">
               <Grid item>
-                {myProfiles.map((profile: any) => {
+                {myProfiles.map((profile ) => {
                   let avatar = '';
 
                   if (profile?.id === undefined) return;
@@ -222,37 +222,27 @@ export default function ProfileInfos() {
           <DialogContent dividers={scroll === 'paper'}>
             <Grid container spacing={2} direction="column">
               <Grid item>
-                {followings.map((profile: any) => {
+              {followings.map(({ profile }) => {
                   let avatar = '';
                   if (!profile.name) return;
-                  if (profile.name)
-                    avatar = (profile.name as string).slice(0, 1);
+                  if (profile.name) avatar = (profile.name as string).slice(0, 1);
                   return (
-                    <div key={profile.id} style={{ marginBottom: '10px' }}>
+                    <div className={styles.recommendations}>
                       <Grid
+                        key={profile.id}
                         container
                         direction="row"
                         justifyContent={'space-between'}
                       >
-                        <br></br>
-                        <Grid item md={6}>
-                          <Avatar
-                            sx={{ bgcolor: blue[500], marginRight: '50px' }}
-                            aria-label="recipe"
-                          >
-                            {avatar}
-                          </Avatar>
-                        </Grid>
-                        <Grid item md={6}>
-                          <h2> {profile.name} </h2>
-                        </Grid>
-                        <Grid item md={6}>
-                          <Link href={'./users/${profile.id}'}>
-                            <p className="cursor-pointer text-blue-600 text-lg font-medium text-center mt-2 mb-2">
-                              View
-                            </p>
-                          </Link>
-                        </Grid>
+                        <Avatar sx={{ bgcolor: blue[500] }} aria-label="recipe">
+                          {avatar}
+                        </Avatar>
+                        <h2> {profile.name} </h2>
+                        <Link href={`./users/${profile.id}`}>
+                          <p className="cursor-pointer text-blue-600 text-lg font-medium text-center mt-2 mb-2">
+                            View
+                          </p>
+                        </Link>
                       </Grid>
                       <hr style={{ marginBottom: '10px', marginTop: '10px' }} />
                     </div>

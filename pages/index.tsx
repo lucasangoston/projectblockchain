@@ -7,6 +7,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 export default function App() {
   let accessToken;
 
+  
+
   if (typeof window !== 'undefined') {
     accessToken = localStorage.getItem('accessToken');
   }
